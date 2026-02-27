@@ -72,7 +72,7 @@ export default function LoginPage() {
   </h1>
 
   <p className="text-sm text-muted-foreground max-w-xs">
-    Sign in to your Trumpirsvault account
+    Sign in to your account
   </p>
 </div>
 

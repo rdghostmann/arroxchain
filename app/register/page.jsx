@@ -110,26 +110,26 @@ export default function RegisterPage() {
         className="w-full max-w-2xl relative z-10"
       >
         {/* Header */}
-<div className="flex flex-col items-center text-center mb-8">
-  <div className="w-16 h-16 flex items-center justify-center mb-4">
-    <Image
-      src="/tiv-logo.png"
-      alt="Trumpirsvault Logo"
-      width={56}
-      height={56}
-      className="object-contain"
-      priority
-    />
-  </div>
+        <div className="flex flex-col items-center text-center mb-8">
+          <div className="w-16 h-16 flex items-center justify-center mb-4">
+            <Image
+              src="/tiv-logo.png"
+              alt="Trumpirsvault Logo"
+              width={56}
+              height={56}
+              className="object-contain"
+              priority
+            />
+          </div>
 
-  <h1 className="text-3xl font-bold text-foreground mb-2">
-    Create Your Account
-  </h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Create Your Account
+          </h1>
 
-  <p className="text-muted-foreground max-w-sm">
-    Join millions securing their assets with Trumpirsvault
-  </p>
-</div>
+          <p className="text-muted-foreground max-w-sm">
+            Join millions securing their assets with ArroxChain
+          </p>
+        </div>
 
 
         {/* Progress Steps */}
@@ -141,11 +141,10 @@ export default function RegisterPage() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1 * index }}
-                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 font-semibold ${
-                    step >= s.id
+                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 font-semibold ${step >= s.id
                       ? 'bg-primary border-primary text-primary-foreground'
                       : 'border-border text-muted-foreground bg-card'
-                  }`}
+                    }`}
                 >
                   {step > s.id ? <CheckCircle className="w-5 h-5" /> : s.id}
                 </motion.div>

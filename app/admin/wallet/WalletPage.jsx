@@ -184,7 +184,7 @@ export default function WalletPage({ users: initialUsers }) {
   };
 
   return (
-  <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white">
+  <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
 
     {/* Ambient Glows */}
     <div className="absolute top-32 left-10 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl opacity-20 animate-pulse" />
@@ -291,7 +291,7 @@ export default function WalletPage({ users: initialUsers }) {
                     </Button>
                   </DialogTrigger>
 
-                  <DialogContent className="bg-gradient-to-bl from-[#350661] via-black to-[#001F3F] border border-white/10 shadow-2xl max-w-4xl w-full rounded-3xl overflow-hidden">
+                  <DialogContent className="bg-linear-to-bl from-[#350661] via-black to-[#001F3F] border border-white/10 shadow-2xl max-w-4xl w-full rounded-3xl overflow-hidden">
                     <div className="space-y-12 px-12 py-10 max-h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
                       {/* Current Assets */}
                       <div>
@@ -439,7 +439,7 @@ export default function WalletPage({ users: initialUsers }) {
                   <span className="text-lg font-bold text-primary">${calculateTotalValue(user.assets).toLocaleString()}</span>
                 </div>
 
-                <div className="hidden flex justify-between items-center">
+                <div className="hidden justify-between items-center">
                   <span className="text-sm text-gray-400">Last Active</span>
                   <span className="text-sm">{user.lastActive}</span>
                 </div>

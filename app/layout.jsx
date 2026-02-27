@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="en" className="dark">
-      <body className={`${dmSans.className} antialiased bg-background text-foreground`}>
+      <body className={`${dmSans.className} antialiased bg-background text-foreground`} cz-shortcut-listen="true">
         {children}
         <Toaster richColors position="top-center" /> {/* ✅ Sonner Toaster here */}
         {/* <Tawk /> */}

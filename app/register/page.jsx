@@ -255,7 +255,7 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 flex items-start gap-3">
-                    <Shield className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium text-foreground">Bank-Level Security</p>
                       <p className="text-sm text-muted-foreground mt-1">
@@ -343,7 +343,7 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium text-foreground">Identity Verification</p>
                       <p className="text-sm text-muted-foreground mt-1">

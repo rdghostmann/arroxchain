@@ -113,7 +113,7 @@ export default function RegisterPage() {
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 flex items-center justify-center mb-4">
             <Image
-              src="/tiv-logo.png"
+              src="/logo.jpg"
               alt="Trumpirsvault Logo"
               width={56}
               height={56}

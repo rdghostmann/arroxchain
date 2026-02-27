@@ -16,19 +16,16 @@ const inter = Inter({
   display: 'swap',
 })
 
-
-
 export const metadata = {
-  title: "Trump IRS Vault App",
-  description: "Trump IRS Vault App authorised by Flare Network",
-
+  title: "ArroxChain",
+  description: "Source grant and funding crypto-invesment holdings.",
   icons: {
-    icon: "/tiv-logo.png",
-    shortcut: "/tiv-logo.png",
-    apple: "/tiv-logo.png",
-  },
-  openGraph: {
-    images: ["/tiv-logo.png"],
+    icon: [
+      { url: "/logo.jpg", media: "(prefers-color-scheme: light)" },
+      { url: "/logo.jpg", media: "(prefers-color-scheme: dark)" },
+      { url: "/logo.jpg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 

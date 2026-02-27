@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 
 const testimonials = [
   {
-    text: 'Trump IRS Vault has transformed how I manage my portfolio. The security features give me complete peace of mind.',
+    text: 'ArroxChain Vault has transformed how I manage my portfolio. The security features give me complete peace of mind.',
     name: 'Charlotte',
     location: 'England',
   },
@@ -15,7 +15,7 @@ const testimonials = [
     location: 'United States',
   },
   {
-    text: 'Je recommande vivement Trump IRS Vault. Sûr, rapide et fiable — l\'avenir de la finance numérique.',
+    text: 'Je recommande vivement ArroxChain Vault. Sûr, rapide et fiable — l\'avenir de la finance numérique.',
     name: 'Elise',
     location: 'France',
   },

@@ -6,8 +6,8 @@ import { ChevronDown } from 'lucide-react'
 
 const faqs = [
   {
-    question: 'What is the Trump IRS Vault?',
-    answer: 'The Trump IRS Vault is a secure digital wallet and asset management platform that provides immunity against cyber attacks and market volatility through advanced encryption and security protocols.',
+    question: 'What is the ArroxChain Vault?',
+    answer: 'The ArroxChain Vault is a secure digital wallet and asset management platform that provides immunity against cyber attacks and market volatility through advanced encryption and security protocols.',
   },
   {
     question: 'Do I need prior experience with crypto to use this platform?',

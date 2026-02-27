@@ -81,7 +81,7 @@ export default function MobileAppPage() {
                 Control Your Crypto <span className="text-primary">On The Go</span>
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-                Download the Trump IRS Vault mobile app and manage your digital assets anywhere, anytime.
+                Download the ArroxChain Vault mobile app and manage your digital assets anywhere, anytime.
               </p>
             </motion.div>
 

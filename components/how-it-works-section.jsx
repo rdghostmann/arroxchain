@@ -12,7 +12,7 @@ const steps = [
   {
     icon: Link2,
     title: 'Sync Your Wallet',
-    description: 'Link your digital assets and synchronize with the Trump IRS Vault System.',
+    description: 'Link your digital assets and synchronize with the ArroxChain Web Wallet.',
   },
   {
     icon: Landmark,
@@ -41,7 +41,7 @@ export function HowItWorksSection() {
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">How It Works</h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            The Trump IRS Vault System merges technology with digital finance to revolutionize trust, speed, and safety. Built to dismantle legacy corruption with real-time verification and total transparency.
+            The ArroxChain Web Wallet merges technology with digital finance to revolutionize trust, speed, and safety. Built to dismantle legacy corruption with real-time verification and total transparency.
           </p>
         </motion.div>
 

@@ -17,7 +17,7 @@ const features = [
     {
         icon: BookOpen,
         title: 'Education-Backed Empowerment',
-        description: 'Knowledge is wealth — understand how Trump IRS Vault supports retirement growth.',
+        description: 'Knowledge is wealth — understand how ArroxChain Vault supports retirement growth.',
     },
 ]
 
@@ -40,7 +40,7 @@ export function QFSAboutSection() {
                         viewport={{ once: true }}
                     >
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-                            What is the Trump IRS Vault System?
+                            What is the ArroxChain Web Wallet?
                         </h2>
                         <p className="text-base sm:text-lg text-muted-foreground mb-6 leading-relaxed">
                             The Quantum Financial System is a revolutionary shift in global economics, designed to replace the corrupt centralized debt system. It provides unparalleled protection against fraud, cyber threats, and market manipulation using advanced AI and quantum-grade tech.
@@ -82,7 +82,7 @@ export function QFSAboutSection() {
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition font-semibold"
                         >
                             <BookOpen size={18} />
-                            Download Trump IRS Vault Manual
+                            Download ArroxChain Vault Manual
                         </a>
                     </motion.div>
 

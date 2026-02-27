@@ -7,14 +7,14 @@ import Link from 'next/link'
 const steps = [
     {
         title: 'Sign Up',
-        desc: 'Create your Trump IRS Vault account and complete secure onboarding with identity verification.',
+        desc: 'Create your ArroxChain Vault account and complete secure onboarding with identity verification.',
     },
     {
         title: 'Wait for Approval',
         desc: 'Once KYC is approved, sync your wallet and optionally apply for a humanitarian project.',
     },
     {
-        title: 'Get Your Trump IRS Vault Card',
+        title: 'Get Your ArroxChain Vault Card',
         desc: 'Enjoy seamless global payments and access to next-gen quantum tools and platforms.',
     },
 ]
@@ -32,10 +32,10 @@ export function QFSCardSection() {
                         viewport={{ once: true }}
                     >
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-                            Get Your Trump IRS Vault Card & Shop in Over 118 Countries
+                            Get Your ArroxChain Vault Card & Shop in Over 118 Countries
                         </h2>
                         <p className="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed">
-                            Sign up now to synchronize your digital wallets with the Quantum Financial System. With the Trump IRS Vault card, you'll unlock ultra-secure transactions, fast global transfers, and access to exclusive technologies.
+                            Sign up now to synchronize your digital wallets with the Quantum Financial System. With the ArroxChain Vault card, you'll unlock ultra-secure transactions, fast global transfers, and access to exclusive technologies.
                         </p>
 
                         <div className="space-y-4 mb-10">
@@ -84,7 +84,7 @@ export function QFSCardSection() {
 
                                 <img
                                     src="/QFSCard.webp"
-                                    alt="Trump IRS Vault Card"
+                                    alt="ArroxChain Vault Card"
                                     className="w-full h-full object-contain"
                                 />
 

@@ -71,7 +71,7 @@ export function HeroSection() {
 
         {/* ===== Subheading ===== */}
         <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed text-balance">
-          Your assets, streamlined. Trump IRS Vault delivers instant transactions,
+          Your assets, streamlined. ArroxChain Vault delivers instant transactions,
           low fees, and next-level security.
         </p>
 

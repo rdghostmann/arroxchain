@@ -125,7 +125,7 @@ export function Navbar() {
                 <div className="relative w-10 h-10 sm:w-11 sm:h-11 transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/tiv-logo.png"
-                    alt="Trump IRS Vault Logo"
+                    alt="ArroxChain Vault Logo"
                     fill
                     className="object-contain"
                     priority

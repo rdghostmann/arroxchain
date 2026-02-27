@@ -40,12 +40,12 @@ export function FooterSection() {
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-lg">T</span>
               </div>
-              <h3 className="text-lg font-bold text-foreground">Trump IRS Vault</h3>
+              <h3 className="text-lg font-bold text-foreground">ArroxChain Vault</h3>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              The Quantum Financial System (Trump IRS Vault) Vault delivers unmatched security and transparency for all currency holders.
+              The Quantum Financial System (ArroxChain Vault) Vault delivers unmatched security and transparency for all currency holders.
               <br /><br />
-              With advanced technology and gold-backed currencies, Trump IRS Vault sets a new standard in global finance.
+              With advanced technology and gold-backed currencies, ArroxChain Vault sets a new standard in global finance.
             </p>
           </div>
 
@@ -58,7 +58,7 @@ export function FooterSection() {
                   onClick={() => handleSectionNavigation('about')}
                   className="text-muted-foreground hover:text-primary transition"
                 >
-                  About Trump IRS Vault
+                  About ArroxChain Vault
                 </button>
               </li>
               <li>
@@ -138,7 +138,7 @@ export function FooterSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
         >
-          <p>© 2026 Trump IRS Vault. All rights reserved.</p>
+          <p>© 2026 ArroxChain Vault. All rights reserved.</p>
         </motion.div>
       </div>
     </footer>

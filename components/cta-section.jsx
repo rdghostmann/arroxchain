@@ -17,7 +17,7 @@ export function CTASection() {
             Ready to take control?
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto text-balance">
-            Join thousands of users who trust Trump IRS Vault for their crypto investments
+            Join thousands of users who trust ArroxChain Vault for their crypto investments
           </p>
           <Link href="/login">
             <button className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-lg hover:opacity-90 transition">

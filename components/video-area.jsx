@@ -20,7 +20,7 @@ export function VideoArea() {
             Experience Innovation in <span className="text-primary">Real-Time</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            Discover how the Trump IRS Vault System is transforming the digital economy through real-time performance, absolute security, and futuristic technologies.
+            Discover how the ArroxChain Web Wallet is transforming the digital economy through real-time performance, absolute security, and futuristic technologies.
           </p>
         </motion.div>
 
@@ -57,7 +57,7 @@ export function VideoArea() {
           viewport={{ once: true }}
         >
           <p className="text-muted-foreground text-sm sm:text-base mb-6">
-            Ready to start your journey with the Trump IRS Vault System?
+            Ready to start your journey with the ArroxChain Web Wallet?
           </p>
           <Link href="/login">
             <button className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105">

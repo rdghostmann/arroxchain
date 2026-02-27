@@ -6,9 +6,9 @@ import Link from 'next/link'
 
 const slides = [
   {
-    title: 'Trump IRS Vault System',
+    title: 'ArroxChain Web Wallet',
     description:
-      'Trump IRS Vault System gives immunity against cyber attacks and bad market fluctuations.',
+      'ArroxChain Web Wallet gives immunity against cyber attacks and bad market fluctuations.',
     image: '/trump2.jpg',
   },
   {

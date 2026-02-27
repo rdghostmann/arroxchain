@@ -6,7 +6,7 @@ import { ExternalLink } from 'lucide-react'
 
 const news = [
   {
-    title: 'Trump IRS Vault Systems Reach New Milestone in Crypto Security',
+    title: 'ArroxChain Web Wallets Reach New Milestone in Crypto Security',
     url: '#',
     source: 'CryptoDaily',
     time: '3 hours ago',

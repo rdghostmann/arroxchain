@@ -387,7 +387,7 @@ export default function RegisterPage() {
                     </div>
                   </div>
 
-                  <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 flex items-start gap-3">
+                  <div className="hidden bg-primary/10 border border-primary/30 rounded-lg p-4 items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium text-foreground">Identity Verification</p>

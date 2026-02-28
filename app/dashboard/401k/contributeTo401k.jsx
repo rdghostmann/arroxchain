@@ -109,7 +109,7 @@ export default function FourZeroOnePage({ contributeTo401k }) {
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button
-                className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-5 py-2 rounded-lg shadow hover:from-blue-500 hover:to-blue-700 transition"
+                className="bg-linear-to-r from-blue-600 to-blue-800 text-white px-5 py-2 rounded-lg shadow hover:from-blue-500 hover:to-blue-700 transition"
                 onClick={() => setOpen(true)}
               >
                 Make a Contribution
@@ -163,7 +163,7 @@ export default function FourZeroOnePage({ contributeTo401k }) {
                 </div>
                 <Button
                   type="submit"
-                  className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-5 py-2 rounded-lg shadow hover:from-blue-500 hover:to-blue-700 transition mt-2"
+                  className="bg-linear-to-r from-blue-600 to-blue-800 text-white px-5 py-2 rounded-lg shadow hover:from-blue-500 hover:to-blue-700 transition mt-2"
                   disabled={pending}
                 >
                   {pending ? (
@@ -179,7 +179,7 @@ export default function FourZeroOnePage({ contributeTo401k }) {
               </form>
             </DialogContent>
           </Dialog>
-          <Button className="hidden bg-gradient-to-r from-green-600 to-green-800 text-white px-5 py-2 rounded-lg shadow hover:from-green-500 hover:to-green-700 transition">
+          <Button className="hidden bg-linear-to-r from-green-600 to-green-800 text-white px-5 py-2 rounded-lg shadow hover:from-green-500 hover:to-green-700 transition">
             Adjust Investments
           </Button>
           <Button className="hidden bg-slate-700 text-slate-300 px-5 py-2 rounded-lg hover:bg-slate-600 transition">

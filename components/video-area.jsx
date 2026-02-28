@@ -33,7 +33,7 @@ export function VideoArea() {
           viewport={{ once: true }}
         >
           {/* Background gradient effect */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-linear-to-tr from-primary/10 via-transparent to-primary/5 pointer-events-none"></div>
 
           {/* Video Frame */}
           <div className="relative w-full aspect-video bg-black">

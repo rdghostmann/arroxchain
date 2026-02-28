@@ -68,7 +68,7 @@ export function CounterSection() {
     <section ref={ref} className="w-full py-24 relative overflow-hidden bg-background">
       {/* Background gradient */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

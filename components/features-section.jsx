@@ -59,7 +59,7 @@ export function FeaturesSection() {
                 className="group relative p-6 sm:p-8 rounded-xl bg-card border border-border hover:border-primary/50 transition duration-300"
               >
                 {/* Hover gradient effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition rounded-xl"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition rounded-xl"></div>
 
                 <div className="relative z-10">
                   {/* Icon Container */}

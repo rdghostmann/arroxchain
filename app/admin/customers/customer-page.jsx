@@ -152,7 +152,7 @@ export default function CustomersPage() {
   }
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white overflow-hidden">
+    <div className="min-h-screen relative bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white overflow-hidden">
 
       {/* Ambient Glows */}
       <div className="absolute top-20 left-20 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl opacity-20 animate-pulse" />

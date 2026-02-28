@@ -73,7 +73,7 @@ const TransactionPage = () => {
         <div className="absolute inset-0 pointer-events-none z-0">
           <div className="absolute top-20 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse"></div>
           <div className="absolute bottom-20 left-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-primary/10 rounded-full blur-3xl opacity-20"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/5"></div>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-black/30">{icon}</div>
@@ -126,13 +126,13 @@ const TransactionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-bl from-[#05011aff] via-[#000000] to-[#001F3F] py-6 px-2 sm:px-4">
+    <div className="min-h-screen bg-linear-to-bl from-[#05011aff] via-[#000000] to-[#001F3F] py-6 px-2 sm:px-4">
       <div className="max-w-5xl mx-auto w-full">
         <NavHeader />
         <Card className="border-none bg-black/30 shadow-xl backdrop-blur-lg">
           <CardHeader>
             <CardTitle>
-              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent text-xl sm:text-2xl font-extrabold drop-shadow-lg">
+              <span className="bg-linear-to-r from-sky-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent text-xl sm:text-2xl font-extrabold drop-shadow-lg">
                 Transaction History
               </span>
             </CardTitle>
@@ -144,7 +144,7 @@ const TransactionPage = () => {
               >
                 <TabsTrigger
                   value="received"
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 transition flex-shrink-0"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 transition flex-shrink-0"
                 >
                   <ArrowDownLeft className="w-4 h-4" />
                   <span>Received</span>
@@ -152,7 +152,7 @@ const TransactionPage = () => {
 
                 <TabsTrigger
                   value="sent"
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-rose-600 transition flex-shrink-0"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-red-500 data-[state=active]:to-rose-600 transition flex-shrink-0"
                 >
                   <ArrowUpRight className="w-4 h-4" />
                   <span>Sent</span>
@@ -160,7 +160,7 @@ const TransactionPage = () => {
 
                 <TabsTrigger
                   value="stocks"
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 transition flex-shrink-0"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 transition flex-shrink-0"
                 >
                   <LineChart className="w-4 h-4" />
                   <span>Stocks</span>

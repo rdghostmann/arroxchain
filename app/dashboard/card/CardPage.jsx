@@ -67,12 +67,12 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 
 				{/* Card Preview */}
 				<div className="w-full flex justify-center mb-8">
-				<div className="relative bg-gradient-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-[370px] h-[220px] flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
+				<div className="relative bg-linear-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-[370px] h-[220px] flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
 						{/* Decorative elements */}
 					<div className="absolute w-[120px] h-[120px] bg-primary/30 rounded-full top-[-40px] right-[-40px] opacity-30" />
 					<div className="absolute w-[60px] h-[60px] bg-primary/20 rounded-full bottom-[-20px] left-[-20px] opacity-30" />
 						{/* Chip */}
-						<div className="absolute left-8 top-16 w-10 h-7 bg-gradient-to-r from-gray-300 to-gray-500 rounded-md border border-gray-400 shadow-inner flex items-center justify-center">
+						<div className="absolute left-8 top-16 w-10 h-7 bg-linear-to-r from-gray-300 to-gray-500 rounded-md border border-gray-400 shadow-inner flex items-center justify-center">
 							<div className="w-6 h-2 bg-gray-400 rounded-sm" />
 						</div>
 						{/* Card Logo & Brand */}
@@ -243,7 +243,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 							</div>
 							<Button
 								type="submit"
-								className="w-full bg-gradient-to-r from-blue-600 to-violet-600 text-white font-semibold py-2 rounded-lg shadow hover:from-blue-700 hover:to-violet-700 transition"
+								className="w-full bg-linear-to-r from-blue-600 to-violet-600 text-white font-semibold py-2 rounded-lg shadow hover:from-blue-700 hover:to-violet-700 transition"
 							>
 								I have paid
 							</Button>

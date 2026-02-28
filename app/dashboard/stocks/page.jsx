@@ -147,7 +147,7 @@ export default function StockPage() {
       <div className="max-w-4xl mx-auto">
         {/* Balance Summary */}
         <div className="mb-8">
-          <div className="bg-gradient-to-r from-primary via-primary/80 to-card rounded-2xl shadow-lg shadow-primary/30 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-primary-foreground">
+          <div className="bg-linear-to-r from-primary via-primary/80 to-card rounded-2xl shadow-lg shadow-primary/30 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-primary-foreground">
             <div className="flex items-center gap-3">
               <LineChart size={32} className="text-primary-foreground/80" />
               <div>

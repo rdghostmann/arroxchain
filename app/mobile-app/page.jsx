@@ -115,7 +115,7 @@ export default function MobileAppPage() {
 
         {/* CTA Section */}
         <section className="py-20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-transparent to-primary/10"></div>
           <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

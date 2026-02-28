@@ -15,7 +15,7 @@ export default async function ActionButtonsPage() {
   const userId = user?._id?.toString() || "";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-950 via-gray-900 to-black">
       <div className="w-full max-w-2xl mx-auto">
         <ActionButtons userId={userId} />
       </div>

@@ -82,7 +82,7 @@ export function TestimonialsSection() {
                   {testimonial.text}
                 </p>
 
-                <div className="h-px bg-gradient-to-r from-primary/30 via-transparent to-primary/30 mb-5" />
+                <div className="h-px bg-linear-to-r from-primary/30 via-transparent to-primary/30 mb-5" />
 
                 <div>
                   <h4 className="text-sm font-semibold text-foreground">{testimonial.name}</h4>

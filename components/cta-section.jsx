@@ -9,10 +9,10 @@ export function CTASection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-30"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-primary/20 via-transparent to-primary/20 opacity-30"></div>
         </div>
 
-        <div className="relative z-10 bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/20 rounded-2xl sm:rounded-3xl p-8 sm:p-12 lg:p-16 text-center backdrop-blur-sm">
+        <div className="relative z-10 bg-linear-to-br from-primary/30 to-primary/10 border border-primary/20 rounded-2xl sm:rounded-3xl p-8 sm:p-12 lg:p-16 text-center backdrop-blur-sm">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-balance">
             Ready to take control?
           </h2>

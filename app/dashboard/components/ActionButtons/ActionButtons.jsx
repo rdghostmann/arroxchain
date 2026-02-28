@@ -201,7 +201,7 @@ function DepositModal({ onClose }) {
             <div className="relative p-5 rounded-2xl border border-border bg-card/60 backdrop-blur-xl shadow-lg transition-all duration-300 animate-in fade-in slide-in-from-bottom-3">
 
               {/* Soft Glow */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 to-indigo-500/10 blur-xl opacity-40 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-primary/10 to-indigo-500/10 blur-xl opacity-40 pointer-events-none" />
 
               <div className="relative space-y-4">
                 <p className="font-medium text-foreground">
@@ -251,7 +251,7 @@ function DepositModal({ onClose }) {
           {/* Done */}
           <button
             onClick={onClose}
-            className="w-full bg-gradient-to-r from-primary via-indigo-500 to-primary text-white py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
+            className="w-full bg-linear-to-r from-primary via-indigo-500 to-primary text-white py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
           >
             Done
           </button>
@@ -431,7 +431,7 @@ const ActionButtons = ({ userId }) => {
           <div className="absolute -bottom-24 -right-20 w-72 h-72 bg-indigo-500/30 rounded-full blur-[120px] opacity-60 animate-pulse" />
         </div>
 
-        <div className="relative rounded-3xl p-[1px] bg-gradient-to-r from-primary via-indigo-500 to-primary">
+        <div className="relative rounded-3xl p-[1px] bg-linear-to-r from-primary via-indigo-500 to-primary">
           <div className="rounded-3xl bg-card/80 backdrop-blur-2xl relative overflow-hidden shadow-2xl shadow-black/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-primary/30">
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 py-6 px-2 sm:px-4">
               {actions.map(({ label, modal: modalType, icon }) => {

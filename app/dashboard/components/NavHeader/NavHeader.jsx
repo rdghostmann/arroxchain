@@ -63,7 +63,7 @@ const NavHeader = () => {
         <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-lg">
           <DropdownMenuItem asChild>
             <Link href="/dashboard/#profile" className="flex items-center gap-3 w-full">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-yellow-400 to-yellow-600 text-white">
                 <UserCircle size={18} />
               </span>
               <span className="font-medium text-sm">Account</span>
@@ -74,7 +74,7 @@ const NavHeader = () => {
             onClick={() => signOut({ callbackUrl: "/login" })}
             className="flex items-center gap-3 w-full cursor-pointer"
           >
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-gradient-to-r from-red-400 to-red-600 text-white">
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-red-400 to-red-600 text-white">
               <Power size={18} />
             </span>
             <span className="font-medium text-sm">Log Out</span>

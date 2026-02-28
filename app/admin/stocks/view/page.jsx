@@ -165,7 +165,7 @@ export default function ViewUserStocksPage() {
   };
 
   return (
-  <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white">
+  <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
     
       {/* Back Button */}
       <div className="mb-4 sm:mb-6">
@@ -195,7 +195,7 @@ export default function ViewUserStocksPage() {
       {/* User Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {users.map((user) => (
-          <Card key={user.id} className="bg-gradient-to-br from-gray-950 via-gray-900 to-black border-gray-800 rounded-xl shadow-md">
+          <Card key={user.id} className="bg-linear-to-br from-gray-950 via-gray-900 to-black border-gray-800 rounded-xl shadow-md">
             <CardHeader className="pb-3">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
@@ -233,7 +233,7 @@ export default function ViewUserStocksPage() {
                     </Button>
                   </DialogTrigger>
 
-                  <DialogContent className="max-w-full sm:max-w-2xl bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white border-gray-800 rounded-lg p-4 sm:p-6 overflow-y-auto max-h-[85vh]">
+                  <DialogContent className="max-w-full sm:max-w-2xl bg-linear-to-br from-gray-950 via-gray-900 to-black text-white border-gray-800 rounded-lg p-4 sm:p-6 overflow-y-auto max-h-[85vh]">
                     <div className="space-y-6">
                       <h2 className="text-xl sm:text-2xl font-semibold text-center sm:text-left">
                         Edit {user.name || user.email}'s Stocks

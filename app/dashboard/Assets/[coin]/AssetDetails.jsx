@@ -175,7 +175,7 @@ export default function AssetDetailPage({ params, userId }) {
   }
 
   return (
-    <div className="min-h-screen px-4 py-10 bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 flex justify-center">
+    <div className="min-h-screen px-4 py-10 bg-linear-to-br from-blue-950 via-slate-900 to-slate-950 flex justify-center">
       <div className="absolute top-4 left-4 md:top-6 md:left-6">
         <Button
           variant="ghost"

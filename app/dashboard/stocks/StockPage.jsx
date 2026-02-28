@@ -58,7 +58,7 @@
 //   };
 
 //   return (
-//     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-10 px-4">
+//     <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 py-10 px-4">
 //       <div className="max-w-4xl mx-auto">
 //         <div className="mb-8 text-center">
 //           <LineChart className="mx-auto mb-2 text-blue-400" size={40} />
@@ -83,7 +83,7 @@
 //                 return (
 //                   <Card
 //                     key={stock.symbol}
-//                     className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 border border-white/10 backdrop-blur-md p-5 text-white rounded-2xl shadow-lg transition hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
+//                     className="bg-linear-to-br from-slate-900 via-slate-950 to-slate-900 border border-white/10 backdrop-blur-md p-5 text-white rounded-2xl shadow-lg transition hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
 //                   >
 //                     <CardHeader className="flex items-center gap-3 p-0 mb-3">
 //                       <img

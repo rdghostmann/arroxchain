@@ -59,7 +59,7 @@ export function HeroSection() {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse"></div>
         <div className="absolute bottom-20 left-1/4 w-48 h-48 sm:w-72 sm:h-72 bg-primary/10 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5"></div>
+        <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-primary/5"></div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
@@ -107,7 +107,7 @@ export function HeroSection() {
 
             {/* Marquee Track */}
             <div
-              className="flex items-center gap-20 will-change-transform hover:[animation-play-state:paused]"
+              className="flex items-center gap-20 will-change-transform hover:paused"
               style={{
                 width: 'fit-content',
                 animation: 'smooth-scroll 40s linear infinite',

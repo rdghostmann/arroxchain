@@ -121,7 +121,7 @@ export default function SeedWordsPage({ initialUsers }) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-linear-to-br from-gray-950 via-gray-900 to-black text-white">
         <Key className="h-12 w-12 animate-spin mb-4 text-blue-400" />
         <p className="text-lg text-gray-400">Loading users...</p>
       </div>
@@ -129,7 +129,7 @@ export default function SeedWordsPage({ initialUsers }) {
   }
 
   return (
-  <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white">
+  <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
 
     {/* Ambient background glows for modern dashboard feel */}
     <div className="absolute top-16 left-16 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl opacity-20 animate-pulse" />

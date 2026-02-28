@@ -170,7 +170,7 @@ export default function AdminStocksPage() {
   };
 
   return (
-  <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white">
+  <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
       <div className="max-w-6xl mx-auto px-4 space-y-8">
         <AdminTopNav />
         {/* Header */}

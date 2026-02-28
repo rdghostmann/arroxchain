@@ -76,11 +76,11 @@ export function QFSCardSection() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-transparent rounded-3xl blur-2xl opacity-50"></div>
+                        <div className="absolute -inset-4 bg-linear-to-br from-primary/20 to-transparent rounded-3xl blur-2xl opacity-50"></div>
 
-                        <div className="relative bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 rounded-3xl p-8 backdrop-blur-sm">
+                        <div className="relative bg-linear-to-br from-card/80 to-card/40 border border-primary/20 rounded-3xl p-8 backdrop-blur-sm">
 
-                            <div className="aspect-square bg-gradient-to-br from-primary/30 via-primary/10 to-transparent rounded-2xl flex items-center justify-center overflow-hidden">
+                            <div className="aspect-square bg-linear-to-br from-primary/30 via-primary/10 to-transparent rounded-2xl flex items-center justify-center overflow-hidden">
 
                                 <img
                                     src="/QFSCard.webp"

@@ -48,7 +48,7 @@ export default function InvestWithoutGuesswork() {
                     {/* All-in-one integrations */}
                     <div className="bg-[#0b0b12] border border-[#1f1f2a] rounded-2xl p-7 flex flex-col justify-between">
                         <div>
-                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 mb-6"></div>
+                            <div className="w-12 h-12 rounded-xl bg-linear-to-br from-purple-500 to-indigo-500 mb-6"></div>
                             <h3 className="text-lg font-semibold mb-2">
                                 All-in-one integrations
                             </h3>
@@ -94,7 +94,7 @@ export default function InvestWithoutGuesswork() {
                             {Array.from({ length: 20 }).map((_, i) => (
                                 <div
                                     key={i}
-                                    className={`w-2 rounded-full bg-gradient-to-t from-indigo-500 to-purple-400 ${i % 4 === 0
+                                    className={`w-2 rounded-full bg-linear-to-t from-indigo-500 to-purple-400 ${i % 4 === 0
                                             ? "h-14"
                                             : i % 3 === 0
                                                 ? "h-10"

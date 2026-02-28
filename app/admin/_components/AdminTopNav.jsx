@@ -36,7 +36,7 @@ const AdminTopNav = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="relative bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-xl"
+        className="relative bg-linear-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-xl"
       >
         <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-2">
 

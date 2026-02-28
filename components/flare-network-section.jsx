@@ -40,7 +40,7 @@ export function FlareNetworkSection() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Flare Network</span> Integration
+            <span className="bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">Flare Network</span> Integration
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Empowering smart contract functionality for assets like BTC, XRP, and more — Flare unlocks a new era of DeFi possibilities for retirement, wealth, and trustless finance.
@@ -58,7 +58,7 @@ export function FlareNetworkSection() {
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="aspect-video bg-gradient-to-br from-background to-card relative overflow-hidden">
+              <div className="aspect-video bg-linear-to-br from-background to-card relative overflow-hidden">
                 <iframe
                   src={video.src}
                   title={video.ytTitle}
@@ -68,7 +68,7 @@ export function FlareNetworkSection() {
                   className="w-full h-full"
                 />
               </div>
-              <div className="p-4 bg-gradient-to-t from-background/80 to-transparent">
+              <div className="p-4 bg-linear-to-t from-background/80 to-transparent">
                 <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition">{video.title}</h3>
                 <p className="text-sm text-muted-foreground">{video.ytTitle}</p>
               </div>
@@ -77,13 +77,13 @@ export function FlareNetworkSection() {
 
           {/* CTA Card */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden border border-primary/30 bg-gradient-to-br from-primary/30 to-primary/10 p-8 flex flex-col justify-between group hover:border-primary/60 transition-all duration-300"
+            className="relative rounded-2xl overflow-hidden border border-primary/30 bg-linear-to-br from-primary/30 to-primary/10 p-8 flex flex-col justify-between group hover:border-primary/60 transition-all duration-300"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: videos.length * 0.1 }}
             viewport={{ once: true }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/20 mb-4 group-hover:bg-primary/30 transition">
                 <Flame className="w-6 h-6 text-primary" />

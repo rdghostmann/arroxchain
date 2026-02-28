@@ -149,7 +149,7 @@ export default function AdminDashboard({ recentCustomers = [] }) {
   };
 
   return (
-  <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1a012b] via-black to-[#001933] text-white">
+  <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
 
     {/* Background Glow Effects */}
     <div className="absolute top-[-100px] right-[-100px] w-[400px] h-[400px] bg-primary/20 blur-[120px] rounded-full opacity-30 animate-pulse" />
@@ -252,7 +252,7 @@ export default function AdminDashboard({ recentCustomers = [] }) {
                 key={w._id}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="relative bg-gradient-to-br from-yellow-900/20 to-black/40 border border-yellow-500/20 rounded-2xl p-6 flex flex-col lg:flex-row justify-between gap-6"
+                className="relative bg-linear-to-br from-yellow-900/20 to-black/40 border border-yellow-500/20 rounded-2xl p-6 flex flex-col lg:flex-row justify-between gap-6"
               >
                 {processingWithdrawalId === w._id && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-10">

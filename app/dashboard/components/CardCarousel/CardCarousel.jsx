@@ -33,7 +33,7 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
   const shortWallet = walletId?.slice(0, 6) + "..." + walletId?.slice(-4);
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 mb-12 relative">
+    <div className="w-full max-w-2xl mx-auto relative">
 
       {/* 🌌 AURORA BACKGROUND */}
       <div className="absolute inset-0 -z-10">
@@ -43,7 +43,7 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
 
       {/* 🔥 Animated Gradient Border */}
       {/* 🔥 Gradient Border (No Rotation) */}
-      <div className="relative rounded-3xl p-[1px] bg-linear-to-r from-primary via-indigo-500 to-primary">
+      <div className="relative rounded-3xl p-px bg-linear-to-r from-primary via-indigo-500 to-primary">
 
         <div className="rounded-3xl bg-card/80 backdrop-blur-2xl relative overflow-hidden shadow-2xl shadow-black/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-primary/30">
 
@@ -59,7 +59,7 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
             Verified Wallet
           </div>
 
-          <div className="p-6 sm:p-8">
+          <div className="p-1">
 
             {/* Wallet Info */}
             <div className="mb-6">
@@ -86,10 +86,10 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
             <div className="flex justify-center sm:justify-end">
               <Link
                 href="/dashboard/transactions"
-                className="group relative inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-sm text-white overflow-hidden transition-all duration-300 bg-linear-to-r from-primary via-indigo-500 to-primary bg-[length:200%_200%] hover:bg-[position:100%_0%] shadow-lg shadow-primary/30"
+                className="group relative inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-sm text-white overflow-hidden transition-all duration-300 bg-linear-to-r from-primary via-indigo-500 to-primary bg-size-[200%_200%] hover:bg-position-[100%_0%] shadow-lg shadow-primary/30"
               >
                 <span className="relative z-10">View Transactions</span>
-                <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
+                <span className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
               </Link>
             </div>
 

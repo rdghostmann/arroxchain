@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Eye, EyeOff, ArrowUpRight, ArrowDownRight, Wallet2, Coins } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function BalanceDisplay({ formattedBalance, assets = [], change24h = 0 }) {
   const [show, setShow] = useState(true);
@@ -21,30 +22,31 @@ export default function BalanceDisplay({ formattedBalance, assets = [], change24
           <Wallet2 className="text-yellow-500" size={22} />
           <p className="text-sm text-muted-foreground font-semibold">Total Balance</p>
         </div>
-        <button
+        <Button
           type="button"
           className="ml-2 text-green-500 hover:text-primary/80 transition"
           onClick={() => setShow((v) => !v)}
           aria-label={show ? "Hide balance" : "Show balance"}
         >
           {show ? <Eye size={20} /> : <EyeOff size={20} />}
-        </button>
+        </Button>
       </div>
-      <div className="bg-card border border-border rounded-2xl shadow-lg px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 transition hover:shadow-xl">
+      <h3 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-wide mb-1 transition">
+        {show ? `$${formattedBalance}` : "••••••••"}
+      </h3>
+      {/* <div className="bg-card border border-border rounded-2xl shadow-lg px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 transition hover:shadow-xl">
+        <div className="flex flex-col items-center sm:items-start flex-1">
+          
+        </div>
+      </div> */}
+      {/* <div className="bg-card border border-border rounded-2xl shadow-lg px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 transition hover:shadow-xl">
         <div className="flex flex-col items-center sm:items-start flex-1">
           <h3 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-wide mb-1 transition">
             {show ? `$${formattedBalance}` : "••••••••"}
           </h3>
-         
         </div>
-        <div className="flex flex-col items-center sm:items-end gap-2">
-          
-         
-        </div>
-      </div>
-      <div className="flex justify-between mt-3 text-xs text-muted-foreground px-1">
-        <span>Updated just now</span>
-      </div>
+      </div> */}
+
     </div>
   );
 }

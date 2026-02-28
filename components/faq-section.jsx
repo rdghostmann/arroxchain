@@ -58,7 +58,7 @@ export function FaqSection() {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have questions about our platform? Find answers to common questions. Contact our support team at{' '}
-            <a href="mailto:support@arroxchain.site" className="text-primary hover:underline">
+            <a href="https://tawk.to/chat/696100a5c157871980786a0f/1jehel1ui" className="text-primary hover:underline">
               support@arroxchain.com
             </a>
           </p>

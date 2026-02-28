@@ -3,25 +3,33 @@ import React, { useEffect } from "react";
 
 const Tawk = () => {
   useEffect(() => {
-    // Dynamically inject the Tawk.to script
-    var Tawk_API = Tawk_API || {};
-    var Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script");
-      var s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/687b8683487057192063b18c/1j0h8at6r';
-      s1.charset = "UTF-8";
-      s1.setAttribute("crossorigin", "*");
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  }, []); // Empty dependency array ensures this runs only once after the component mounts
+    // Ensure script loads only in the browser
+    if (typeof window === "undefined") return;
+
+    // Prevent script from being added twice
+    if (document.getElementById("tawk-script")) return;
+
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+
+    const script = document.createElement("script");
+    script.id = "tawk-script";
+    script.async = true;
+    script.src = "https://embed.tawk.to/696100a5c157871980786a0f/1jehel1ui";
+    script.charset = "UTF-8";
+    script.setAttribute("crossorigin", "*");
+
+    document.head.appendChild(script);
+
+    return () => {
+      // Optional cleanup if component is unmounted
+      script.remove();
+    };
+  }, []);
 
   return (
-    <div className="z-100 bottom-7"
-      title="Chat with us"
-    >
-      {/* Tawk.to chat widget will be injected here */}
+    <div className="z-100 fixed bottom-0 right-0" title="Chat with us">
+      {/* Tawk widget loads automatically; no UI needed */}
     </div>
   );
 };

@@ -103,19 +103,19 @@ export function FooterSection() {
               <li>
                 <span className="block font-medium text-foreground mb-1">Email:</span>
                 <Link
-                  href="mailto:support@trumpirsvault.com"
+                  href="mailto:support@arroxchain.site"
                   className="hover:text-primary transition"
                 >
-                  support@trumpirsvault.com
+                  support@arroxchain.com
                 </Link>
               </li>
               <li>
                 <span className="block font-medium text-foreground mb-1">Support:</span>
                 <Link
-                  href="mailto:support@trumpirsvault.com"
+                  href="mailto:support@arroxchain.site"
                   className="hover:text-primary transition"
                 >
-                  support@trumpirsvault.com
+                  support@arroxchain.com
                 </Link>
               </li>
               <li>

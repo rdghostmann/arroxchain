@@ -55,26 +55,26 @@ export default function LoginPage() {
         {/* Card */}
         <div className="bg-card border border-primary/20 rounded-2xl p-8 backdrop-blur-sm">
           {/* Header */}
-<div className="flex flex-col items-center text-center mb-8">
-  <div className="w-16 h-16 flex items-center justify-center mb-4">
-    <Image
-      src="/logo.jpg"
-      alt="Trumpirsvault Logo"
-      width={56}
-      height={56}
-      className="object-contain"
-      priority
-    />
-  </div>
+          <div className="flex flex-col items-center text-center mb-8">
+            <div className="w-16 h-16 flex items-center justify-center mb-4">
+              <Image
+                src="/logo.jpg"
+                alt="ArroxChain Logo"
+                width={56}
+                height={56}
+                className="object-contain w-full h-full rounded-full"
+                priority
+              />
+            </div>
 
-  <h1 className="text-2xl font-bold text-foreground mb-2">
-    Welcome Back
-  </h1>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Welcome Back
+            </h1>
 
-  <p className="text-sm text-muted-foreground max-w-xs">
-    Sign in to your account
-  </p>
-</div>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              Sign in to your account
+            </p>
+          </div>
 
 
           <form onSubmit={handleLogin} className="space-y-6">
@@ -185,15 +185,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Trust Badge */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-center mt-6 text-xs text-muted-foreground"
-        >
-          <p>🔒 Bank-level security with 256-bit encryption</p>
-        </motion.div>
+      
       </motion.div>
     </div>
   )

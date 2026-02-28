@@ -1,6 +1,7 @@
+// RegisterPage.jsx
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -19,6 +20,14 @@ import {
   Building,
   Globe,
 } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from '@/components/ui/input'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -53,6 +62,10 @@ export default function RegisterPage() {
   const handleAccountTypeChange = (value) => {
     setForm({ ...form, accountType: value })
   }
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [step])
+
 
   const isStep1Valid = form.username.trim() && form.email.trim() && form.phone.trim() && form.accountType.trim()
   const isStep2Valid = form.firstName.trim() && form.lastName.trim() && form.country.trim() && form.state.trim() && form.zipCode.trim()
@@ -68,6 +81,20 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const password = form.password
+
+    const strongPassword =
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password) &&
+      /[!@#$%^&*]/.test(password)
+
+    if (!strongPassword) {
+      toast.error('Password does not meet requirements')
+      return
+    }
+
     if (form.password !== form.confirmPassword) {
       toast.error('Passwords do not match')
       return
@@ -114,10 +141,10 @@ export default function RegisterPage() {
           <div className="w-16 h-16 flex items-center justify-center mb-4">
             <Image
               src="/logo.jpg"
-              alt="Trumpirsvault Logo"
+              alt="ArroxChain Logo"
               width={56}
               height={56}
-              className="object-contain"
+              className="object-contain w-full h-full rounded-full"
               priority
             />
           </div>
@@ -133,8 +160,8 @@ export default function RegisterPage() {
 
 
         {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
+        <div className="mb-8 w-11/12 mx-auto">
+          <div className="border flex justify-between items-center mx-auto mb-4">
             {steps.map((s, index) => (
               <div key={s.id} className="flex items-center flex-1">
                 <motion.div
@@ -142,8 +169,8 @@ export default function RegisterPage() {
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1 * index }}
                   className={`flex items-center justify-center w-10 h-10 rounded-full border-2 font-semibold ${step >= s.id
-                      ? 'bg-primary border-primary text-primary-foreground'
-                      : 'border-border text-muted-foreground bg-card'
+                    ? 'bg-primary border-primary text-primary-foreground'
+                    : 'border-border text-muted-foreground bg-card'
                     }`}
                 >
                   {step > s.id ? <CheckCircle className="w-5 h-5" /> : s.id}
@@ -177,7 +204,17 @@ export default function RegisterPage() {
             <p className="text-muted-foreground mt-1">{steps[step - 1].description}</p>
           </div>
 
-          <form onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); handleNext() }}>
+          {/* <form onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); handleNext() }}> */}
+          <form onSubmit={(e) => {
+            e.preventDefault()
+
+            if (step < 3) {
+              handleNext()
+            } else {
+              handleSubmit(e)
+            }
+          }}
+          >
             <motion.div
               key={step}
               initial={{ opacity: 0, x: 20 }}
@@ -194,7 +231,7 @@ export default function RegisterPage() {
                         <User className="w-4 h-4" />
                         Username
                       </label>
-                      <input
+                      <Input
                         type="text"
                         name="username"
                         value={form.username}
@@ -210,7 +247,7 @@ export default function RegisterPage() {
                         <Mail className="w-4 h-4" />
                         Email Address
                       </label>
-                      <input
+                      <Input
                         type="email"
                         name="email"
                         value={form.email}
@@ -226,7 +263,7 @@ export default function RegisterPage() {
                         <Phone className="w-4 h-4" />
                         Phone Number
                       </label>
-                      <input
+                      <Input
                         type="tel"
                         name="phone"
                         value={form.phone}
@@ -242,15 +279,22 @@ export default function RegisterPage() {
                         <Building className="w-4 h-4" />
                         Account Type
                       </label>
-                      <select
-                        name="accountType"
+
+                      <Select
                         value={form.accountType}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition"
+                        onValueChange={(value) =>
+                          setForm((prev) => ({ ...prev, accountType: value }))
+                        }
                       >
-                        <option value="personal">Personal</option>
-                        <option value="business">Business</option>
-                      </select>
+                        <SelectTrigger className="w-full h-12">
+                          <SelectValue placeholder="Select account type" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectItem value="personal">Personal</SelectItem>
+                          <SelectItem value="business">Business</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 

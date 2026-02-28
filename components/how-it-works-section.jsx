@@ -7,7 +7,7 @@ const steps = [
   {
     icon: UserPlus,
     title: 'Create Account',
-    description: 'Sign up and complete identity verification to activate your QFS wallet.',
+    description: 'Sign up and complete identity verification to activate your ArroxChain Account.',
   },
   {
     icon: Link2,
@@ -58,7 +58,7 @@ export function HowItWorksSection() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur"></div>
                 <div className="relative rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-8 h-full group-hover:border-primary/50 transition-colors duration-300">
                   {/* Step Number */}
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/20 mb-4 group-hover:bg-primary/30 transition">
@@ -94,7 +94,7 @@ export function HowItWorksSection() {
             Ready to join the revolution in decentralized finance?
           </p>
           <button className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition">
-            Start Your TIV Journey
+            Start Your ArroxChain Journey
           </button>
         </motion.div>
       </div>

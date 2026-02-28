@@ -14,7 +14,7 @@ import { RecentNewsSection } from '@/components/recent-news-section'
 import { FaqSection } from '@/components/faq-section'
 import { TouchSection } from '@/components/touch-section'
 import { FooterSection } from '@/components/footer-section'
-import InvestWithoutGuesswork from '@/components/guesswork'
+// import InvestWithoutGuesswork from '@/components/guesswork'
 
 export default function Page() {
   return (
@@ -23,6 +23,7 @@ export default function Page() {
         <Navbar />
         <HeroSection />
         <Banner />
+        {/* <InvestWithoutGuesswork /> */}
         <FeaturesSection />
         <QFSCardSection />
         <QFSAboutSection />
@@ -35,7 +36,6 @@ export default function Page() {
         <FaqSection />
         <TouchSection />
         <CTASection />
-        <InvestWithoutGuesswork />
 
 
       </main>

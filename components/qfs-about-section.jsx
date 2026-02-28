@@ -75,7 +75,7 @@ export function QFSAboutSection() {
                             })}
                         </div>
 
-                        <a
+                        {/* <a
                             href="https://www.qfs1776.com/_files/ugd/a16bfe_46e53371c3924d10a587d58fb9e5a0e1.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -83,7 +83,7 @@ export function QFSAboutSection() {
                         >
                             <BookOpen size={18} />
                             Download ArroxChain Vault Manual
-                        </a>
+                        </a> */}
                     </motion.div>
 
                     {/* Right Video/Image Section */}

@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react'
 const faqs = [
   {
     question: 'What is the ArroxChain Vault?',
-    answer: 'The ArroxChain Vault is a secure digital wallet and asset management platform that provides immunity against cyber attacks and market volatility through advanced encryption and security protocols.',
+    answer: 'The ArroxChain Vault is a secure digital Web wallet and asset management platform that provides immunity against cyber attacks and market volatility through advanced encryption and security protocols.',
   },
   {
     question: 'Do I need prior experience with crypto to use this platform?',
@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: 'How can this help improve my financial situation?',
-    answer: 'QFS provides comprehensive protection for your crypto assets, shields you from market volatility, prevents fraud, and offers transparent transaction management for optimal financial growth.',
+    answer: 'ArroxChain provides comprehensive protection for your crypto assets, shields you from market volatility, prevents fraud, and offers transparent transaction management for optimal financial growth.',
   },
   {
     question: 'When will I receive payouts?',
@@ -58,8 +58,8 @@ export function FaqSection() {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Have questions about our platform? Find answers to common questions. Contact our support team at{' '}
-            <a href="mailto:support@trumpirsvault.com" className="text-primary hover:underline">
-              support@trumpirsvault.com
+            <a href="mailto:support@arroxchain.site" className="text-primary hover:underline">
+              support@arroxchain.com
             </a>
           </p>
         </motion.div>
@@ -87,7 +87,7 @@ export function FaqSection() {
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-primary flex-shrink-0 transition-transform duration-300 ${
+                    className={`w-5 h-5 text-primary shrink-0 transition-transform duration-300 ${
                       activeIndex === index ? 'rotate-180' : ''
                     }`}
                   />

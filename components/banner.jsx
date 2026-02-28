@@ -14,7 +14,7 @@ const slides = [
   {
     title: 'Next-Gen Asset Security',
     description:
-      'TIV gives your asset the protection it deserves. Never miss this opportunity.',
+      'ArroxChain gives your asset the protection it deserves. Never miss this opportunity.',
     image: '/next-gen.jpg',
   },
 ]
@@ -55,8 +55,8 @@ export function Banner() {
 
           {/* Smooth Overlay (Less Harsh) */}
           <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/30" />
 
           {/* Content */}
           <div className="relative z-10 flex items-center h-full px-6 sm:px-12 lg:px-20">

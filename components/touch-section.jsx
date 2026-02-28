@@ -61,7 +61,10 @@ export function TouchSection() {
           </motion.h2>
 
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Have questions or need assistance? Contact us and our team will get back to you within 24 hours.
+            Have questions or need assistance?
+          </p>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Contact us and our team will get back to you within 24 hours.
           </p>
         </div>
 

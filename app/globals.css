@@ -60,6 +60,6 @@
 
   /* Reusable glass card used across dashboard for premium panels */
   .glass-card {
-    @apply bg-card border border-border rounded-2xl p-6 shadow-xl backdrop-blur-md;
+    @apply bg-card border border-border rounded-2xl p-4 shadow-xl backdrop-blur-md;
   }
 }

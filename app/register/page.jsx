@@ -161,23 +161,25 @@ export default function RegisterPage() {
 
         {/* Progress Steps */}
         <div className="mb-8 w-11/12 mx-auto">
-          <div className="border flex justify-between items-center mx-auto mb-4">
+          <div className="flex justify-center items-center gap-6 mb-4">
             {steps.map((s, index) => (
-              <div key={s.id} className="flex items-center flex-1">
+              <div key={s.id} className="flex items-center">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.1 * index }}
                   className={`flex items-center justify-center w-10 h-10 rounded-full border-2 font-semibold ${step >= s.id
-                    ? 'bg-primary border-primary text-primary-foreground'
-                    : 'border-border text-muted-foreground bg-card'
+                      ? "bg-primary border-primary text-primary-foreground"
+                      : "border-border text-muted-foreground bg-card"
                     }`}
                 >
                   {step > s.id ? <CheckCircle className="w-5 h-5" /> : s.id}
                 </motion.div>
+
                 {index < steps.length - 1 && (
                   <div
-                    className={`flex-1 h-1 mx-2 rounded-full ${step > s.id ? 'bg-primary' : 'bg-border'}`}
+                    className={`w-16 h-1 mx-2 rounded-full ${step > s.id ? "bg-primary" : "bg-border"
+                      }`}
                   />
                 )}
               </div>
@@ -188,7 +190,6 @@ export default function RegisterPage() {
           <div className="w-full h-1 bg-border rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-primary"
-              initial={{ width: '33.33%' }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
             />

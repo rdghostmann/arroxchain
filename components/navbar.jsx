@@ -258,13 +258,7 @@ export function Navbar() {
                 </button>
               ))}
 
-              {/* <Link
-                href="/mobile-app"
-                onClick={() => setIsOpen(false)}
-                className="group flex items-center justify-between p-4 text-lg font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-2xl transition-all"
-              >
-                <span>Download App</span>
-              </Link> */}
+  
             </nav>
 
             {/* Mobile Footer / Auth */}

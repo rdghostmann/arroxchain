@@ -43,7 +43,7 @@ export function QFSAboutSection() {
                             What is the ArroxChain Web Wallet?
                         </h2>
                         <p className="text-base sm:text-lg text-muted-foreground mb-6 leading-relaxed">
-                            The Quantum Financial System is a revolutionary shift in global economics, designed to replace the corrupt centralized debt system. It provides unparalleled protection against fraud, cyber threats, and market manipulation using advanced AI and quantum-grade tech.
+                            The ArroxChain Financial System is a revolutionary shift in global economics, designed to replace the corrupt centralized debt system. It provides unparalleled protection against fraud, cyber threats, and market manipulation using advanced AI and quantum-grade tech.
                         </p>
                         <p className="text-base sm:text-lg text-muted-foreground mb-8 leading-relaxed">
                             This secure, decentralized system is more than a financial upgrade — it's your gateway to preserving wealth, 401k retirement, and financial sovereignty.
@@ -61,7 +61,7 @@ export function QFSAboutSection() {
                                         transition={{ duration: 0.6, delay: idx * 0.1 }}
                                         viewport={{ once: true }}
                                     >
-                                        <div className="flex-shrink-0 mt-1">
+                                        <div className="shrink-0 mt-1">
                                             <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/20">
                                                 <Icon className="h-5 w-5 text-primary" />
                                             </div>
@@ -94,8 +94,8 @@ export function QFSAboutSection() {
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
                     >
-                        <div className="absolute -inset-4 bg-gradient-to-br from-primary/30 to-transparent rounded-3xl blur-2xl opacity-50"></div>
-                        <div className="relative bg-gradient-to-br from-card/80 to-card/40 border border-primary/20 rounded-3xl overflow-hidden backdrop-blur-sm">
+                        <div className="absolute -inset-4 bg-linear-to-br from-primary/30 to-transparent rounded-3xl blur-2xl opacity-50"></div>
+                        <div className="relative bg-linear-to-br from-card/80 to-card/40 border border-primary/20 rounded-3xl overflow-hidden backdrop-blur-sm">
                             <div className="aspect-video flex items-center justify-center">
                                 {/* Video Element */}
                                 <video

@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <>
       <main className="min-h-screen bg-background">
-         <Navbar />
+        <Navbar />
         <HeroSection />
         <Banner />
         <FeaturesSection />
@@ -35,7 +35,7 @@ export default function Page() {
         <FaqSection />
         <TouchSection />
         <CTASection />
-        <InvestWithoutGuesswork/>
+        <InvestWithoutGuesswork />
 
 
       </main>

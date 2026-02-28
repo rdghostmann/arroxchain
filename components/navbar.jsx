@@ -127,14 +127,14 @@ export function Navbar() {
                     src="/logo.jpg"
                     alt="ArroxChain Vault Logo"
                     fill
-                    className="object-contain"
+                    className="object-contain w-full h-full rounded-full"
                     priority
                   />
                 </div>
 
                 <span className="hidden sm:block text-lg font-bold tracking-tight text-foreground">
 
-                  Trump<span className="text-primary">IRS</span>Vault
+                  Arrox<span className="text-primary">Chain</span>
                 </span>
               </div>
 
@@ -145,7 +145,7 @@ export function Navbar() {
                   { name: 'Home', type: 'section', value: 'hero' },
                   { name: 'About', type: 'section', value: 'about' },
                   { name: 'Contact', type: 'section', value: 'contact' },
-                  { name: 'Mobile App', type: 'route', value: '/mobile-app' }
+                  // { name: 'Mobile App', type: 'route', value: '/mobile-app' }
                 ].map((item) => {
 
                   const isSectionActive =
@@ -258,14 +258,13 @@ export function Navbar() {
                 </button>
               ))}
 
-              <Link
+              {/* <Link
                 href="/mobile-app"
                 onClick={() => setIsOpen(false)}
                 className="group flex items-center justify-between p-4 text-lg font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-2xl transition-all"
               >
                 <span>Download App</span>
-                {/* <Download className="w-5 h-5" /> */}
-              </Link>
+              </Link> */}
             </nav>
 
             {/* Mobile Footer / Auth */}
@@ -273,13 +272,13 @@ export function Navbar() {
 
               <div className="space-y-5">
 
-                <Link href="/register" onClick={() => setIsOpen(false)}>
+                <Link href="/register" onClick={() => setIsOpen(false)} className='block'>
                   <button className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-base shadow-lg shadow-primary/20 active:scale-95 transition-all">
                     Create Account
                   </button>
                 </Link>
 
-                <Link href="/login" onClick={() => setIsOpen(false)}>
+                <Link href="/login" onClick={() => setIsOpen(false)} className='block'>
                   <button className="w-full py-4 rounded-2xl bg-secondary text-secondary-foreground font-bold text-base hover:bg-secondary/80 transition-colors">
                     Log In
                   </button>

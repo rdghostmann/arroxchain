@@ -43,18 +43,18 @@ export default async function DashboardPage() {
           {/* Left Content */}
           <div className="order-1 lg:col-span-2 space-y-20">
             {/* Carousel */}
-            <div className="glass-card">
+            <div className="">
               <CardCarousel userIdOrEmail={userEmail} />
             </div>
 
             {/* Quick Actions */}
-            <div className="glass-card">
+            <div className="">
               <h2 className="text-xl font-bold mb-4">⚡ Quick Actions</h2>
               <ActionButtons userId={user?._id?.toString() || ""} />
             </div>
 
             {/* Assets */}
-            <div className="glass-card ">
+            <div className=" ">
               <h2 className="text-xl font-bold mb-4">💰 Your Assets</h2>
               <AssetSection />
             </div>

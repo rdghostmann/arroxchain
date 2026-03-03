@@ -140,11 +140,11 @@ const TransactionPage = () => {
           <CardContent>
             <Tabs defaultValue="received" className="w-full mx-auto">
               <TabsList
-                className="mx-auto mb-4 flex flex-nowrap justify-center gap-2 bg-gray-900/80 p-2 rounded-md shadow-lg border border-gray-700 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+                className="mx-auto mb-4 flex flex-nowrap justify-center gap-2 bg-gray-900/80 rounded-md shadow-lg border border-gray-700 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
               >
                 <TabsTrigger
                   value="received"
-                  className="flex items-center gap-2 p-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 transition shrink-0"
+                  className="flex items-center gap-2 p-2 rounded-md font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 transition shrink-0"
                 >
                   <ArrowDownLeft className="w-4 h-4" />
                   <span>Received</span>
@@ -152,7 +152,7 @@ const TransactionPage = () => {
 
                 <TabsTrigger
                   value="sent"
-                  className="flex items-center gap-2 p-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-red-500 data-[state=active]:to-rose-600 transition shrink-0"
+                  className="flex items-center gap-2 p-2 rounded-md font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-red-500 data-[state=active]:to-rose-600 transition shrink-0"
                 >
                   <ArrowUpRight className="w-4 h-4" />
                   <span>Sent</span>
@@ -160,7 +160,7 @@ const TransactionPage = () => {
 
                 <TabsTrigger
                   value="stocks"
-                  className="flex items-center gap-2 p-2 rounded-lg font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 transition shrink-0"
+                  className="flex items-center gap-2 p-2 rounded-md font-medium text-gray-200 data-[state=active]:text-white data-[state=active]:bg-linear-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 transition shrink-0"
                 >
                   <LineChart className="w-4 h-4" />
                   <span>Stocks</span>

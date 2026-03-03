@@ -4,47 +4,46 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowDownLeft, ArrowUpRight, LineChart } from "lucide-react";
 import NavHeader from "../components/NavHeader/NavHeader";
+import TransactionSkeleton from "@/components/TransactionSkeleton";
 
 const TransactionPage = () => {
   const [receivedTransactions, setReceivedTransactions] = useState([]);
   const [sentTransactions, setSentTransactions] = useState([]);
   const [stockTransactions, setStockTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchTransactions() {
+    async function fetchData() {
       try {
-        const res = await fetch("/api/transactions");
-        const data = await res.json();
-        if (data.success) {
-          setReceivedTransactions(data.deposits || []);
-          setSentTransactions(data.withdrawals || []);
+        setLoading(true);
+
+        const [txRes, stockRes] = await Promise.all([
+          fetch("/api/transactions"),
+          fetch("/api/user-stocks?all=true"),
+        ]);
+
+        const txData = await txRes.json();
+        const stockData = await stockRes.json();
+
+        if (txData.success) {
+          setReceivedTransactions(txData.deposits || []);
+          setSentTransactions(txData.withdrawals || []);
         }
+
+        if (stockData.success && Array.isArray(stockData.stocks)) {
+          setStockTransactions(stockData.stocks);
+        }
+
+        await fetch("/api/transactions/mark-read", { method: "POST" });
+
       } catch (error) {
         console.error("Error fetching transactions:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
-    async function fetchUserStocks() {
-      try {
-        const res = await fetch("/api/user-stocks?all=true");
-        const data = await res.json();
-        if (data.success && Array.isArray(data.stocks)) {
-          setStockTransactions(data.stocks);
-        }
-      } catch (error) {
-        console.error("Error fetching user stocks:", error);
-      }
-    }
-
-    async function markAllRead() {
-      try {
-        await fetch("/api/transactions/mark-read", { method: "POST" });
-      } catch { }
-    }
-
-    fetchTransactions();
-    fetchUserStocks();
-    markAllRead();
+    fetchData();
   }, []);
 
   // Move renderCard outside useEffect
@@ -169,7 +168,13 @@ const TransactionPage = () => {
 
               {/* Received */}
               <TabsContent value="received">
-                {receivedTransactions.length === 0 ? (
+                {loading ? (
+                  <div className="flex flex-col gap-3">
+                    {[...Array(5)].map((_, i) => (
+                      <TransactionSkeleton key={i} />
+                    ))}
+                  </div>
+                ) : receivedTransactions.length === 0 ? (
                   <div className="text-center text-gray-400 py-8 text-base">
                     No received transactions found.
                   </div>
@@ -183,7 +188,13 @@ const TransactionPage = () => {
               </TabsContent>
               {/* Sent */}
               <TabsContent value="sent">
-                {sentTransactions.length === 0 ? (
+                {loading ? (
+                  <div className="flex flex-col gap-3">
+                    {[...Array(5)].map((_, i) => (
+                      <TransactionSkeleton key={i} />
+                    ))}
+                  </div>
+                ) :  sentTransactions.length === 0 ? (
                   <div className="text-center text-gray-400 py-8 text-base">
                     No sent transactions found.
                   </div>
@@ -197,7 +208,13 @@ const TransactionPage = () => {
               </TabsContent>
               {/* Stocks */}
               <TabsContent value="stocks">
-                {stockTransactions.length === 0 ? (
+                {loading ? (
+                  <div className="flex flex-col gap-3">
+                    {[...Array(5)].map((_, i) => (
+                      <TransactionSkeleton key={i} />
+                    ))}
+                  </div>
+                ) : stockTransactions.length === 0 ? (
                   <div className="text-center text-gray-400 py-8 text-base">
                     No stock transactions found.
                   </div>

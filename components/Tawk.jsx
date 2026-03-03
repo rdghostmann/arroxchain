@@ -15,7 +15,7 @@ const Tawk = () => {
     const script = document.createElement("script");
     script.id = "tawk-script";
     script.async = true;
-    script.src = "https://embed.tawk.to/69a2e4affa890a1c3951b767/1jii4s3pf";
+    script.src = "https://embed.tawk.to/69a6a3c59c0b151c351244a7/1jipevft6";
     script.charset = "UTF-8";
     script.setAttribute("crossorigin", "*");
 
@@ -28,7 +28,7 @@ const Tawk = () => {
   }, []);
 
   return (
-    <div className="z-100 fixed bottom-0 right-0" title="Chat with us">
+    <div className="z-100 fixed bottom-20 right-0" title="Chat with us">
       {/* Tawk widget loads automatically; no UI needed */}
     </div>
   );

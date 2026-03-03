@@ -103,7 +103,7 @@ export function FooterSection() {
               <li>
                 <span className="block font-medium text-foreground mb-1">Email:</span>
                 <Link
-                  href="https://tawk.to/chat/696100a5c157871980786a0f/1jehel1ui"
+                  href="https://tawk.to/chat/69a6a3c59c0b151c351244a7/1jipevft6"
                   className="hover:text-primary transition"
                 >
                   support@arroxchain.com
@@ -112,7 +112,7 @@ export function FooterSection() {
               <li>
                 <span className="block font-medium text-foreground mb-1">Support:</span>
                 <Link
-                  href="https://tawk.to/chat/696100a5c157871980786a0f/1jehel1ui"
+                  href="https://tawk.to/chat/69a6a3c59c0b151c351244a7/1jipevft6"
                   className="hover:text-primary transition"
                 >
                   support@arroxchain.com

@@ -220,15 +220,15 @@ export default function Page() {
                     </Select>
                   </div>
 
-                  <div className="flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={handleInterchange}
-                      className="p-3 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/25 hover:scale-110 active:scale-95 transition-all duration-200"
-                    >
-                      <ArrowLeftRight className="w-5 h-5" />
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleInterchange();
+                    }}
+                    className="group p-3 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/25 transition-all duration-300"
+                  >
+                    <ArrowLeftRight className="w-5 h-5 transition-transform duration-500 group-active:rotate-180" />
+                  </button>
 
                   <div className="flex-1">
                     <Label className="text-muted-foreground mb-1 block">To</Label>

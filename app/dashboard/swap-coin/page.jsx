@@ -62,8 +62,7 @@ export default function Page() {
   const [equivalent, setEquivalent] = useState("");
   const [priceLoading, setPriceLoading] = useState(false);
 
-  const getNetworks = (coinValue) =>
-    coins.find((c) => c.value === coinValue)?.networks || [];
+  const getNetworks = (coinValue) => coins.find((c) => c.value === coinValue)?.networks || [];
 
   async function fetchEquivalentAmount(amount, from, to) {
     if (!amount || !from || !to) return setEquivalent("");
@@ -145,6 +144,22 @@ export default function Page() {
 
   const toCoins = coins.filter((coin) => coin.value !== swapFrom);
 
+  const handleInterchange = () => {
+    // swap coin values
+    const tempCoin = swapFrom;
+    const tempNetwork = swapFromNetwork;
+
+    setSwapFrom(swapTo);
+    setSwapFromNetwork(swapToNetwork);
+
+    setSwapTo(tempCoin);
+    setSwapToNetwork(tempNetwork);
+
+    // Recalculate equivalent after swap
+    if (amount) {
+      fetchEquivalentAmount(amount, swapTo, tempCoin);
+    }
+  };
   return (
     <div className="relative min-h-screen w-full">
       <Toaster richColors position="top-center" />
@@ -169,7 +184,7 @@ export default function Page() {
             <CardContent>
               <form onSubmit={handleSwap} className="space-y-6">
                 {/* Swap From/To */}
-                <div className="flex flex-col items-center justify-between sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row items-center gap-6">
                   <div className="flex-1">
                     <Label className="text-muted-foreground mb-1 block">From</Label>
                     <Select value={swapFrom} onValueChange={handleSwapFrom} required>
@@ -205,10 +220,14 @@ export default function Page() {
                     </Select>
                   </div>
 
-                  <div className="flex items-center justify-center py-2">
-                    <div className="p-2 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/25">
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={handleInterchange}
+                      className="p-3 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/25 hover:scale-110 active:scale-95 transition-all duration-200"
+                    >
                       <ArrowLeftRight className="w-5 h-5" />
-                    </div>
+                    </button>
                   </div>
 
                   <div className="flex-1">
@@ -266,8 +285,8 @@ export default function Page() {
                     {priceLoading
                       ? "Loading..."
                       : equivalent && swapTo
-                      ? `≈ ${equivalent} ${coins.find(c => c.value === swapTo)?.label}`
-                      : ""}
+                        ? `≈ ${equivalent} ${coins.find(c => c.value === swapTo)?.label}`
+                        : ""}
                   </div>
                 </div>
 

@@ -41,11 +41,9 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
         <div className="absolute -bottom-24 -right-20 w-72 h-72 bg-indigo-500/30 rounded-full blur-[120px] opacity-60 animate-pulse" />
       </div>
 
-      {/* 🔥 Animated Gradient Border */}
-      {/* 🔥 Gradient Border (No Rotation) */}
-      <div className="relative rounded-3xl p-px bg-linear-to-r from-primary via-indigo-500 to-primary">
+      <div className="relative rounded-3xl p-2 bg-linear-to-r from-primary via-indigo-500 to-primary">
 
-        <div className="rounded-3xl bg-card/80 backdrop-blur-2xl relative overflow-hidden shadow-2xl shadow-black/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-primary/30">
+        <div className="p-4 rounded-3xl bg-card/80 backdrop-blur-2xl relative overflow-hidden shadow-2xl shadow-black/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-primary/30">
 
           {/* Radial Light Highlight */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent_40%)] pointer-events-none" />

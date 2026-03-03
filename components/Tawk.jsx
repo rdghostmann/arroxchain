@@ -15,7 +15,7 @@ const Tawk = () => {
     const script = document.createElement("script");
     script.id = "tawk-script";
     script.async = true;
-    script.src = "https://embed.tawk.to/696100a5c157871980786a0f/1jehel1ui";
+    script.src = "https://embed.tawk.to/69a2e4affa890a1c3951b767/1jii4s3pf";
     script.charset = "UTF-8";
     script.setAttribute("crossorigin", "*");
 
@@ -35,3 +35,4 @@ const Tawk = () => {
 };
 
 export default Tawk;
+

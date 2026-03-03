@@ -30,7 +30,7 @@ export default async function DashboardPage() {
 
         {/* Welcome */}
         <div className="mt-6 mb-12">
-          <h1 className="text-4xl font-bold tracking-tight mb-6 leading-tight text-foreground">
+          <h1 className="hidden text-4xl font-bold tracking-tight mb-6 leading-tight text-foreground">
             Welcome back{user ? `, ${user.username || ""}` : ""} 👋
           </h1>
           <p className="text-muted-foreground mt-3 max-w-xl text-lg">

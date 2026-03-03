@@ -72,7 +72,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 					<div className="absolute w-32 h-30 bg-primary/30 rounded-full top-[-40px] right-[-40px] opacity-30" />
 					<div className="absolute w-15 h-15 bg-primary/20 rounded-full bottom-[-20px] left-[-20px] opacity-30" />
 						{/* Chip */}
-						<div className="hidden absolute left-8 top-16 w-10 h-7 bg-linear-to-r from-gray-300 to-gray-500 rounded-md border border-gray-400 shadow-inner flex items-center justify-center">
+						<div className="hidden absolute left-8 top-16 w-10 h-7 bg-linear-to-r from-gray-300 to-gray-500 rounded-md border border-gray-400 shadow-inner items-center justify-center">
 							<div className="w-6 h-2 bg-gray-400 rounded-sm" />
 						</div>
 						{/* Card Logo & Brand */}

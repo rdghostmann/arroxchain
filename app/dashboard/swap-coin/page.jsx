@@ -150,7 +150,7 @@ export default function Page() {
       <Toaster richColors position="top-center" />
       {/* Gradient background covers the whole page */}
       <div className="fixed inset-0 bg-background" />
-      <div className="relative z-10 min-h-screen flex flex-col overflow-auto">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
         <NavHeader className="text-foreground" />
         <div className="flex flex-1 items-center justify-center px-2 sm:px-0 mb-8">
           {/* Glow Effects */}

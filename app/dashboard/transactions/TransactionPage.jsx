@@ -127,7 +127,7 @@ const TransactionPage = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-bl from-[#05011aff] via-[#000000] to-[#001F3F] py-6 px-2 sm:px-4">
-      <div className="max-w-5xl mx-auto w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
         <NavHeader />
         <Card className="border-none bg-black/30 shadow-xl backdrop-blur-lg">
           <CardHeader>

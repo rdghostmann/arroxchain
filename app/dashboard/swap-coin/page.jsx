@@ -169,7 +169,7 @@ export default function Page() {
             <CardContent>
               <form onSubmit={handleSwap} className="space-y-6">
                 {/* Swap From/To */}
-                <div className="flex flex-col sm:flex-row gap-4 items-stretch">
+                <div className="flex flex-col items-center justify-between sm:flex-row gap-4">
                   <div className="flex-1">
                     <Label className="text-muted-foreground mb-1 block">From</Label>
                     <Select value={swapFrom} onValueChange={handleSwapFrom} required>

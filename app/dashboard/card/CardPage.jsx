@@ -126,24 +126,28 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 				<Label htmlFor="deposit-address" className="font-semibold text-base text-muted-foreground">
 						Deposit Address
 					</Label>
-					<div className="flex mt-2">
+					<div className="relative flex mt-2">
 						<Input
 							id="deposit-address"
 							value={depositAddress}
 							readOnly
-							className="rounded-l-lg border-r-0 bg-slate-800 text-white font-mono"
+							className="w-full rounded-l-lg border-r-0 bg-slate-800 text-white font-mono"
 						/>
 						<Button
 							type="button"
 							variant="outline"
-							className="rounded-r-lg border-l-0 bg-blue-600 hover:bg-blue-700 text-white"
+							className="absolute top-0 left-0 rounded-r-lg border-l-0 bg-blue-600 hover:bg-blue-700 text-white"
 							onClick={handleCopy}
 						>
 							<Copy className="w-4 h-4" />
 						</Button>
 					</div>
-					{copied && (
+					{copied ? (
 						<div className="text-green-400 text-xs mt-1">Copied!</div>
+					) : (
+						<div className="invisible text-muted-foreground text-xs mt-1">
+							Click the copy icon to copy the deposit address to your clipboard.
+						</div>
 					)}
 				</div>
 

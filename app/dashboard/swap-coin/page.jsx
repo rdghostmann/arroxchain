@@ -152,10 +152,10 @@ export default function Page() {
       <div className="fixed inset-0 bg-background" />
       <div className="relative z-10 min-h-screen flex flex-col overflow-auto">
         <NavHeader className="text-foreground" />
-        <div className="flex flex-1 items-center justify-center px-2 sm:px-0">
+        <div className="flex flex-1 items-center justify-center px-2 sm:px-0 mb-8">
           {/* Glow Effects */}
-          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-60 h-60 sm:w-[300px] sm:h-[300px] bg-primary/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-4 sm:right-20 w-36 h-36 sm:w-[200px] sm:h-[200px] bg-primary/10 rounded-full blur-2xl" />
+          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-60 h-60 sm:w-75 sm:h-75 bg-primary/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-4 sm:right-20 w-36 h-36 sm:w-50 sm:h-50 bg-primary/10 rounded-full blur-2xl" />
 
           <Card className="w-full max-w-xl sm:max-w-xl bg-card border border-border backdrop-blur-xl rounded-2xl shadow-xl shadow-primary/20 z-10 px-2 py-4 sm:px-8 sm:py-8">
             <CardHeader>

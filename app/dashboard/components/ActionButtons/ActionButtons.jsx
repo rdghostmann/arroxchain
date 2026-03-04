@@ -14,7 +14,7 @@ import {
 // 🔧 Define action buttons (route-based)
 const actions = [
   { label: "Deposit", href: "/dashboard/deposit", icon: <Send size={20} /> },
-  { label: "Withdrawal", href: "/dashboard/withdrawal", icon: <ArrowDownToLine size={20} /> },
+  { label: "Withdrawal", href: "/dashboard/withdraw", icon: <ArrowDownToLine size={20} /> },
   { label: "Buy", href: "/dashboard/buy", icon: <WalletCards size={20} /> },
   { label: "Stocks", href: "/dashboard/stocks", icon: <LineChart size={20} /> },
   { label: "401k", href: "/dashboard/401k", icon: <Briefcase size={20} /> },

@@ -1,27 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavHeader from "../components/NavHeader/NavHeader";
 import { Card } from "@/components/ui/card";
 import { Send, Zap } from "lucide-react";
+import { getUserAssets } from "@/lib/api"; // same import as DepositPage
 
-/* --------------------------------------------------
-   CONSTANTS
--------------------------------------------------- */
+/* -------------------------------------------------- */
+/* CONSTANTS */
+/* -------------------------------------------------- */
 
 const ETH_FEE_PER_MILLION_USDT = 0.25;
 const MIN_WITHDRAW_USDT = 990_990;
 const COMPANY_WALLET = "0x0688353c8f46299781e1a33ade320e25983d2402";
 
-const MOCK_INTERNAL_USERS = [
-  { id: "user1", name: "Alice Johnson", email: "alice@company.com" },
-  { id: "user2", name: "Bob Smith", email: "bob@company.com" },
-  { id: "user3", name: "Carol Williams", email: "carol@company.com" },
-];
-
-/* --------------------------------------------------
-   WITHDRAW TYPE SELECTOR
--------------------------------------------------- */
+/* -------------------------------------------------- */
+/* WITHDRAW TYPE SELECTOR */
+/* -------------------------------------------------- */
 
 function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
   return (
@@ -55,7 +50,7 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
           <Zap className="w-8 h-8 text-emerald-600" />
           <h3 className="font-semibold">Internal Transfer</h3>
           <p className="text-xs text-muted-foreground text-center">
-            Transfer between accounts
+            Transfer using ArroxChain WalletID
           </p>
         </div>
       </button>
@@ -63,18 +58,46 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
   );
 }
 
-/* --------------------------------------------------
-   EXTERNAL WITHDRAW
--------------------------------------------------- */
+/* -------------------------------------------------- */
+/* ASSET SELECTOR */
+/* -------------------------------------------------- */
 
-function ExternalWithdrawal() {
+function AssetSelector({ assets, selectedAsset, setSelectedAsset }) {
+  return (
+    <div className="space-y-3">
+      {assets.map((asset) => (
+        <button
+          key={asset.id}
+          onClick={() => setSelectedAsset(asset)}
+          className={`w-full p-4 rounded-xl border text-left transition ${
+            selectedAsset?.id === asset.id
+              ? "border-primary bg-primary/10"
+              : "border-border hover:border-primary/40"
+          }`}
+        >
+          <div className="flex justify-between">
+            <span className="font-medium">{asset.symbol}</span>
+            <span className="text-sm text-muted-foreground">
+              {asset.balance}
+            </span>
+          </div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* -------------------------------------------------- */
+/* EXTERNAL WITHDRAW */
+/* -------------------------------------------------- */
+
+function ExternalWithdrawal({ selectedAsset }) {
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
 
   const amountNumber = Number(amount || 0);
-  const withdrawalUsd = amountNumber;
-  const withdrawalMillions = withdrawalUsd / 1_000_000;
+  const withdrawalMillions = amountNumber / 1_000_000;
 
   const networkFeeEth =
     withdrawalMillions > 0
@@ -82,12 +105,19 @@ function ExternalWithdrawal() {
       : 0;
 
   const insufficientMinimum =
-    withdrawalUsd > 0 && withdrawalUsd < MIN_WITHDRAW_USDT;
+    amountNumber > 0 && amountNumber < MIN_WITHDRAW_USDT;
+
+  if (!selectedAsset) {
+    return (
+      <p className="text-sm text-muted-foreground">
+        Please select an asset first.
+      </p>
+    );
+  }
 
   return (
     <div className="space-y-6">
 
-      {/* STEP INDICATOR */}
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-blue-600" : "text-muted-foreground"}>
           1. Details
@@ -97,11 +127,10 @@ function ExternalWithdrawal() {
         </span>
       </div>
 
-      {/* STEP 1 */}
       {step === 1 && (
         <div className="space-y-4">
           <input
-            placeholder="Wallet Address"
+            placeholder="External Wallet Address"
             value={walletAddress}
             onChange={(e) =>
               setWalletAddress(e.target.value.slice(0, 42))
@@ -111,16 +140,14 @@ function ExternalWithdrawal() {
 
           <input
             type="number"
-            placeholder="Amount (USDT)"
+            placeholder={`Amount (${selectedAsset.symbol})`}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             className="w-full p-3 rounded-xl border bg-background"
           />
 
           <div className="text-xs text-muted-foreground space-y-1">
-            <p>
-              Estimated Network Fee: {networkFeeEth.toFixed(4)} ETH
-            </p>
+            <p>Estimated Network Fee: {networkFeeEth.toFixed(4)} ETH</p>
             {insufficientMinimum && (
               <p className="text-yellow-500">
                 Minimum withdrawal is 1,000,000 USDT
@@ -144,13 +171,16 @@ function ExternalWithdrawal() {
         </div>
       )}
 
-      {/* STEP 2 */}
       {step === 2 && (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl border bg-muted/20 space-y-2 text-sm">
+          <div className="p-4 rounded-xl border bg-muted/20 text-sm space-y-2">
+            <div className="flex justify-between">
+              <span>Asset</span>
+              <span>{selectedAsset.symbol}</span>
+            </div>
             <div className="flex justify-between">
               <span>Amount</span>
-              <span>{amount} USDT</span>
+              <span>{amount}</span>
             </div>
             <div className="flex justify-between">
               <span>Network Fee</span>
@@ -182,23 +212,31 @@ function ExternalWithdrawal() {
   );
 }
 
-/* --------------------------------------------------
-   INTERNAL TRANSFER
--------------------------------------------------- */
+/* -------------------------------------------------- */
+/* INTERNAL TRANSFER */
+/* -------------------------------------------------- */
 
-function InternalWithdrawal() {
+function InternalWithdrawal({ selectedAsset }) {
   const [step, setStep] = useState(1);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [walletId, setWalletId] = useState("");
   const [amount, setAmount] = useState("");
 
   const amountNumber = Number(amount || 0);
+
+  if (!selectedAsset) {
+    return (
+      <p className="text-sm text-muted-foreground">
+        Please select an asset first.
+      </p>
+    );
+  }
 
   return (
     <div className="space-y-6">
 
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-emerald-600" : "text-muted-foreground"}>
-          1. Recipient
+          1. Details
         </span>
         <span className={step === 2 ? "text-emerald-600" : "text-muted-foreground"}>
           2. Confirm
@@ -207,34 +245,24 @@ function InternalWithdrawal() {
 
       {step === 1 && (
         <div className="space-y-4">
-          {MOCK_INTERNAL_USERS.map((user) => (
-            <button
-              key={user.id}
-              onClick={() => setSelectedUser(user)}
-              className={`w-full p-4 rounded-xl border text-left ${
-                selectedUser?.id === user.id
-                  ? "border-emerald-500 bg-emerald-500/10"
-                  : "border-border"
-              }`}
-            >
-              <p className="font-medium">{user.name}</p>
-              <p className="text-xs text-muted-foreground">
-                {user.email}
-              </p>
-            </button>
-          ))}
+          <input
+            placeholder="ArroxChain WalletID (e.g. ARR-32231)"
+            value={walletId}
+            onChange={(e) => setWalletId(e.target.value.toUpperCase())}
+            className="w-full p-3 rounded-xl border bg-background"
+          />
 
           <input
             type="number"
-            placeholder="Amount"
+            placeholder={`Amount (${selectedAsset.symbol})`}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full p-3 rounded-xl border"
+            className="w-full p-3 rounded-xl border bg-background"
           />
 
           <div className="flex justify-end">
             <button
-              disabled={!selectedUser || amountNumber <= 0}
+              disabled={!walletId || amountNumber <= 0}
               onClick={() => setStep(2)}
               className="px-6 py-2 bg-emerald-600 text-white rounded-xl disabled:opacity-50"
             >
@@ -246,10 +274,14 @@ function InternalWithdrawal() {
 
       {step === 2 && (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl border bg-emerald-500/10 space-y-2 text-sm">
+          <div className="p-4 rounded-xl border bg-emerald-500/10 text-sm space-y-2">
             <div className="flex justify-between">
               <span>Recipient</span>
-              <span>{selectedUser?.name}</span>
+              <span>{walletId}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Asset</span>
+              <span>{selectedAsset.symbol}</span>
             </div>
             <div className="flex justify-between">
               <span>Amount</span>
@@ -278,33 +310,63 @@ function InternalWithdrawal() {
   );
 }
 
-/* --------------------------------------------------
-   MAIN PAGE
--------------------------------------------------- */
+/* -------------------------------------------------- */
+/* MAIN PAGE */
+/* -------------------------------------------------- */
 
 export default function WithdrawPage() {
   const [withdrawalType, setWithdrawalType] = useState("external");
+  const [assets, setAssets] = useState([]);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadAssets() {
+      try {
+        const data = await getUserAssets();
+        setAssets(data || []);
+      } catch (err) {
+        console.error("Failed to load assets:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadAssets();
+  }, []);
 
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="relative min-h-screen w-full mb-10">
       <NavHeader className="text-foreground" />
 
       <div className="flex flex-1 items-center justify-center px-2 sm:px-0 mb-8">
         <Card className="w-full max-w-3xl p-6 space-y-6">
           <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 
-          <WithdrawalTypeSelector
-            withdrawalType={withdrawalType}
-            setWithdrawalType={setWithdrawalType}
-          />
+          {loading ? (
+            <p className="text-sm text-muted-foreground">Loading assets...</p>
+          ) : (
+            <>
+              <AssetSelector
+                assets={assets}
+                selectedAsset={selectedAsset}
+                setSelectedAsset={setSelectedAsset}
+              />
 
-          <div className="border-t pt-6">
-            {withdrawalType === "external" ? (
-              <ExternalWithdrawal />
-            ) : (
-              <InternalWithdrawal />
-            )}
-          </div>
+              <WithdrawalTypeSelector
+                withdrawalType={withdrawalType}
+                setWithdrawalType={setWithdrawalType}
+              />
+
+              <div className="border-t pt-6">
+                {withdrawalType === "external" ? (
+                  <ExternalWithdrawal selectedAsset={selectedAsset} />
+                ) : (
+                  <InternalWithdrawal selectedAsset={selectedAsset} />
+                )}
+              </div>
+            </>
+          )}
         </Card>
       </div>
     </div>

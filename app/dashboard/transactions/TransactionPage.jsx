@@ -125,7 +125,7 @@ const TransactionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-bl from-[#05011aff] via-[#000000] to-[#001F3F] py-6 px-2 sm:px-4">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
         <NavHeader />
         <Card className="border-none bg-black/30 shadow-xl backdrop-blur-lg">
@@ -194,7 +194,7 @@ const TransactionPage = () => {
                       <TransactionSkeleton key={i} />
                     ))}
                   </div>
-                ) :  sentTransactions.length === 0 ? (
+                ) : sentTransactions.length === 0 ? (
                   <div className="text-center text-gray-400 py-8 text-base">
                     No sent transactions found.
                   </div>

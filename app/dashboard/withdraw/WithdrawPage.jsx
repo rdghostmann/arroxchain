@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavHeader from "../components/NavHeader/NavHeader";
 import { Card } from "@/components/ui/card";
 import { Send, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import useUserAssets from "@/hooks/useUserAssets";
 
 /* -------------------------------------------------- */
 /* CONSTANTS */
@@ -67,7 +68,9 @@ function ExternalWithdrawal({ selectedAsset }) {
 
   return (
     <div className="space-y-6">
-      <div className="text-sm text-gray-400">Current Balance: {userBalance} {selectedAsset.symbol}</div>
+      <div className="text-sm text-gray-400">
+        Current Balance: {userBalance} {selectedAsset.symbol}
+      </div>
 
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-blue-600" : "text-muted-foreground"}>1. Details</span>
@@ -162,7 +165,9 @@ function InternalWithdrawal({ selectedAsset }) {
 
   return (
     <div className="space-y-6">
-      <div className="text-sm text-gray-400">Current Balance: {userBalance} {selectedAsset.symbol}</div>
+      <div className="text-sm text-gray-400">
+        Current Balance: {userBalance} {selectedAsset.symbol}
+      </div>
 
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-emerald-600" : "text-muted-foreground"}>1. Details</span>
@@ -236,26 +241,14 @@ function InternalWithdrawal({ selectedAsset }) {
 /* -------------------------------------------------- */
 /* MAIN PAGE */
 export default function WithdrawPage() {
+  const { assets: userAssets, loading: loadingAssets } = useUserAssets();
   const [withdrawalType, setWithdrawalType] = useState("external");
-  const [userAssets, setUserAssets] = useState([]);
   const [selectedAsset, setSelectedAsset] = useState(null);
-  const [loadingAssets, setLoadingAssets] = useState(true);
 
-  useEffect(() => {
-    async function fetchAssets() {
-      try {
-        const res = await fetch("/api/user-assets");
-        const data = await res.json();
-        setUserAssets(data.assets || []);
-        if (data.assets?.length > 0) setSelectedAsset(data.assets[0]);
-      } catch {
-        setUserAssets([]);
-      } finally {
-        setLoadingAssets(false);
-      }
-    }
-    fetchAssets();
-  }, []);
+  // Update selectedAsset when assets load
+  if (!selectedAsset && userAssets.length > 0) {
+    setSelectedAsset(userAssets[0]);
+  }
 
   return (
     <div className="relative min-h-screen w-full mb-10">

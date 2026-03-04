@@ -29,7 +29,7 @@ export default async function DashboardPage() {
         <NavHeader />
 
         {/* Welcome */}
-        <div className="mt-6 mb-12">
+        <div className="px-4 sm:px-6 lg:px-10 mt-6 mb-12">
           <h1 className="hidden text-4xl font-bold tracking-tight mb-6 leading-tight text-foreground">
             Welcome back{user ? `, ${user.username || ""}` : ""} 👋
           </h1>

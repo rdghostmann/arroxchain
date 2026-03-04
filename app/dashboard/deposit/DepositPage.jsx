@@ -200,6 +200,49 @@ export default function DepositPage() {
     return (
         <div className="min-h-screen flex items-center justify-center p-6">
             <div className="w-full max-w-3xl">
+                {/* Header & Notice */}
+                <div className="mb-8">
+                    <h1 className="text-2xl font-bold text-white mb-2">Choose Deposit Type</h1>
+                    <p className="text-gray-400">Add funds to your account</p>
+
+                    {/* Notice as styled unordered list */}
+                    <div className="bg-linear-to-br from-cyan-900/20 to-cyan-800/10 rounded-2xl p-6 border border-cyan-500/20 shadow-xl mb-8">
+                        <div className="mb-4">
+                            {/* <h3 className="font-bold text-lg text-white mb-1">Important Notice</h3> */}
+                            <p className="text-cyan-300 text-sm font-medium">Follow the correct deposit procedure</p>
+                        </div>
+
+                        <ul className="space-y-4">
+                            <li className="flex items-start justify-between gap-3">
+                                <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-cyan-500/30">
+                                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                                </div>
+                                <span className="flex-1 text-left text-xs md:text-sm text-gray-200">
+                                    Use External Transfer for amounts below 1,000,000 USDT (wallet address only).
+                                </span>
+                            </li>
+
+                            <li className="flex items-start justify-between gap-3">
+                                <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-cyan-500/30">
+                                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                                </div>
+                                <span className="flex-1 text-left text-xs md:text-sm text-gray-200">
+                                    Use Internal Transfer for amounts above 1,000,000 USDT (wallet ID & compliance address).
+                                </span>
+                            </li>
+
+                            <li className="flex items-start justify-between gap-3">
+                                <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-cyan-500/30">
+                                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                                </div>
+                                <span className="flex-1 text-left text-xs md:text-sm text-gray-200">
+                                    Please follow the correct procedure to avoid loss of funds.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
 
                 {/* Balance Display */}
                 {!loadingAssets && (

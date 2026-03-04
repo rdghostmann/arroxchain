@@ -257,7 +257,8 @@ export default function DepositPage() {
 
                 {step === 'form' && (
                     <>
-                        <Tabs
+                      <div className='w-10/12 mx-auto'>
+                          <Tabs
                             value={transferType}
                             onValueChange={(v) => {
                                 setTransferType(v);
@@ -265,7 +266,7 @@ export default function DepositPage() {
                                 setAmount('');
                                 setTransactionPin('');
                             }}
-                            className="mb-6"
+                            className="w-full mb-6"
                         >
                             <TabsList className="grid grid-cols-2 bg-slate-800">
                                 <TabsTrigger value="external">
@@ -276,6 +277,7 @@ export default function DepositPage() {
                                 </TabsTrigger>
                             </TabsList>
                         </Tabs>
+                      </div>
 
                         <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 space-y-6">
 

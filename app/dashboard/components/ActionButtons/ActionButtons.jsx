@@ -1,3 +1,4 @@
+// ActionButton.jsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -5,7 +6,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowDownToLine,
-  Coins,
   Send,
   WalletCards,
   Briefcase,
@@ -14,7 +14,6 @@ import {
   Copy,
   X,
   Download,
-  Camera,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -86,7 +85,7 @@ function QRModal({ address, coinLabel, onClose }) {
             className="w-56 h-56 bg-white p-2 rounded-lg shadow"
           />
 
-          <div className="w-full break-words font-mono text-sm bg-card/50 p-2 rounded border border-border text-foreground text-center">{address}</div>
+          <div className="w-full wrap-break-word font-mono text-sm bg-card/50 p-2 rounded border border-border text-foreground text-center">{address}</div>
 
           <div className="flex w-full gap-3">
             <button
@@ -223,8 +222,8 @@ function DepositModal({ onClose }) {
                   <button
                     onClick={() => handleCopy(address)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all shadow ${copied
-                        ? "bg-emerald-600 text-white scale-105"
-                        : "bg-primary text-primary-foreground hover:opacity-90"
+                      ? "bg-emerald-600 text-white scale-105"
+                      : "bg-primary text-primary-foreground hover:opacity-90"
                       }`}
                   >
                     <Copy size={14} />

@@ -1,3 +1,4 @@
+// SwapCoinPage.jsx
 "use client";
 import { useState } from "react";
 import {
@@ -61,6 +62,8 @@ export default function Page() {
   const [error, setError] = useState("");
   const [equivalent, setEquivalent] = useState("");
   const [priceLoading, setPriceLoading] = useState(false);
+
+  const [isSwapping, setIsSwapping] = useState(false);
 
   const getNetworks = (coinValue) => coins.find((c) => c.value === coinValue)?.networks || [];
 
@@ -145,21 +148,28 @@ export default function Page() {
   const toCoins = coins.filter((coin) => coin.value !== swapFrom);
 
   const handleInterchange = () => {
-    // swap coin values
-    const tempCoin = swapFrom;
-    const tempNetwork = swapFromNetwork;
+    if (!swapFrom || !swapTo) return;
 
-    setSwapFrom(swapTo);
-    setSwapFromNetwork(swapToNetwork);
+    setIsSwapping(true);
 
-    setSwapTo(tempCoin);
-    setSwapToNetwork(tempNetwork);
+    const newFrom = swapTo;
+    const newFromNetwork = swapToNetwork;
+    const newTo = swapFrom;
+    const newToNetwork = swapFromNetwork;
 
-    // Recalculate equivalent after swap
+    setSwapFrom(newFrom);
+    setSwapFromNetwork(newFromNetwork);
+    setSwapTo(newTo);
+    setSwapToNetwork(newToNetwork);
+
     if (amount) {
-      fetchEquivalentAmount(amount, swapTo, tempCoin);
+      fetchEquivalentAmount(amount, newFrom, newTo);
     }
+
+    setTimeout(() => setIsSwapping(false), 300);
   };
+
+
   return (
     <div className="relative min-h-screen w-full">
       <Toaster richColors position="top-center" />
@@ -184,8 +194,10 @@ export default function Page() {
             <CardContent>
               <form onSubmit={handleSwap} className="space-y-6">
                 {/* Swap From/To */}
-                <div className="flex flex-col sm:flex-row items-center gap-6">
-                  <div className="flex-1">
+                <div
+                  className={`relative flex flex-col sm:flex-row items-center gap-6 transition-all duration-300 ${isSwapping ? "scale-[0.98] opacity-80" : ""
+                    }`}
+                >                  <div className="flex-1">
                     <Label className="text-muted-foreground mb-1 block">From</Label>
                     <Select value={swapFrom} onValueChange={handleSwapFrom} required>
                       <SelectTrigger className="bg-card/50 text-foreground border border-border h-10 rounded-lg">
@@ -222,10 +234,14 @@ export default function Page() {
 
                   <button
                     type="button"
-                    onClick={() => {
-                      handleInterchange();
-                    }}
-                    className="group p-3 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/25 transition-all duration-300"
+                    onClick={handleInterchange}
+                    className="
+    sm:absolute sm:left-1/2 sm:-translate-x-1/2
+    group p-3 bg-primary text-primary-foreground 
+    rounded-full shadow-lg shadow-primary/25
+    hover:scale-110 active:scale-95
+    transition-all duration-300 z-10
+  "
                   >
                     <ArrowLeftRight className="w-5 h-5 transition-transform duration-500 group-active:rotate-180" />
                   </button>

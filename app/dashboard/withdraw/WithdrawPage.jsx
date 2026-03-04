@@ -60,34 +60,6 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
   );
 }
 
-/* -------------------------------------------------- */
-/* ASSET SELECTOR */
-/* -------------------------------------------------- */
-
-function AssetSelector({ assets, selectedAsset, setSelectedAsset }) {
-  return (
-    <div className="space-y-3">
-      {assets.map((asset) => (
-        <button
-          key={asset.id}
-          onClick={() => setSelectedAsset(asset)}
-          className={`w-full p-4 rounded-xl border text-left transition ${
-            selectedAsset?.id === asset.id
-              ? "border-primary bg-primary/10"
-              : "border-border hover:border-primary/40"
-          }`}
-        >
-          <div className="flex justify-between">
-            <span className="font-medium">{asset.symbol}</span>
-            <span className="text-sm text-muted-foreground">
-              {asset.balance}
-            </span>
-          </div>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 /* -------------------------------------------------- */
 /* EXTERNAL WITHDRAW */
@@ -309,12 +281,7 @@ export default function WithdrawPage() {
             <p className="text-sm text-muted-foreground">Loading assets...</p>
           ) : (
             <>
-              <AssetSelector
-                assets={userAssets}
-                selectedAsset={selectedAsset}
-                setSelectedAsset={setSelectedAsset}
-              />
-
+         
               <WithdrawalTypeSelector
                 withdrawalType={withdrawalType}
                 setWithdrawalType={setWithdrawalType}

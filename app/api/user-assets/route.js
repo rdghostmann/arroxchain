@@ -1,3 +1,4 @@
+// app/api/user-assets/route.js
 import { NextResponse } from "next/server";
 import getUserAssets from "@/controllers/getUserAssets";
 

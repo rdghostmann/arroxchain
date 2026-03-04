@@ -1,8 +1,10 @@
+// AssetSection.jsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const coinSlugMap = {
   BTC: "bitcoin",
@@ -25,19 +27,24 @@ export default function AssetSection() {
   const router = useRouter();
 
   useEffect(() => {
+    let interval;
+
     async function fetchAssets() {
-      setLoading(true);
       try {
-        const assetsRes = await fetch("/api/user-assets");
-        const assetsData = await assetsRes.json();
-        setAssets(assetsData.assets || []);
-      } catch (error) {
+        const res = await fetch("/api/user-assets");
+        const data = await res.json();
+        setAssets(data.assets || []);
+      } catch {
         setAssets([]);
       } finally {
         setLoading(false);
       }
     }
+
     fetchAssets();
+    interval = setInterval(fetchAssets, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const SkeletonCard = () => (
@@ -49,11 +56,6 @@ export default function AssetSection() {
       <div className="h-4 w-20 bg-slate-300/20 rounded"></div>
       <div className="h-4 w-20 bg-slate-300/20 rounded"></div>
       <div className="h-4 w-20 bg-slate-300/20 rounded"></div>
-
-
-
-
-
     </Card>
   );
 
@@ -90,19 +92,13 @@ export default function AssetSection() {
             <p className="text-muted-foreground mb-4">
               Your wallet is empty. Once you deposit or receive crypto, your assets will appear here.
             </p>
-            {/* <button
-              className="bg-primary text-primary-foreground hover:opacity-90 font-semibold px-6 py-2 rounded transition shadow-lg shadow-primary/25"
-              onClick={() => router.push("/dashboard")}
-            >
-              Top Up Now
-            </button> */}
 
-            <button
+            <Button
               className="bg-emerald-600 text-white hover:bg-emerald-700 font-semibold px-6 py-2 rounded transition shadow-md shadow-emerald-500/20"
-              onClick={() => window.location.reload()}
+              onClick={() => router.push("/dashboard/deposit")}
             >
               Top Up Now
-            </button>
+            </Button>
 
           </div>
         </div>

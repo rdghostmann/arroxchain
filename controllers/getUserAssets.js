@@ -1,3 +1,4 @@
+// getUserAssets.js
 "use server";
 
 import axios from "axios";
@@ -50,7 +51,12 @@ export default async function getUserAssets() {
   }
 
   // Get unique coins
-  const coins = [...new Set(rawAssets.map(a => a.coin.toUpperCase()))];
+  // const coins = [...new Set(rawAssets.map(a => a.coin.toUpperCase()))];
+  const coins = [...new Set(rawAssets.map(a => a.coin)
+      .filter(Boolean)
+      .map(c => c.toUpperCase())
+  ),
+];
 
   const ids = coins
     .map(c => coinSlugMap[c])

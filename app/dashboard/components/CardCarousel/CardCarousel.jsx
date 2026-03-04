@@ -53,7 +53,7 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
           <div className="absolute top-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
 
           {/* Verified Badge */}
-          <div className="absolute top-6 right-6 flex items-center gap-2 text-xs sm:text-sm bg-white/5 text-green-500 px-4 py-1.5 rounded-full border border-primary/20 backdrop-blur-md shadow-md">
+          <div className="absolute top-4 right-4 flex items-center gap-2 text-xs sm:text-sm bg-white/5 text-green-500 px-4 py-1.5 rounded-full border border-primary/20 backdrop-blur-md shadow-md">
             <BadgeCheck size={16} />
            <span className="text-[10px] sm:text-sm font-semibold">Verified</span>
           </div>

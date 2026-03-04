@@ -24,7 +24,7 @@ export default function BalanceDisplay({ formattedBalance, assets = [], change24
         </div>
         <Button
           type="button"
-          className="ml-2 text-green-500 hover:text-primary/80 transition"
+          className="ml-2 text-white hover:text-white transition"
           onClick={() => setShow((v) => !v)}
           aria-label={show ? "Hide balance" : "Show balance"}
         >

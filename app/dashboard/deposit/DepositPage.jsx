@@ -1,3 +1,5 @@
+import NavHeader from "../components/NavHeader/NavHeader";
+
 export default function DepositPage() {
     return (
         <div className="relative min-h-screen w-full">

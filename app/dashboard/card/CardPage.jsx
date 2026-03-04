@@ -66,7 +66,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 				</div>
 
 				{/* Card Preview */}
-				<div className="w-full hidden justify-center mb-8">
+				<div className="w-full justify-center mb-8">
 				<div className="relative bg-linear-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-[370px] h-[220px] flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
 						{/* Decorative elements */}
 					<div className="absolute w-32 h-30 bg-primary/30 rounded-full top-[-40px] right-[-40px] opacity-30" />
@@ -136,7 +136,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 						<Button
 							type="button"
 							variant="outline"
-							className="absolute top-0 left-0 rounded-r-lg border-l-0 bg-blue-600 hover:bg-blue-700 text-white"
+							className="absolute top-0 right-0 rounded-r-lg border-l-0 bg-blue-600 hover:bg-blue-700 text-white"
 							onClick={handleCopy}
 						>
 							<Copy className="w-4 h-4" />

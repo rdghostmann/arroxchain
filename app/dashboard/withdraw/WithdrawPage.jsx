@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import NavHeader from "../components/NavHeader/NavHeader";
 import { Card } from "@/components/ui/card";
 import { Send, Zap } from "lucide-react";
-import { getUserAssets } from "@/lib/api"; // same import as DepositPage
+import getUserAssets from "@/controllers/getUserAssets";
+// import { getUserAssets } from "@/lib/api"; // same import as DepositPage
 
 /* -------------------------------------------------- */
 /* CONSTANTS */

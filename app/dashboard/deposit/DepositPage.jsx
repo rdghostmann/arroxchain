@@ -15,8 +15,8 @@ import {
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
-import { truncateAddress } from '@/lib/utils';
 import Cookies from 'js-cookie';
+import { truncateAddress } from '@/lib/utils';
 
 
 export default function DepositPage() {

@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import Cookies from 'js-cookie';
 import { truncateAddress } from '@/lib/utils';
+// import { truncateAddress } from '@/lib/utils';
 
 
 export default function DepositPage() {

@@ -163,7 +163,7 @@ export default function WithdrawPage() {
         ------------------------------- */}
         {selectedToken && selectedNetwork && (
           <div className="mt-4">
-            {withdrawalType === "external" ? (
+            {withdrawType === "external" ? (
               <ExternalWithdrawal
                 selectedAsset={selectedAsset}
                 selectedNetwork={selectedNetwork}

@@ -1,9 +1,7 @@
-// DepositPage.jsx
-
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Wallet, Shield, Copy, Coins, BanknoteArrowUp, EyeOff, Eye, Network } from 'lucide-react';
+import { Wallet, Shield, Copy, Coins, EyeOff, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -15,7 +13,8 @@ import { truncateAddress } from '@/lib/utils';
 import NavHeader from '../components/NavHeader/NavHeader';
 
 export default function DepositPage() {
-  // Tokens data
+
+  // TOKENS
   const tokens = [
     {
       symbol: 'USDT',
@@ -70,291 +69,273 @@ export default function DepositPage() {
     },
   ];
 
-  // State
+  // STATE
   const [transferType, setTransferType] = useState('external');
   const [selectedToken, setSelectedToken] = useState('USDT');
-  const [amount, setAmount] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [transactionPin, setTransactionPin] = useState('');
+  const [amount, setAmount] = useState('');
   const [showPinInput, setShowPinInput] = useState(false);
   const [step, setStep] = useState('form');
   const [remainingTime, setRemainingTime] = useState(0);
 
-  // Current token
-  const currentToken = tokens.find((t) => t.symbol === selectedToken) || tokens[0];
+  const currentToken = tokens.find(t => t.symbol === selectedToken) || tokens[0];
 
-  // Set default network when token changes
+  // DEFAULT NETWORK
   useEffect(() => {
-    const firstNetwork = currentToken?.networks?.[0]?.name || '';
-    setSelectedNetwork(firstNetwork);
-  }, [currentToken]);
+    if (currentToken?.networks?.length) {
+      setSelectedNetwork(currentToken.networks[0].name);
+    }
+  }, [selectedToken]);
 
-  // Auto-fill wallet address for external transfer
+  // AUTO WALLET ADDRESS
   useEffect(() => {
     if (transferType === 'external') {
       setWalletAddress(currentToken.receiveWalletAddress);
     } else {
       setWalletAddress('');
     }
-  }, [transferType, currentToken.receiveWalletAddress]);
+  }, [transferType, currentToken]);
 
-  // Restore deposit summary from cookies
+  // RESTORE COOKIE SESSION
   useEffect(() => {
-    const depositToken = Cookies.get('DepositTransacToken');
-    const expiresAt = Cookies.get('DepositTransacTokenExpires');
+    const token = Cookies.get('DepositTransacToken');
+    const expires = Cookies.get('DepositTransacTokenExpires');
 
-    if (!depositToken || !expiresAt) return;
+    if (!token || !expires) return;
 
-    const timeLeft = Math.max(Number(expiresAt) - Date.now(), 0);
-    if (timeLeft <= 0) return;
+    const timeLeft = Math.max(Number(expires) - Date.now(), 0);
 
-    setStep('summary');
-    setRemainingTime(Math.floor(timeLeft / 1000));
-    setWalletAddress(currentToken.receiveWalletAddress);
-  }, [currentToken.receiveWalletAddress]);
+    if (timeLeft > 0) {
+      setStep('summary');
+      setRemainingTime(Math.floor(timeLeft / 1000));
+    }
+  }, []);
 
-  // Countdown timer for summary expiration
+  // COUNTDOWN
   useEffect(() => {
     if (step === 'summary' && remainingTime > 0) {
-      const interval = setInterval(() => {
-        setRemainingTime((t) => {
+      const timer = setInterval(() => {
+        setRemainingTime(t => {
           if (t <= 1) {
             Cookies.remove('DepositTransacToken');
             Cookies.remove('DepositTransacTokenExpires');
             setStep('form');
-            setAmount('');
             return 0;
           }
           return t - 1;
         });
       }, 1000);
-      return () => clearInterval(interval);
+
+      return () => clearInterval(timer);
     }
   }, [step, remainingTime]);
 
-  // Validation
+  // VALIDATION
   const amountNumber = Number(amount);
   const invalidAmount = amountNumber <= 0 || isNaN(amountNumber);
-  const missingWallet = transferType === 'internal' && walletAddress.trim().length === 0;
-  const pinRequired = transferType === 'internal';
-  const missingPin = pinRequired && transactionPin.trim().length === 0;
-  const disableContinue = invalidAmount || missingWallet || missingPin;
-  const invalidWalletFormat =
-    transferType === "internal" &&
-    walletAddress.length > 0 &&
-    !walletAddress.startsWith("ARR-");
 
-  // Clipboard
-  const copyToClipboard = (value) => {
-    navigator.clipboard.writeText(value);
-    toast.success('Copied!');
+  const missingWallet =
+    transferType === 'internal' && walletAddress.trim().length === 0;
+
+  const invalidWalletFormat =
+    transferType === 'internal' &&
+    walletAddress.length > 0 &&
+    !walletAddress.startsWith('ARR-');
+
+  const missingPin =
+    transferType === 'internal' && transactionPin.trim().length === 0;
+
+  const disableContinue =
+    invalidAmount ||
+    missingWallet ||
+    invalidWalletFormat ||
+    missingPin;
+
+  // COPY
+  const copyToClipboard = async (value) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success('Copied!');
+    } catch {
+      toast.error('Copy failed');
+    }
   };
 
   const handleContinue = () => {
     if (transferType === 'external') {
       const token = Math.random().toString(36).substring(2);
-      const expiresAt = Date.now() + 90_000; // 1:30 min
+      const expiresAt = Date.now() + 90000;
+
       Cookies.set('DepositTransacToken', token, { expires: 1 });
       Cookies.set('DepositTransacTokenExpires', expiresAt.toString(), { expires: 1 });
     }
+
     setStep('summary');
   };
 
   return (
-    <div className="min-h-screen flex flex-1 items-center justify-center px-2 sm:px-0 mb-8 p-4 md:p-8">
-      <div className="w-full md:max-w-3xl mx-auto">
-        {/* Header */}
-        <NavHeader className="text-foreground" />
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
 
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">Choose Deposit Type</h1>
-          <p className="text-gray-400">Add funds to your account</p>
-        </div>
+        <NavHeader />
 
-        {/* Step 1: Form */}
         {step === 'form' && (
           <>
-            <Tabs
-              value={transferType}
-              onValueChange={(v) => {
-                setTransferType(v);
-                setWalletAddress('');
-                setShowPinInput(false);
-                setTransactionPin('');
-                setAmount('');
-              }}
-              className="mb-8"
-            >
-              <TabsList className="bg-slate-800 rounded-md p-1 grid grid-cols-2">
-                <TabsTrigger value="external">External Transfer</TabsTrigger>
-                <TabsTrigger value="internal">Internal Transfer</TabsTrigger>
+
+            <Tabs value={transferType} onValueChange={setTransferType} className="mb-6">
+              <TabsList className="grid grid-cols-2 bg-slate-800">
+                <TabsTrigger value="external">External</TabsTrigger>
+                <TabsTrigger value="internal">Internal</TabsTrigger>
               </TabsList>
             </Tabs>
 
-            <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 md:p-8 mb-8 backdrop-blur-sm">
-              {/* Token */}
-              <div className="mb-6">
-                <label className="text-gray-300 text-sm flex items-center gap-2 mb-2">
-                  <Coins className="w-4 h-4 text-blue-500" /> Select Token
-                </label>
-                <Select value={selectedToken} onValueChange={setSelectedToken}>
-                  <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white">
-                    <SelectValue placeholder="Select token" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700">
-                    {tokens.map((token) => (
-                      <SelectItem key={token.symbol} value={token.symbol} className="text-white focus:bg-slate-700">
-                        <div className="flex items-center gap-2">
-                          <Image src={token.imageLogo} alt={token.name} width={20} height={20} />
-                          <span>{token.name}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6">
 
-              {/* Network */}
-              <div className="mb-6">
-                <label className="text-gray-300 text-sm flex items-center gap-2 mb-2">
-                  <Network className="w-4 h-4 text-blue-500" /> Network
-                </label>
-                <Select value={selectedNetwork} onValueChange={setSelectedNetwork}>
-                  <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white">
-                    <SelectValue placeholder="Select network" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700">
-                    {currentToken.networks.map((network) => (
-                      <SelectItem key={network.name} value={network.name} className="text-white focus:bg-slate-700">
-                        <span>{network.name}</span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <h1 className="text-xl font-semibold mb-6">Deposit</h1>
 
-              {/* Wallet */}
-              <div className="mb-6">
-                <label className="text-gray-300 text-sm flex items-center gap-2 mb-2">
-                  <Wallet className="w-4 h-4 text-blue-500" />
-                  {transferType === 'external' ? 'Deposit Address' : 'Wallet ID'}
-                </label>
-                <Input
-                  type="text"
-                  placeholder={transferType === 'external' ? 'Auto-filled' : 'Enter Wallet ID (eg: ARR-123456)'}
-                  value={walletAddress}
-                  onChange={(e) => setWalletAddress(e.target.value)}
-                  className={`w-full bg-transparent border-b pb-2 outline-none text-white ${missingWallet || invalidWalletFormat
-                    ? 'border-red-500'
-                    : 'border-slate-600 focus:border-blue-500'
-                    }`}
-                  readOnly={transferType === 'external'}
-                />
+              {/* TOKEN */}
+              <Select value={selectedToken} onValueChange={setSelectedToken}>
+                <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                  <SelectValue />
+                </SelectTrigger>
 
-                {missingWallet && (
-                  <p className="text-xs text-red-400 mt-2">Wallet ID is required</p>
-                )}
+                <SelectContent>
+                  {tokens.map(token => (
+                    <SelectItem key={token.symbol} value={token.symbol}>
+                      <div className="flex items-center gap-2">
+                        <Image src={token.imageLogo} width={18} height={18} alt="" />
+                        {token.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-                {invalidWalletFormat && (
-                  <p className="text-xs text-red-400 mt-2">Invalid Wallet ID</p>
-                )}
-              </div>
+              {/* AMOUNT */}
+              <div className="mt-6">
+                <label className="text-sm text-gray-400">Amount</label>
 
-              {/* Amount */}
-              <div className="mb-6">
-                <label className="text-gray-300 text-sm flex items-center gap-2 mb-2">
-                  <BanknoteArrowUp className="w-4 h-4 text-blue-500" /> Enter Amount
-                </label>
                 <Input
                   type="number"
-                  placeholder="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-600 outline-none ${invalidAmount ? 'text-red-400' : ''
-                    }`}
+                  className="mt-2 bg-zinc-800 border-zinc-700"
                 />
-                {invalidAmount && <p className="text-xs text-red-400 mt-2">Enter a valid amount</p>}
               </div>
 
-              {/* PIN */}
-              {transferType === 'internal' && (
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-gray-300 text-sm flex items-center gap-2">
-                      <Shield className="w-4 h-4 text-blue-500" /> Transaction PIN
-                    </label>
-                    <Button onClick={() => setShowPinInput(!showPinInput)} className="text-blue-500 text-xs">
-                      {showPinInput ? <EyeOff className="w-4 h-4 text-blue-500" /> : <Eye className="w-4 h-4 text-blue-500" />}
-                    </Button>
+              {/* EXTERNAL */}
+              {transferType === 'external' && (
+                <div className="mt-6 text-center">
+
+                  <Image
+                    src={currentToken.qrCodeImg}
+                    alt="QR"
+                    width={200}
+                    height={200}
+                    className="mx-auto"
+                  />
+
+                  <div className="flex justify-center items-center gap-2 mt-4">
+                    <span className="text-sm">
+                      {truncateAddress(currentToken.receiveWalletAddress)}
+                    </span>
+
+                    <button onClick={() => copyToClipboard(currentToken.receiveWalletAddress)}>
+                      <Copy size={16} />
+                    </button>
                   </div>
-                  {showPinInput && (
-                    <Input
-                      type="password"
-                      placeholder="••••"
-                      value={transactionPin}
-                      onChange={(e) => setTransactionPin(e.target.value)}
-                      className={`w-full bg-transparent border-b pb-2 outline-none text-white ${missingPin ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                        }`}
-                    />
-                  )}
-                  {missingPin && showPinInput && <p className="text-xs text-red-400 mt-2">Transaction PIN is required</p>}
+
                 </div>
               )}
-            </div>
 
-            <Button
-              disabled={disableContinue}
-              className="w-full bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-600 text-white font-bold py-4 text-lg rounded-xl"
-              onClick={handleContinue}
-            >
-              Continue Deposit
-            </Button>
+              {/* INTERNAL */}
+              {transferType === 'internal' && (
+                <>
+                  <div className="mt-6">
+                    <label className="text-sm text-gray-400">Wallet ID</label>
+
+                    <Input
+                      value={walletAddress}
+                      onChange={(e) => setWalletAddress(e.target.value)}
+                      placeholder="ARR-123456"
+                      className="mt-2 bg-zinc-800 border-zinc-700"
+                    />
+                  </div>
+
+                  <div className="mt-4">
+                    <label className="text-sm text-gray-400">Transaction PIN</label>
+
+                    <div className="flex gap-2">
+                      <Input
+                        type={showPinInput ? 'text' : 'password'}
+                        value={transactionPin}
+                        onChange={(e) => setTransactionPin(e.target.value)}
+                        className="bg-zinc-800 border-zinc-700"
+                      />
+
+                      <Button
+                        type="button"
+                        onClick={() => setShowPinInput(!showPinInput)}
+                      >
+                        {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <Button
+                onClick={handleContinue}
+                disabled={disableContinue}
+                className="w-full mt-6 bg-green-500 text-black"
+              >
+                Continue
+              </Button>
+
+            </div>
           </>
         )}
 
-        {/* Step 2: Summary */}
+        {/* SUMMARY */}
         {step === 'summary' && (
-          <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 md:p-8 space-y-6">
-            {transferType === 'external' && (
-              <Image src={currentToken.qrCodeImg} alt={`${currentToken.symbol} QR Code`} width={220} height={220} className="mx-auto rounded-xl" />
-            )}
+          <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 space-y-4">
 
-            <div className="flex justify-between items-center">
-              <span>Token:</span>
-              <span className="flex items-center gap-2">
-                <div className={`w-6 h-6 rounded-full ${currentToken.color}`} />
-                {currentToken.name} ({currentToken.symbol})
-              </span>
+            <Image
+              src={currentToken.qrCodeImg}
+              width={200}
+              height={200}
+              alt="QR"
+              className="mx-auto"
+            />
+
+            <div className="flex justify-between">
+              <span>Token</span>
+              <span>{currentToken.symbol}</span>
             </div>
 
-            <div className="flex justify-between items-center">
-              <span>Network:</span>
-              <span>{currentToken.networks.find((n) => n.name === selectedNetwork)?.name || selectedNetwork}</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span>Amount:</span>
+            <div className="flex justify-between">
+              <span>Amount</span>
               <span>{amount}</span>
             </div>
 
-            <div className="flex justify-between items-center">
-              <span>{transferType === 'external' ? 'Receiving Wallet' : 'Wallet ID'}:</span>
-              <span className="flex items-center gap-2">
-                {truncateAddress(walletAddress)}
-                {transferType === 'external' && (
-                  <Button className="cursor-pointer" onClick={() => copyToClipboard(walletAddress)}>
-                    <Copy className="w-4 h-4 text-white" />
-                  </Button>
-                )}
-              </span>
+            <div className="flex justify-between">
+              <span>Network</span>
+              <span>{selectedNetwork}</span>
             </div>
 
-            <p className="text-xs text-gray-400 mt-2">
+            <div className="flex justify-between">
+              <span>Wallet</span>
+              <span>{truncateAddress(walletAddress)}</span>
+            </div>
+
+            <p className="text-xs text-gray-400">
               {remainingTime > 0
-                ? `Time remaining to complete transaction: ${Math.floor(remainingTime / 60)}:${('0' + (remainingTime % 60)).slice(-2)}`
+                ? `Time remaining: ${Math.floor(remainingTime / 60)}:${('0' + (remainingTime % 60)).slice(-2)}`
                 : 'Transaction expired'}
             </p>
+
           </div>
         )}
 

@@ -100,14 +100,14 @@ export default function WithdrawPage() {
     <div className="min-h-screen flex justify-center items-start p-6">
       <Card className="w-full max-w-3xl p-6 space-y-6">
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-center justify-between">
 
-          <button
+          <Button
             onClick={() => router.push("/dashboard")}
             className="text-sm text-blue-600 hover:underline"
           >
             ← Back
-          </button>
+          </Button>
 
           <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 

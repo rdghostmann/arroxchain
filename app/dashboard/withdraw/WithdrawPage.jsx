@@ -73,6 +73,7 @@ export default function WithdrawPage() {
     { symbol: "BTC", balance: 1.248 },
     { symbol: "USDT", balance: 2540000 },
     { symbol: "ETH", balance: 12.65 },
+    { symbol: "DOG", balance: 20.65 },
   ];
 
   /* ----------------------------------

@@ -158,7 +158,7 @@ export default function DepositPage() {
 
   return (
     <div className="min-h-screen flex flex-1 items-center justify-center px-2 sm:px-0 mb-8 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-24 relative z-10">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Choose Deposit Type</h1>

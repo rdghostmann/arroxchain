@@ -7,7 +7,6 @@ import { StepIndicator } from "./StepIndicator";
 
 const ETH_FEE_PER_MILLION_USDT = 0.25;
 const MIN_WITHDRAW_USDT = 990_990;
-const COMPANY_WALLET = "0x0688353c8f46299781e1a33ade320e25983d2402";
 
 // Validators
 const isValidEthAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr);

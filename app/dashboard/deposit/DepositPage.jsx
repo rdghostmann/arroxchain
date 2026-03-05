@@ -343,8 +343,8 @@ export default function DepositPage() {
               <span className="flex items-center gap-2">
                 {truncateAddress(walletAddress)}
                 {transferType === 'external' && (
-                  <Button onClick={() => copyToClipboard(walletAddress)}>
-                    <Copy className="w-4 h-4 text-gray-500" />
+                  <Button className="cursor-pointer" onClick={() => copyToClipboard(walletAddress)}>
+                    <Copy className="w-4 h-4 text-white" />
                   </Button>
                 )}
               </span>
@@ -357,6 +357,7 @@ export default function DepositPage() {
             </p>
           </div>
         )}
+
       </div>
     </div>
   );

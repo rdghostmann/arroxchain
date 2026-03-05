@@ -112,7 +112,7 @@ export default function WithdrawPage() {
                 setSelectedAsset(asset);
               }}
             >
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-50">
                 <SelectValue placeholder="Select Token" />
               </SelectTrigger>
 
@@ -152,7 +152,7 @@ export default function WithdrawPage() {
                   setSelectedNetwork(network);
                 }}
               >
-                <SelectTrigger className="w-[200px]">
+                <SelectTrigger className="w-50">
                   <SelectValue placeholder="Select Network" />
                 </SelectTrigger>
 
@@ -173,7 +173,7 @@ export default function WithdrawPage() {
             <label className="text-sm font-medium">Withdraw Type</label>
 
             <Select value={withdrawType} onValueChange={setWithdrawType}>
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-50">
                 <SelectValue placeholder="Withdraw Type" />
               </SelectTrigger>
 

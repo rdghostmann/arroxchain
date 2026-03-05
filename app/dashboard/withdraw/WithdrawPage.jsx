@@ -1,11 +1,13 @@
 // WithdrawPage.jsx
+
 "use client";
 
 import { useEffect, useState } from "react";
 import NavHeader from "../components/NavHeader/NavHeader";
 import { Card } from "@/components/ui/card";
 import { Send, Zap } from "lucide-react";
-import getUserAssets from "@/controllers/getUserAssets";
+import { toast } from 'sonner';
+
 
 /* -------------------------------------------------- */
 /* CONSTANTS */
@@ -57,33 +59,6 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
   );
 }
 
-/* -------------------------------------------------- */
-/* ASSET SELECTOR */
-/* -------------------------------------------------- */
-
-function AssetSelector({ assets, selectedAsset, setSelectedAsset }) {
-  return (
-    <div className="space-y-3">
-      {assets.map((asset) => (
-        <button
-          key={asset.id}
-          onClick={() => setSelectedAsset(asset)}
-          className={`w-full p-4 rounded-xl border text-left transition ${selectedAsset?.id === asset.id
-            ? "border-primary bg-primary/10"
-            : "border-border hover:border-primary/40"
-            }`}
-        >
-          <div className="flex justify-between">
-            <span className="font-medium">{asset.symbol}</span>
-            <span className="text-sm text-muted-foreground">
-              {asset.balance}
-            </span>
-          </div>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 /* -------------------------------------------------- */
 /* EXTERNAL WITHDRAW */

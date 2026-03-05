@@ -32,19 +32,21 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 			<div className="max-w-2xl mx-auto py-10 px-4 sm:px-8">
 				{/* Header */}
 				<div className="flex items-center justify-between mb-8">
-					<Link href="/dashboard">
+					<Link className="block" href="/dashboard">
 						<Button variant="ghost" className="flex items-center gap-2 text-foreground hover:bg-primary/20 rounded-lg transition">
 							<ChevronLeft className="w-5 h-5" />
 							Back
 						</Button>
 					</Link>
-					<h2 className="text-2xl font-bold text-primary">Deposit to Card</h2>
-					<Link
-						href="/dashboard/buy"
-						className="animate-bounce px-3 py-1 rounded-lg bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition hover:opacity-90"
-					>
-						Buy coin
-					</Link>
+					<div className="flex flex-col">
+						<h2 className="text-2xl font-bold text-primary">Deposit to Card</h2>
+						<Link
+							href="/dashboard/buy"
+							className="animate-bounce px-3 py-1 rounded-lg bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition hover:opacity-90"
+						>
+							Buy coin
+						</Link>
+					</div>
 				</div>
 
 				{/* Deposit Asset */}
@@ -66,7 +68,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 				</div>
 
 				{/* Card Preview */}
-				<div className="w-full justify-center mb-8">
+				<div className="w-[288px] mx-auto justify-center mb-8">
 					<div className="relative bg-linear-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-92.5 h-55 flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
 						{/* Decorative elements */}
 						<div className="absolute w-32 h-30 bg-primary/30 rounded-full -top-10 -right-10 opacity-30" />

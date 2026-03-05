@@ -105,7 +105,7 @@ export default function WithdrawPage() {
 
           <Button
             onClick={() => router.push("/dashboard")}
-            className="block text-sm text-blue-600 hover:underline"
+            className="bg-none block text-sm text-blue-600 hover:underline"
           >
             ← Back
           </Button>

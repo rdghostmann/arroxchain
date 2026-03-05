@@ -9,27 +9,28 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; // Shadcn Select
+} from "@/components/ui/select";
 import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
 
 export default function WithdrawPage() {
-  // -----------------------------------
-  // State
-  // -----------------------------------
-  const [selectedToken, setSelectedToken] = useState(null);
+
+  /* ----------------------------------
+     State
+  ---------------------------------- */
+
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const [selectedNetwork, setSelectedNetwork] = useState(null);
   const [withdrawType, setWithdrawType] = useState("external");
-  // -----------------------------------
-  // Tokens Data
-  // -----------------------------------
+
+  /* ----------------------------------
+     Tokens Data
+  ---------------------------------- */
+
   const tokens = [
     {
       symbol: "USDT",
       name: "Tether",
       imageLogo: "/tether-usdt-logo.png",
-      color: "from-green-500 to-blue-500",
-      receiveWalletAddress: "0x60B89377D92cA54D86f0319D160e4171E4761A9b",
-      qrCodeImg: "/eth-qrcode-img.png",
       networks: [
         { name: "ERC20", imageLogo: "/tether-usdt-logo.png" },
         { name: "Tron", imageLogo: "/tron-trx-logo.png" },
@@ -39,18 +40,12 @@ export default function WithdrawPage() {
       symbol: "BTC",
       name: "Bitcoin",
       imageLogo: "/bitcoin-btc-logo.png",
-      color: "from-orange-500 to-amber-500",
-      receiveWalletAddress: "bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n",
-      qrCodeImg: "/btc-qrcode-img.png",
       networks: [{ name: "Bitcoin", imageLogo: "/bitcoin-btc-logo.png" }],
     },
     {
       symbol: "ETH",
       name: "Ethereum",
       imageLogo: "/ethereum-eth-logo.png",
-      color: "from-purple-500 to-pink-500",
-      receiveWalletAddress: "0x0688353c8f46299781e1a33ade320e25983d2402",
-      qrCodeImg: "/eth-qrcode-img.png",
       networks: [
         { name: "Ethereum", imageLogo: "/ethereum-eth-logo.png" },
         { name: "Polygon", imageLogo: "/polygon-matic-logo.png" },
@@ -58,81 +53,104 @@ export default function WithdrawPage() {
     },
   ];
 
-  // -----------------------------------
-  // Handlers
-  // -----------------------------------
-  const handleExternalConfirm = (data) => console.log("External Withdrawal:", data);
-  const handleInternalConfirm = (data) => console.log("Internal Transfer:", data);
+  /* ----------------------------------
+     Mock User Wallet Assets
+  ---------------------------------- */
 
-  // Update network when token changes
+  const mockUserAssets = [
+    { symbol: "BTC", balance: 1.248 },
+    { symbol: "USDT", balance: 2540000 },
+    { symbol: "ETH", balance: 12.65 },
+  ];
+
+  /* ----------------------------------
+     Update network when asset changes
+  ---------------------------------- */
+
   useEffect(() => {
-    if (selectedToken) {
-      setSelectedNetwork(selectedToken.networks[0]);
+    if (selectedAsset) {
+      setSelectedNetwork(selectedAsset.networks[0] || null);
     } else {
       setSelectedNetwork(null);
     }
-  }, [selectedToken]);
+  }, [selectedAsset]);
+
+  /* ----------------------------------
+     Confirm Handler
+  ---------------------------------- */
+
+  const handleConfirm = async (data) => {
+    console.log("Withdraw request:", data);
+  };
+
+  /* ----------------------------------
+     Render
+  ---------------------------------- */
 
   return (
     <div className="min-h-screen flex justify-center items-start p-6">
       <Card className="w-full max-w-3xl p-6 space-y-6">
+
         <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 
-        {/* -------------------------------
-            Token Selector
-        ------------------------------- */}
+        {/* TOKEN SELECT */}
+
         <div className="space-y-2">
-          <label className="block text-sm font-medium">Select Token</label>
-          {/* Select Token */}
+          <label className="text-sm font-medium">Select Token</label>
+
           <Select
             value={selectedAsset?.symbol || ""}
             onValueChange={(symbol) => {
-              const asset = tokens.find(t => t.symbol === symbol);
+              const asset = tokens.find((t) => t.symbol === symbol);
               setSelectedAsset(asset);
-              // Reset network when token changes
-              setSelectedNetwork(asset.networks[0] || null);
             }}
           >
-            {tokens.map(t => (
-              <SelectItem key={t.symbol} value={t.symbol}>{t.symbol} - {t.name}</SelectItem>
-            ))}
-          </Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Token" />
+            </SelectTrigger>
 
-          {/* Select Network */}
-          {selectedAsset && (
-            <Select
-              value={selectedNetwork?.name || ""}
-              onValueChange={(name) => {
-                const network = selectedAsset.networks.find(n => n.name === name);
-                setSelectedNetwork(network);
-              }}
-            >
-              {selectedAsset.networks.map(n => (
-                <SelectItem key={n.name} value={n.name}>{n.name}</SelectItem>
-              ))}
-            </Select>
-          )}
+            <SelectContent>
+              {tokens.map((t) => {
+                const userAsset = mockUserAssets.find(
+                  (a) => a.symbol === t.symbol
+                );
+
+                return (
+                  <SelectItem key={t.symbol} value={t.symbol}>
+                    {t.symbol} - {t.name}
+                    {userAsset && (
+                      <span className="ml-2 text-xs text-muted-foreground">
+                        Balance: {userAsset.balance}
+                      </span>
+                    )}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* -------------------------------
-            Network Selector
-        ------------------------------- */}
-        {selectedToken && (
+        {/* NETWORK SELECT */}
+
+        {selectedAsset && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Select Network</label>
+            <label className="text-sm font-medium">Select Network</label>
+
             <Select
               value={selectedNetwork?.name || ""}
-              onValueChange={(value) =>
-                setSelectedNetwork(
-                  selectedToken.networks.find((n) => n.name === value)
-                )
-              }
+              onValueChange={(networkName) => {
+                const network = selectedAsset.networks.find(
+                  (n) => n.name === networkName
+                );
+                setSelectedNetwork(network);
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select Network" />
               </SelectTrigger>
+
               <SelectContent>
-                {selectedToken.networks.map((n) => (
+                {selectedAsset.networks.map((n) => (
                   <SelectItem key={n.name} value={n.name}>
                     {n.name}
                   </SelectItem>
@@ -142,15 +160,16 @@ export default function WithdrawPage() {
           </div>
         )}
 
-        {/* -------------------------------
-            Withdraw Type Selector
-        ------------------------------- */}
+        {/* WITHDRAW TYPE */}
+
         <div className="space-y-2">
-          <label className="block text-sm font-medium">Withdraw Type</label>
+          <label className="text-sm font-medium">Withdraw Type</label>
+
           <Select value={withdrawType} onValueChange={setWithdrawType}>
             <SelectTrigger>
-              <SelectValue placeholder="Select Withdraw Type" />
+              <SelectValue placeholder="Withdraw Type" />
             </SelectTrigger>
+
             <SelectContent>
               <SelectItem value="external">External</SelectItem>
               <SelectItem value="internal">Internal</SelectItem>
@@ -158,25 +177,31 @@ export default function WithdrawPage() {
           </Select>
         </div>
 
-        {/* -------------------------------
-            Withdrawals Component
-        ------------------------------- */}
-        {selectedToken && selectedNetwork && (
+        {/* WITHDRAW COMPONENT */}
+
+        {selectedAsset && selectedNetwork ? (
           <div className="mt-4">
+
             {withdrawType === "external" ? (
               <ExternalWithdrawal
                 selectedAsset={selectedAsset}
                 selectedNetwork={selectedNetwork}
-                onConfirm={handleExternalConfirm}
+                onConfirm={handleConfirm}
               />
             ) : (
               <InternalWithdrawal
                 selectedAsset={selectedAsset}
-                onConfirm={handleInternalConfirm}
+                onConfirm={handleConfirm}
               />
             )}
+
           </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Select a token and network first
+          </p>
         )}
+
       </Card>
     </div>
   );

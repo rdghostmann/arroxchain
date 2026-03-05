@@ -37,7 +37,7 @@ const NavHeader = () => {
   const formattedDate = `${dayNames[today.getDay()]} ${today.getDate()}${getOrdinal(today.getDate())} ${monthNames[today.getMonth()]}`;
 
   return (
-    <div className="w-full py-4 flex items-center justify-between mb-5">
+    <div className="w-full px-4 py-4 flex items-center justify-between mb-5">
       <div>
         <p className="text-muted-foreground text-xs mb-1">{formattedDate}</p>
         <h1 className="text-2xl font-bold text-foreground">Welcome, {username}!</h1>

@@ -101,11 +101,11 @@ export default function WithdrawPage() {
     <div className="min-h-screen flex justify-center items-start p-6">
       <Card className="w-full max-w-3xl p-6 space-y-6 mb-12">
 
-        <div className="flex flex-col items-center justify-between">
+        <div className="">
 
           <Button
             onClick={() => router.push("/dashboard")}
-            className="text-sm text-blue-600 hover:underline"
+            className="block text-sm text-blue-600 hover:underline"
           >
             ← Back
           </Button>

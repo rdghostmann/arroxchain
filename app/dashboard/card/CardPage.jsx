@@ -83,7 +83,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 								alt="QFS Logo"
 								className="rounded"
 							/>
-						<span className="font-bold text-lg text-primary-foreground/90 tracking-wide">QFS VAULT</span>
+						<span className="font-bold text-lg text-primary-foreground/90 tracking-wide">A</span>
 						</div>
 						{/* Card Number */}
 						<div className="flex justify-between font-mono text-xl text-white tracking-widest z-10 mt-2">
@@ -242,7 +242,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 									className="accent-blue-600"
 								/>
 								<Label htmlFor="terms" className="text-sm text-muted-foreground">
-									I accept QFS deposit terms and conditions
+									I accept the deposit terms and conditions
 								</Label>
 							</div>
 							<Button

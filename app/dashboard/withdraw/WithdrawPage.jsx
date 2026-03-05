@@ -12,8 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
+import { Label } from "@/components/ui/label";
+
+import { useRouter } from "next/navigation";
 
 export default function WithdrawPage() {
+  const router = useRouter();
 
   /* ----------------------------------
      Tokens Data
@@ -96,14 +100,24 @@ export default function WithdrawPage() {
     <div className="min-h-screen flex justify-center items-start p-6">
       <Card className="w-full max-w-3xl p-6 space-y-6">
 
-        <h2 className="text-2xl font-bold">Withdraw Assets</h2>
+        <div className="flex items-center justify-between">
 
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="text-sm text-blue-600 hover:underline"
+          >
+            ← Back
+          </button>
+
+          <h2 className="text-2xl font-bold">Withdraw Assets</h2>
+
+        </div>
         <div className="flex flex-wrap gap-4">
 
           {/* TOKEN SELECT */}
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Select Token</label>
+            <Label className="text-sm font-medium">Select Token</Label>
 
             <Select
               value={selectedAsset?.symbol}
@@ -141,7 +155,7 @@ export default function WithdrawPage() {
 
           {selectedAsset && (
             <div className="space-y-2">
-              <label className="text-sm font-medium">Select Network</label>
+              <Label className="text-sm font-medium">Select Network</Label>
 
               <Select
                 value={selectedNetwork?.name}
@@ -170,7 +184,7 @@ export default function WithdrawPage() {
           {/* WITHDRAW TYPE */}
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Withdraw Type</label>
+            <Label className="text-sm font-medium">Withdraw Type</Label>
 
             <Select value={withdrawType} onValueChange={setWithdrawType}>
               <SelectTrigger className="w-50">
@@ -200,6 +214,7 @@ export default function WithdrawPage() {
             ) : (
               <InternalWithdrawal
                 selectedAsset={selectedAsset}
+                selectedNetwork={selectedNetwork}
                 onConfirm={handleConfirm}
               />
             )}

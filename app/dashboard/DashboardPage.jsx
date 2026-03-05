@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   const user = userEmail ? await User.findOne({ email: userEmail }).lean() : null;
 
   return (
-        <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6">
       {/* Premium Glow Effects */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-20 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse"></div>

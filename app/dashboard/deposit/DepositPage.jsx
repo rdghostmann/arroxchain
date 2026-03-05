@@ -238,7 +238,7 @@ export default function DepositPage() {
                 </label>
                 <Input
                   type="text"
-                  placeholder={transferType === 'external' ? 'Auto-filled' : 'Enter Wallet ID'}
+                  placeholder={transferType === 'external' ? 'Auto-filled' : 'Enter Wallet ID (eg: ARR-123456)'}
                   value={walletAddress}
                   onChange={(e) => setWalletAddress(e.target.value)}
                   className={`w-full bg-transparent border-b pb-2 outline-none text-white ${

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { StepIndicator } from "./StepIndicator";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 const ETH_FEE_PER_MILLION_USDT = 0.25;
 const MIN_WITHDRAW_USDT = 990_990;
@@ -110,7 +112,7 @@ export function ExternalWithdrawal({
                     {/* Wallet Address */}
 
                     <div>
-                        <input
+                        <Input
                             value={walletAddress}
                             onChange={(e) =>
                                 setWalletAddress(e.target.value.slice(0, 42))
@@ -129,7 +131,7 @@ export function ExternalWithdrawal({
                     {/* Amount */}
 
                     <div>
-                        <input
+                        <Input
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
@@ -253,7 +255,7 @@ export function InternalWithdrawal({
 
             {loading && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center gap-4">
+                    <div className="bg-transparent p-6 rounded-xl shadow-lg flex flex-col items-center gap-4">
                         <div className="animate-spin h-10 w-10 border-4 border-emerald-600 border-t-transparent rounded-full" />
                         <p className="text-sm font-medium">Processing transfer...</p>
                     </div>
@@ -270,10 +272,12 @@ export function InternalWithdrawal({
                 <div className="space-y-4">
 
                     <div className="flex items-center gap-4">
-                        <img
+                        <Image
                             src={selectedAsset.imageLogo}
                             alt={selectedAsset.symbol}
                             className="w-8 h-8"
+                            width={32}
+                            height={32}
                         />
 
                         <div>
@@ -283,14 +287,16 @@ export function InternalWithdrawal({
                             </p>
                         </div>
 
-                        <img
+                        <Image
                             src={selectedNetwork.imageLogo}
                             alt={selectedNetwork.name}
                             className="w-6 h-6 ml-auto"
+                            width={32}
+                            height={32}
                         />
                     </div>
 
-                    <input
+                    <Input
                         value={walletId}
                         onChange={(e) =>
                             setWalletId(e.target.value.toUpperCase())
@@ -305,7 +311,7 @@ export function InternalWithdrawal({
                         </p>
                     )}
 
-                    <input
+                    <Input
                         type="number"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
@@ -313,7 +319,7 @@ export function InternalWithdrawal({
                         className="w-full p-3 border rounded-xl"
                     />
 
-                    <button
+                    <Button
                         disabled={!walletValid || amountNumber <= 0}
                         onClick={() => {
                             setLoading(true);
@@ -326,7 +332,7 @@ export function InternalWithdrawal({
                         className="px-6 py-2 bg-emerald-600 text-white rounded-xl disabled:opacity-50"
                     >
                         Continue
-                    </button>
+                    </Button>
                 </div>
             )}
 

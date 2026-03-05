@@ -15,6 +15,7 @@ import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
 import { Label } from "@/components/ui/label";
 
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function WithdrawPage() {
   const router = useRouter();

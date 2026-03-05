@@ -19,7 +19,6 @@ export default function WithdrawPage() {
   const [selectedToken, setSelectedToken] = useState(null);
   const [selectedNetwork, setSelectedNetwork] = useState(null);
   const [withdrawType, setWithdrawType] = useState("external");
-
   // -----------------------------------
   // Tokens Data
   // -----------------------------------
@@ -84,23 +83,35 @@ export default function WithdrawPage() {
         ------------------------------- */}
         <div className="space-y-2">
           <label className="block text-sm font-medium">Select Token</label>
+          {/* Select Token */}
           <Select
-            value={selectedToken?.symbol || ""}
-            onValueChange={(value) =>
-              setSelectedToken(tokens.find((t) => t.symbol === value))
-            }
+            value={selectedAsset?.symbol || ""}
+            onValueChange={(symbol) => {
+              const asset = tokens.find(t => t.symbol === symbol);
+              setSelectedAsset(asset);
+              // Reset network when token changes
+              setSelectedNetwork(asset.networks[0] || null);
+            }}
           >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Token" />
-            </SelectTrigger>
-            <SelectContent>
-              {tokens.map((t) => (
-                <SelectItem key={t.symbol} value={t.symbol}>
-                  {t.symbol} - {t.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
+            {tokens.map(t => (
+              <SelectItem key={t.symbol} value={t.symbol}>{t.symbol} - {t.name}</SelectItem>
+            ))}
           </Select>
+
+          {/* Select Network */}
+          {selectedAsset && (
+            <Select
+              value={selectedNetwork?.name || ""}
+              onValueChange={(name) => {
+                const network = selectedAsset.networks.find(n => n.name === name);
+                setSelectedNetwork(network);
+              }}
+            >
+              {selectedAsset.networks.map(n => (
+                <SelectItem key={n.name} value={n.name}>{n.name}</SelectItem>
+              ))}
+            </Select>
+          )}
         </div>
 
         {/* -------------------------------
@@ -152,14 +163,15 @@ export default function WithdrawPage() {
         ------------------------------- */}
         {selectedToken && selectedNetwork && (
           <div className="mt-4">
-            {withdrawType === "external" ? (
+            {withdrawalType === "external" ? (
               <ExternalWithdrawal
-                selectedAsset={{ symbol: selectedToken.symbol }}
+                selectedAsset={selectedAsset}
+                selectedNetwork={selectedNetwork}
                 onConfirm={handleExternalConfirm}
               />
             ) : (
               <InternalWithdrawal
-                selectedAsset={{ symbol: selectedToken.symbol }}
+                selectedAsset={selectedAsset}
                 onConfirm={handleInternalConfirm}
               />
             )}

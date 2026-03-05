@@ -1,3 +1,4 @@
+// WithdrawPage.jsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,7 +6,6 @@ import NavHeader from "../components/NavHeader/NavHeader";
 import { Card } from "@/components/ui/card";
 import { Send, Zap } from "lucide-react";
 import getUserAssets from "@/controllers/getUserAssets";
-// import { getUserAssets } from "@/lib/api"; // same import as DepositPage
 
 /* -------------------------------------------------- */
 /* CONSTANTS */
@@ -24,11 +24,10 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
     <div className="grid grid-cols-2 gap-4">
       <button
         onClick={() => setWithdrawalType("external")}
-        className={`p-6 rounded-2xl border-2 transition ${
-          withdrawalType === "external"
-            ? "border-blue-500 bg-blue-500/10"
-            : "border-border hover:border-blue-500/50"
-        }`}
+        className={`p-6 rounded-2xl border-2 transition ${withdrawalType === "external"
+          ? "border-blue-500 bg-blue-500/10"
+          : "border-border hover:border-blue-500/50"
+          }`}
       >
         <div className="flex flex-col items-center gap-3">
           <Send className="w-8 h-8 text-blue-600" />
@@ -41,11 +40,10 @@ function WithdrawalTypeSelector({ withdrawalType, setWithdrawalType }) {
 
       <button
         onClick={() => setWithdrawalType("internal")}
-        className={`p-6 rounded-2xl border-2 transition ${
-          withdrawalType === "internal"
-            ? "border-emerald-500 bg-emerald-500/10"
-            : "border-border hover:border-emerald-500/50"
-        }`}
+        className={`p-6 rounded-2xl border-2 transition ${withdrawalType === "internal"
+          ? "border-emerald-500 bg-emerald-500/10"
+          : "border-border hover:border-emerald-500/50"
+          }`}
       >
         <div className="flex flex-col items-center gap-3">
           <Zap className="w-8 h-8 text-emerald-600" />
@@ -70,11 +68,10 @@ function AssetSelector({ assets, selectedAsset, setSelectedAsset }) {
         <button
           key={asset.id}
           onClick={() => setSelectedAsset(asset)}
-          className={`w-full p-4 rounded-xl border text-left transition ${
-            selectedAsset?.id === asset.id
-              ? "border-primary bg-primary/10"
-              : "border-border hover:border-primary/40"
-          }`}
+          className={`w-full p-4 rounded-xl border text-left transition ${selectedAsset?.id === asset.id
+            ? "border-primary bg-primary/10"
+            : "border-border hover:border-primary/40"
+            }`}
         >
           <div className="flex justify-between">
             <span className="font-medium">{asset.symbol}</span>
@@ -119,36 +116,54 @@ function ExternalWithdrawal({ selectedAsset }) {
   return (
     <div className="space-y-6">
 
+      {/* STEP INDICATOR */}
+
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-blue-600" : "text-muted-foreground"}>
-          1. Details
+          1. Withdrawal Details
         </span>
         <span className={step === 2 ? "text-blue-600" : "text-muted-foreground"}>
-          2. Summary
+          2. Confirm Withdrawal
         </span>
       </div>
 
+      {/* STEP 1 */}
+
       {step === 1 && (
-        <div className="space-y-4">
-          <input
-            placeholder="External Wallet Address"
-            value={walletAddress}
-            onChange={(e) =>
-              setWalletAddress(e.target.value.slice(0, 42))
-            }
-            className="w-full p-3 rounded-xl border bg-background"
-          />
+        <div className="space-y-5">
 
-          <input
-            type="number"
-            placeholder={`Amount (${selectedAsset.symbol})`}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full p-3 rounded-xl border bg-background"
-          />
+          <div>
+            <p className="text-sm text-muted-foreground mb-2">
+              External Wallet Address
+            </p>
 
-          <div className="text-xs text-muted-foreground space-y-1">
+            <input
+              value={walletAddress}
+              onChange={(e) =>
+                setWalletAddress(e.target.value.slice(0, 42))
+              }
+              placeholder="0x..."
+              className="w-full p-3 rounded-xl border bg-background"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground mb-2">
+              Withdrawal Amount ({selectedAsset.symbol})
+            </p>
+
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter amount"
+              className="w-full p-3 rounded-xl border bg-background"
+            />
+          </div>
+
+          <div className="text-xs text-muted-foreground space-y-1 border rounded-xl p-3 bg-muted/20">
             <p>Estimated Network Fee: {networkFeeEth.toFixed(4)} ETH</p>
+
             {insufficientMinimum && (
               <p className="text-yellow-500">
                 Minimum withdrawal is 1,000,000 USDT
@@ -166,49 +181,67 @@ function ExternalWithdrawal({ selectedAsset }) {
               onClick={() => setStep(2)}
               className="px-6 py-2 bg-blue-600 text-white rounded-xl disabled:opacity-50"
             >
-              Next
+              Continue
             </button>
           </div>
+
         </div>
       )}
 
+      {/* STEP 2 */}
+
       {step === 2 && (
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border bg-muted/20 text-sm space-y-2">
+        <div className="space-y-5">
+
+          <div className="p-4 rounded-xl border bg-muted/20 text-sm space-y-3">
+
             <div className="flex justify-between">
               <span>Asset</span>
               <span>{selectedAsset.symbol}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Amount</span>
               <span>{amount}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Network Fee</span>
               <span>{networkFeeEth.toFixed(4)} ETH</span>
             </div>
+
+            <div className="flex justify-between">
+              <span>Wallet</span>
+              <span className="text-xs">{walletAddress.slice(0, 10)}...</span>
+            </div>
+
           </div>
 
-          <div className="p-4 border rounded-xl text-xs">
-            Deposit network fee to:
+          <div className="border rounded-xl p-3 text-xs bg-yellow-500/10">
+            Network fee must be deposited to:
             <div className="mt-2 font-mono break-all">
               {COMPANY_WALLET}
             </div>
           </div>
 
           <div className="flex justify-between">
+
             <button
               onClick={() => setStep(1)}
               className="px-6 py-2 border rounded-xl"
             >
               Back
             </button>
+
             <button className="px-6 py-2 bg-blue-600 text-white rounded-xl">
-              Confirm
+              Confirm Withdrawal
             </button>
+
           </div>
+
         </div>
       )}
+
     </div>
   );
 }
@@ -235,31 +268,50 @@ function InternalWithdrawal({ selectedAsset }) {
   return (
     <div className="space-y-6">
 
+      {/* STEP INDICATOR */}
+
       <div className="flex justify-between text-xs font-medium">
         <span className={step === 1 ? "text-emerald-600" : "text-muted-foreground"}>
-          1. Details
+          1. Transfer Details
         </span>
         <span className={step === 2 ? "text-emerald-600" : "text-muted-foreground"}>
-          2. Confirm
+          2. Confirm Transfer
         </span>
       </div>
 
-      {step === 1 && (
-        <div className="space-y-4">
-          <input
-            placeholder="ArroxChain WalletID (e.g. ARR-32231)"
-            value={walletId}
-            onChange={(e) => setWalletId(e.target.value.toUpperCase())}
-            className="w-full p-3 rounded-xl border bg-background"
-          />
+      {/* STEP 1 */}
 
-          <input
-            type="number"
-            placeholder={`Amount (${selectedAsset.symbol})`}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full p-3 rounded-xl border bg-background"
-          />
+      {step === 1 && (
+        <div className="space-y-5">
+
+          <div>
+            <p className="text-sm text-muted-foreground mb-2">
+              ArroxChain WalletID
+            </p>
+
+            <input
+              value={walletId}
+              onChange={(e) =>
+                setWalletId(e.target.value.toUpperCase())
+              }
+              placeholder="ARR-12345"
+              className="w-full p-3 rounded-xl border bg-background"
+            />
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground mb-2">
+              Transfer Amount ({selectedAsset.symbol})
+            </p>
+
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter amount"
+              className="w-full p-3 rounded-xl border bg-background"
+            />
+          </div>
 
           <div className="flex justify-end">
             <button
@@ -267,46 +319,62 @@ function InternalWithdrawal({ selectedAsset }) {
               onClick={() => setStep(2)}
               className="px-6 py-2 bg-emerald-600 text-white rounded-xl disabled:opacity-50"
             >
-              Next
+              Continue
             </button>
           </div>
+
         </div>
       )}
 
+      {/* STEP 2 */}
+
       {step === 2 && (
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border bg-emerald-500/10 text-sm space-y-2">
+        <div className="space-y-5">
+
+          <div className="p-4 rounded-xl border bg-emerald-500/10 text-sm space-y-3">
+
             <div className="flex justify-between">
               <span>Recipient</span>
               <span>{walletId}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Asset</span>
               <span>{selectedAsset.symbol}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Amount</span>
               <span>{amount}</span>
             </div>
+
             <div className="flex justify-between">
               <span>Status</span>
-              <span className="text-emerald-600">Instant</span>
+              <span className="text-emerald-600 font-medium">
+                Instant Transfer
+              </span>
             </div>
+
           </div>
 
           <div className="flex justify-between">
+
             <button
               onClick={() => setStep(1)}
               className="px-6 py-2 border rounded-xl"
             >
               Back
             </button>
+
             <button className="px-6 py-2 bg-emerald-600 text-white rounded-xl">
               Confirm Transfer
             </button>
+
           </div>
+
         </div>
       )}
+
     </div>
   );
 }

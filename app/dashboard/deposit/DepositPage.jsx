@@ -140,6 +140,10 @@ export default function DepositPage() {
   const pinRequired = transferType === 'internal';
   const missingPin = pinRequired && transactionPin.trim().length === 0;
   const disableContinue = invalidAmount || missingWallet || missingPin;
+  const invalidWalletFormat =
+    transferType === "internal" &&
+    walletAddress.length > 0 &&
+    !walletAddress.startsWith("ARR-");
 
   // Clipboard
   const copyToClipboard = (value) => {
@@ -161,7 +165,7 @@ export default function DepositPage() {
     <div className="min-h-screen flex flex-1 items-center justify-center px-2 sm:px-0 mb-8 p-4 md:p-8">
       <div className="w-full md:max-w-3xl mx-auto">
         {/* Header */}
-          <NavHeader className="text-foreground" />
+        <NavHeader className="text-foreground" />
 
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Choose Deposit Type</h1>
@@ -241,12 +245,20 @@ export default function DepositPage() {
                   placeholder={transferType === 'external' ? 'Auto-filled' : 'Enter Wallet ID (eg: ARR-123456)'}
                   value={walletAddress}
                   onChange={(e) => setWalletAddress(e.target.value)}
-                  className={`w-full bg-transparent border-b pb-2 outline-none text-white ${
-                    missingWallet ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                  }`}
+                  className={`w-full bg-transparent border-b pb-2 outline-none text-white ${missingWallet || invalidWalletFormat
+                    ? 'border-red-500'
+                    : 'border-slate-600 focus:border-blue-500'
+                    }`}
                   readOnly={transferType === 'external'}
                 />
-                {missingWallet && <p className="text-xs text-red-400 mt-2">Wallet ID is required</p>}
+
+                {missingWallet && (
+                  <p className="text-xs text-red-400 mt-2">Wallet ID is required</p>
+                )}
+
+                {invalidWalletFormat && (
+                  <p className="text-xs text-red-400 mt-2">Invalid Wallet ID</p>
+                )}
               </div>
 
               {/* Amount */}
@@ -259,9 +271,8 @@ export default function DepositPage() {
                   placeholder="0"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-600 outline-none ${
-                    invalidAmount ? 'text-red-400' : ''
-                  }`}
+                  className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-600 outline-none ${invalidAmount ? 'text-red-400' : ''
+                    }`}
                 />
                 {invalidAmount && <p className="text-xs text-red-400 mt-2">Enter a valid amount</p>}
               </div>
@@ -283,9 +294,8 @@ export default function DepositPage() {
                       placeholder="••••"
                       value={transactionPin}
                       onChange={(e) => setTransactionPin(e.target.value)}
-                      className={`w-full bg-transparent border-b pb-2 outline-none text-white ${
-                        missingPin ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
-                      }`}
+                      className={`w-full bg-transparent border-b pb-2 outline-none text-white ${missingPin ? 'border-red-500' : 'border-slate-600 focus:border-blue-500'
+                        }`}
                     />
                   )}
                   {missingPin && showPinInput && <p className="text-xs text-red-400 mt-2">Transaction PIN is required</p>}

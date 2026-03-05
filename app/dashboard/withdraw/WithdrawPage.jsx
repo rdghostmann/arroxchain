@@ -93,7 +93,8 @@ export default function WithdrawPage() {
 
         <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 
-        {/* TOKEN SELECT */}
+        <div className="flex space-x-4">
+          {/* TOKEN SELECT */}
 
         <div className="space-y-2">
           <label className="text-sm font-medium">Select Token</label>
@@ -177,6 +178,7 @@ export default function WithdrawPage() {
           </Select>
         </div>
 
+        </div>
         {/* WITHDRAW COMPONENT */}
 
         {selectedAsset && selectedNetwork ? (

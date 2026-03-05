@@ -28,30 +28,30 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 	};
 
 	return (
-<div className="min-h-screen bg-background text-foreground pb-8">
-		<div className="max-w-2xl mx-auto py-10 px-4 sm:px-8">
-			{/* Header */}
-			<div className="flex items-center justify-between mb-8">
-				<Link href="/dashboard">
-					<Button variant="ghost" className="flex items-center gap-2 text-foreground hover:bg-primary/20 rounded-lg transition">
-						<ChevronLeft className="w-5 h-5" />
-						Back
-					</Button>
-				</Link>
-				<h2 className="text-2xl font-bold text-primary">Deposit to Card</h2>
-				<Link
-					href="/dashboard/buy"
-					className="animate-bounce px-3 py-1 rounded-lg bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition hover:opacity-90"
+		<div className="min-h-screen bg-background text-foreground pb-10">
+			<div className="max-w-2xl mx-auto py-10 px-4 sm:px-8">
+				{/* Header */}
+				<div className="flex items-center justify-between mb-8">
+					<Link href="/dashboard">
+						<Button variant="ghost" className="flex items-center gap-2 text-foreground hover:bg-primary/20 rounded-lg transition">
+							<ChevronLeft className="w-5 h-5" />
+							Back
+						</Button>
+					</Link>
+					<h2 className="text-2xl font-bold text-primary">Deposit to Card</h2>
+					<Link
+						href="/dashboard/buy"
+						className="animate-bounce px-3 py-1 rounded-lg bg-primary text-primary-foreground font-semibold shadow-lg shadow-primary/25 transition hover:opacity-90"
 					>
 						Buy coin
 					</Link>
 				</div>
 
 				{/* Deposit Asset */}
-			<div className="flex items-center justify-between bg-card rounded-xl shadow-lg p-5 mb-8 border border-border">
-				<span className="font-medium text-muted-foreground text-lg">Deposit Asset</span>
-				<Select value={selectedCoin} onValueChange={setSelectedCoin} disabled>
-					<SelectTrigger className="bg-primary text-primary-foreground rounded-lg text-sm font-bold border-none flex items-center justify-between shadow-lg shadow-primary/25 px-4 py-2">
+				<div className="flex items-center justify-between bg-card rounded-xl shadow-lg p-5 mb-8 border border-border">
+					<span className="font-medium text-muted-foreground text-lg">Deposit Asset</span>
+					<Select value={selectedCoin} onValueChange={setSelectedCoin} disabled>
+						<SelectTrigger className="bg-primary text-primary-foreground rounded-lg text-sm font-bold border-none flex items-center justify-between shadow-lg shadow-primary/25 px-4 py-2">
 							<SelectValue placeholder="Select coin" />
 							<ArrowDown className="text-white" />
 						</SelectTrigger>
@@ -67,10 +67,10 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 
 				{/* Card Preview */}
 				<div className="w-full justify-center mb-8">
-				<div className="relative bg-linear-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-[370px] h-[220px] flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
+					<div className="relative bg-linear-to-br from-primary via-primary/80 to-primary/60 text-primary-foreground rounded-2xl shadow-2xl shadow-primary/30 p-8 w-[370px] h-[220px] flex flex-col justify-between overflow-hidden transition-transform duration-300 hover:scale-105 border border-primary/30">
 						{/* Decorative elements */}
-					<div className="absolute w-32 h-30 bg-primary/30 rounded-full top-[-40px] right-[-40px] opacity-30" />
-					<div className="absolute w-15 h-15 bg-primary/20 rounded-full bottom-[-20px] left-[-20px] opacity-30" />
+						<div className="absolute w-32 h-30 bg-primary/30 rounded-full top-[-40px] right-[-40px] opacity-30" />
+						<div className="absolute w-15 h-15 bg-primary/20 rounded-full bottom-[-20px] left-[-20px] opacity-30" />
 						{/* Chip */}
 						<div className="hidden absolute left-8 top-16 w-10 h-7 bg-linear-to-r from-gray-300 to-gray-500 rounded-md border border-gray-400 shadow-inner items-center justify-center">
 							<div className="w-6 h-2 bg-gray-400 rounded-sm" />
@@ -83,7 +83,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 								alt="QFS Logo"
 								className="rounded"
 							/>
-						<span className="font-bold text-lg text-primary-foreground/90 tracking-wide">A</span>
+							<span className="font-bold text-lg text-primary-foreground/90 tracking-wide">A</span>
 						</div>
 						{/* Card Number */}
 						<div className="flex justify-between font-mono text-xl text-white tracking-widest z-10 mt-2">
@@ -95,16 +95,16 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 						{/* Cardholder & Expiry */}
 						<div className="flex items-center justify-between z-10 mt-2">
 							<div>
-							<span className="block text-xs text-primary-foreground/70">CARD HOLDER</span>
-							<span className="text-base font-semibold text-primary-foreground">{fullName}</span>
+								<span className="block text-xs text-primary-foreground/70">CARD HOLDER</span>
+								<span className="text-base font-semibold text-primary-foreground">{fullName}</span>
 							</div>
 							<div className="text-right">
-							<span className="block text-xs text-primary-foreground/70">EXPIRY</span>
-							<span className="text-base font-semibold text-primary-foreground">12/27</span>
+								<span className="block text-xs text-primary-foreground/70">EXPIRY</span>
+								<span className="text-base font-semibold text-primary-foreground">12/27</span>
 							</div>
 						</div>
 						{/* XRP Label - aligned bottom right */}
-						
+
 					</div>
 				</div>
 
@@ -112,10 +112,10 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 				<div className="flex items-center gap-3 mb-6">
 					<img src="/caution.png" width={40} alt="Warning" />
 					<div>
-					<p className="text-primary text-sm font-semibold">
-						Fund your Card via a crypto transfer to start using the full suite of services.
-					</p>
-					<p className="text-primary text-sm font-semibold">
+						<p className="text-primary text-sm font-semibold">
+							Fund your Card via a crypto transfer to start using the full suite of services.
+						</p>
+						<p className="text-primary text-sm font-semibold">
 							You need a minimum of $10,000.
 						</p>
 					</div>
@@ -123,7 +123,7 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 
 				{/* Deposit Address */}
 				<div className="mb-6">
-				<Label htmlFor="deposit-address" className="font-semibold text-base text-muted-foreground">
+					<Label htmlFor="deposit-address" className="font-semibold text-base text-muted-foreground">
 						Deposit Address
 					</Label>
 					<div className="relative flex mt-2">

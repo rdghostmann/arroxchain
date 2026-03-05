@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import Cookies from 'js-cookie';
 import { truncateAddress } from '@/lib/utils';
+import NavHeader from '../components/NavHeader/NavHeader';
 
 export default function DepositPage() {
   // Tokens data
@@ -160,6 +161,8 @@ export default function DepositPage() {
     <div className="min-h-screen flex flex-1 items-center justify-center px-2 sm:px-0 mb-8 p-4 md:p-8">
       <div className="w-full md:max-w-3xl mx-auto">
         {/* Header */}
+          <NavHeader className="text-foreground" />
+
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Choose Deposit Type</h1>
           <p className="text-gray-400">Add funds to your account</p>

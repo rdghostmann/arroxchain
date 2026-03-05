@@ -104,12 +104,12 @@ export default function WithdrawPage() {
 
         <div className="">
 
-          <Button
+          <button
             onClick={() => router.push("/dashboard")}
             className="bg-none block text-sm text-blue-600 hover:underline"
           >
             ← Back
-          </Button>
+          </button>
 
           <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 

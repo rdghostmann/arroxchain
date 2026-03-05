@@ -18,14 +18,14 @@ export default function WithdrawPage() {
      State
   ---------------------------------- */
 
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [selectedNetwork, setSelectedNetwork] = useState(null);
+  const [selectedAsset, setSelectedAsset] = useState(tokens.find((t) => t.symbol === "BTC")
+  ); const [selectedNetwork, setSelectedNetwork] = useState(null);
   const [withdrawType, setWithdrawType] = useState("external");
 
   /* ----------------------------------
      Tokens Data
   ---------------------------------- */
-
+  // Tokens Data
   const tokens = [
     {
       symbol: "USDT",
@@ -52,6 +52,7 @@ export default function WithdrawPage() {
       ],
     },
   ];
+
 
   /* ----------------------------------
      Mock User Wallet Assets
@@ -96,87 +97,87 @@ export default function WithdrawPage() {
         <div className="flex space-x-4">
           {/* TOKEN SELECT */}
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Select Token</label>
-
-          <Select
-            value={selectedAsset?.symbol || ""}
-            onValueChange={(symbol) => {
-              const asset = tokens.find((t) => t.symbol === symbol);
-              setSelectedAsset(asset);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select Token" />
-            </SelectTrigger>
-
-            <SelectContent>
-              {tokens.map((t) => {
-                const userAsset = mockUserAssets.find(
-                  (a) => a.symbol === t.symbol
-                );
-
-                return (
-                  <SelectItem key={t.symbol} value={t.symbol}>
-                    {t.symbol} - {t.name}
-                    {userAsset && (
-                      <span className="ml-2 text-xs text-muted-foreground">
-                        Balance: {userAsset.balance}
-                      </span>
-                    )}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* NETWORK SELECT */}
-
-        {selectedAsset && (
           <div className="space-y-2">
-            <label className="text-sm font-medium">Select Network</label>
+            <label className="text-sm font-medium">Select Token</label>
 
             <Select
-              value={selectedNetwork?.name || ""}
-              onValueChange={(networkName) => {
-                const network = selectedAsset.networks.find(
-                  (n) => n.name === networkName
-                );
-                setSelectedNetwork(network);
+              value={selectedAsset?.symbol || ""}
+              onValueChange={(symbol) => {
+                const asset = tokens.find((t) => t.symbol === symbol);
+                setSelectedAsset(asset);
               }}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select Network" />
+                <SelectValue placeholder="Select Token" />
               </SelectTrigger>
 
               <SelectContent>
-                {selectedAsset.networks.map((n) => (
-                  <SelectItem key={n.name} value={n.name}>
-                    {n.name}
-                  </SelectItem>
-                ))}
+                {tokens.map((t) => {
+                  const userAsset = mockUserAssets.find(
+                    (a) => a.symbol === t.symbol
+                  );
+
+                  return (
+                    <SelectItem key={t.symbol} value={t.symbol}>
+                      {t.symbol} - {t.name}
+                      {userAsset && (
+                        <span className="ml-2 text-xs text-muted-foreground">
+                          Balance: {userAsset.balance}
+                        </span>
+                      )}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
-        )}
 
-        {/* WITHDRAW TYPE */}
+          {/* NETWORK SELECT */}
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Withdraw Type</label>
+          {selectedAsset && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Select Network</label>
 
-          <Select value={withdrawType} onValueChange={setWithdrawType}>
-            <SelectTrigger>
-              <SelectValue placeholder="Withdraw Type" />
-            </SelectTrigger>
+              <Select
+                value={selectedNetwork?.name || ""}
+                onValueChange={(networkName) => {
+                  const network = selectedAsset.networks.find(
+                    (n) => n.name === networkName
+                  );
+                  setSelectedNetwork(network);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Network" />
+                </SelectTrigger>
 
-            <SelectContent>
-              <SelectItem value="external">External</SelectItem>
-              <SelectItem value="internal">Internal</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+                <SelectContent>
+                  {selectedAsset.networks.map((n) => (
+                    <SelectItem key={n.name} value={n.name}>
+                      {n.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* WITHDRAW TYPE */}
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Withdraw Type</label>
+
+            <Select value={withdrawType} onValueChange={setWithdrawType}>
+              <SelectTrigger>
+                <SelectValue placeholder="Withdraw Type" />
+              </SelectTrigger>
+
+              <SelectContent>
+                <SelectItem value="external">External</SelectItem>
+                <SelectItem value="internal">Internal</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
         </div>
         {/* WITHDRAW COMPONENT */}

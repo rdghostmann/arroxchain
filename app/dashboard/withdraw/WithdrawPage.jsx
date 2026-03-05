@@ -1,4 +1,5 @@
 // WithdrawPage.jsx
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,17 +16,9 @@ import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
 export default function WithdrawPage() {
 
   /* ----------------------------------
-     State
-  ---------------------------------- */
-
-  const [selectedAsset, setSelectedAsset] = useState(tokens.find((t) => t.symbol === "BTC")
-  ); const [selectedNetwork, setSelectedNetwork] = useState(null);
-  const [withdrawType, setWithdrawType] = useState("external");
-
-  /* ----------------------------------
      Tokens Data
   ---------------------------------- */
-  // Tokens Data
+
   const tokens = [
     {
       symbol: "USDT",
@@ -53,6 +46,19 @@ export default function WithdrawPage() {
     },
   ];
 
+  /* ----------------------------------
+     Default BTC selection
+  ---------------------------------- */
+
+  const defaultBTC = tokens.find((t) => t.symbol === "BTC");
+
+  /* ----------------------------------
+     State
+  ---------------------------------- */
+
+  const [selectedAsset, setSelectedAsset] = useState(defaultBTC);
+  const [selectedNetwork, setSelectedNetwork] = useState(defaultBTC.networks[0]);
+  const [withdrawType, setWithdrawType] = useState("external");
 
   /* ----------------------------------
      Mock User Wallet Assets
@@ -71,8 +77,6 @@ export default function WithdrawPage() {
   useEffect(() => {
     if (selectedAsset) {
       setSelectedNetwork(selectedAsset.networks[0] || null);
-    } else {
-      setSelectedNetwork(null);
     }
   }, [selectedAsset]);
 
@@ -94,20 +98,21 @@ export default function WithdrawPage() {
 
         <h2 className="text-2xl font-bold">Withdraw Assets</h2>
 
-        <div className="flex space-x-4">
+        <div className="flex flex-wrap gap-4">
+
           {/* TOKEN SELECT */}
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Select Token</label>
 
             <Select
-              value={selectedAsset?.symbol || ""}
+              value={selectedAsset?.symbol}
               onValueChange={(symbol) => {
                 const asset = tokens.find((t) => t.symbol === symbol);
                 setSelectedAsset(asset);
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Select Token" />
               </SelectTrigger>
 
@@ -139,7 +144,7 @@ export default function WithdrawPage() {
               <label className="text-sm font-medium">Select Network</label>
 
               <Select
-                value={selectedNetwork?.name || ""}
+                value={selectedNetwork?.name}
                 onValueChange={(networkName) => {
                   const network = selectedAsset.networks.find(
                     (n) => n.name === networkName
@@ -147,7 +152,7 @@ export default function WithdrawPage() {
                   setSelectedNetwork(network);
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-[200px]">
                   <SelectValue placeholder="Select Network" />
                 </SelectTrigger>
 
@@ -168,7 +173,7 @@ export default function WithdrawPage() {
             <label className="text-sm font-medium">Withdraw Type</label>
 
             <Select value={withdrawType} onValueChange={setWithdrawType}>
-              <SelectTrigger>
+              <SelectTrigger className="w-[200px]">
                 <SelectValue placeholder="Withdraw Type" />
               </SelectTrigger>
 
@@ -180,6 +185,7 @@ export default function WithdrawPage() {
           </div>
 
         </div>
+
         {/* WITHDRAW COMPONENT */}
 
         {selectedAsset && selectedNetwork ? (

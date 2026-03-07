@@ -1,8 +1,15 @@
+// app/api/auth/register/route.js
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import User from "@/models/User";
 import UserAsset from "@/models/UserAsset";
 import { connectToDB } from "@/lib/connectDB";
+
+// Helper to generate random 6-digit walletID
+function generateWalletID() {
+  const randomDigits = Math.floor(100000 + Math.random() * 900000); // 6-digit number
+  return `ARR-${randomDigits}`;
+}
 
 export async function POST(req) {
   try {
@@ -38,6 +45,15 @@ export async function POST(req) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Generate unique walletID
+    let walletID;
+    let walletExists = true;
+    while (walletExists) {
+      walletID = generateWalletID();
+      const existingWallet = await User.findOne({ walletID });
+      if (!existingWallet) walletExists = false;
+    }
+
     const newUser = await User.create({
       userID: Date.now().toString(),
       username,
@@ -50,11 +66,12 @@ export async function POST(req) {
       state: state || "",
       zipCode: zipCode || "",
       accountType,
-      role: "user", // Explicitly set role on registration
+      role: "user",
       joinDate: new Date(),
+      walletID, // <-- Set generated walletID here
     });
 
-    // ✅ Expanded asset list with network info
+    // Default assets for user
     const defaultAssets = [
       { coin: "BTC", network: "Mainnet" },
       { coin: "ETH", network: "Mainnet" },
@@ -69,12 +86,11 @@ export async function POST(req) {
       { coin: "TRX", network: "Tron" },
       { coin: "DOT", network: "Polkadot" },
       { coin: "SHIB", network: "Ethereum" },
-      { coin: "XLM", network: "Stellar" }, // <-- Added Stellar coin
+      { coin: "XLM", network: "Stellar" },
     ];
 
-    // FIX: Use 'user' not 'userId' for UserAsset model
     const userAssets = defaultAssets.map((asset) => ({
-      user: newUser._id, // <-- FIXED FIELD NAME
+      user: newUser._id,
       coin: asset.coin,
       network: asset.network,
       amount: 0,
@@ -83,9 +99,8 @@ export async function POST(req) {
     await UserAsset.insertMany(userAssets);
 
     return NextResponse.json(
-      { message: "Registration successful" },
+      { message: "Registration successful", walletID },
       { status: 201 }
-      
     );
   } catch (err) {
     console.error("Registration error:", err);

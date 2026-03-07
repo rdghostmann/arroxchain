@@ -82,6 +82,10 @@ const UserSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    walletID: {
+      type: String,
+      default: "",
+    },
     wallets: [
       {
         type: mongoose.Schema.Types.ObjectId,

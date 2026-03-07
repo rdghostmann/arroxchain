@@ -10,10 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import getUserAssets from "@/controllers/getUserAssets";
+import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals2";
 
 export default function Withdraw2Page() {
   const router = useRouter();

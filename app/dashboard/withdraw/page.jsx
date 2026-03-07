@@ -1,6 +1,9 @@
-import WithdrawPage from "./WithdrawPage";
+// import WithdrawPage from "./WithdrawPage";
+
+import Withdraw2Page from "./Withdraw2Page";
 
 export default function page() {
 
-    return <WithdrawPage />
+    return <Withdraw2Page />
+    // return <WithdrawPage />
 }

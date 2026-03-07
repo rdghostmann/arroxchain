@@ -1,3 +1,4 @@
+// models/InternalWithdraw.js
 import mongoose from "mongoose";
 
 const InternalWithdrawSchema = new mongoose.Schema(

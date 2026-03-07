@@ -15,6 +15,7 @@ import { ExternalWithdrawal, InternalWithdrawal } from "./Withdrawals";
 import { Label } from "@/components/ui/label";
 
 import { useRouter } from "next/navigation";
+import getUserAssets from "@/controllers/getUserAssets";
 
 export default function WithdrawPage() {
   const router = useRouter();
@@ -63,17 +64,28 @@ export default function WithdrawPage() {
   const [selectedAsset, setSelectedAsset] = useState(defaultBTC);
   const [selectedNetwork, setSelectedNetwork] = useState(defaultBTC.networks[0]);
   const [withdrawType, setWithdrawType] = useState("external");
+  const [userAssetsData, setUserAssetsData] = useState(null);
+  const [loadingAssets, setLoadingAssets] = useState(true);
 
   /* ----------------------------------
-     Mock User Wallet Assets
+     Fetch User Assets
   ---------------------------------- */
 
-  const mockUserAssets = [
-    { symbol: "BTC", balance: 1.248 },
-    { symbol: "USDT", balance: 2540000 },
-    { symbol: "ETH", balance: 12.65 },
-    { symbol: "DOG", balance: 20.65 },
-  ];
+  useEffect(() => {
+    const fetchAssets = async () => {
+      try {
+        const data = await getUserAssets();
+        setUserAssetsData(data);
+      } catch (error) {
+        console.error("Error fetching user assets:", error);
+        setUserAssetsData({ totalUsd: 0, assets: [] });
+      } finally {
+        setLoadingAssets(false);
+      }
+    };
+
+    fetchAssets();
+  }, []);
 
   /* ----------------------------------
      Update network when asset changes
@@ -133,8 +145,8 @@ export default function WithdrawPage() {
 
               <SelectContent>
                 {tokens.map((t) => {
-                  const userAsset = mockUserAssets.find(
-                    (a) => a.symbol === t.symbol
+                  const userAsset = userAssetsData?.assets.find(
+                    (a) => a.coin.toUpperCase() === t.symbol
                   );
 
                   return (
@@ -142,7 +154,7 @@ export default function WithdrawPage() {
                       {t.symbol} - {t.name}
                       {userAsset && (
                         <span className="ml-2 text-xs text-muted-foreground">
-                          Balance: {userAsset.balance}
+                          Balance: {userAsset.amount.toFixed(4)}
                         </span>
                       )}
                     </SelectItem>
@@ -210,12 +222,14 @@ export default function WithdrawPage() {
               <ExternalWithdrawal
                 selectedAsset={selectedAsset}
                 selectedNetwork={selectedNetwork}
+                userAssetsData={userAssetsData}
                 onConfirm={handleConfirm}
               />
             ) : (
               <InternalWithdrawal
                 selectedAsset={selectedAsset}
                 selectedNetwork={selectedNetwork}
+                userAssetsData={userAssetsData}
                 onConfirm={handleConfirm}
               />
             )}

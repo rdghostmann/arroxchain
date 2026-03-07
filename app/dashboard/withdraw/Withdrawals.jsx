@@ -54,18 +54,34 @@ const isValidWalletId = (id) => /^ARR-\d{5,}$/.test(id);
 /* ==================================
 EXTERNAL WITHDRAWAL
 ================================== */
-export function ExternalWithdrawal({ selectedAsset, selectedNetwork, onConfirm }) {
+export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData, onConfirm }) {
     const [step, setStep] = useState(1);
     const [amount, setAmount] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const MIN_WITHDRAWAL_USD = 1_000_000;
+
     if (!selectedAsset || !selectedNetwork) return <p>Select a token and network first</p>;
 
+    // Find the selected asset in user assets to get price
+    const selectedUserAsset = userAssetsData?.assets.find(
+        (a) => a.coin.toUpperCase() === selectedAsset.symbol
+    );
+
     const amountNumber = Number(amount || 0);
+    
+    // Calculate USD equivalent based on asset type
+    let usdEquivalent = 0;
+    if (selectedAsset.symbol === "USDT") {
+        usdEquivalent = amountNumber;
+    } else if (selectedUserAsset?.price) {
+        usdEquivalent = amountNumber * selectedUserAsset.price;
+    }
+
     const withdrawalMillions = amountNumber / 1_000_000;
     const networkFee = withdrawalMillions * ETH_FEE_PER_MILLION_USDT;
-    const insufficientMinimum = amountNumber > 0 && amountNumber < MIN_WITHDRAW_USDT;
+    const insufficientMinimum = amountNumber > 0 && usdEquivalent < MIN_WITHDRAWAL_USD;
 
     // Dynamic Address Validator
     const addressValid = useMemo(() => {
@@ -157,9 +173,14 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, onConfirm }
                             placeholder={`Amount (${selectedAsset.symbol})`}
                             className="w-full p-3 border rounded-xl"
                         />
+                        {amountNumber > 0 && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                                USD Equivalent: ${usdEquivalent.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                            </p>
+                        )}
                         {insufficientMinimum && (
                             <p className="text-yellow-500 text-xs mt-1">
-                                Minimum withdrawal is 1,000,000 USDT
+                                Minimum withdrawal is 1,000,000 USD (Current: ${usdEquivalent.toLocaleString('en-US', { maximumFractionDigits: 2 })})
                             </p>
                         )}
                     </div>
@@ -197,6 +218,12 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, onConfirm }
                             <p className="font-semibold"> Amount:  </p>
                             <p> {amount}</p>
                         </div>
+
+                        <div className="flex items-center gap-4 justify-between">
+                            <p className="font-semibold"> USD Equivalent: </p>
+                            <p> ${usdEquivalent.toLocaleString('en-US', { maximumFractionDigits: 2 })}</p>
+                        </div>
+
                         <div className="flex items-center gap-4 justify-between">
                             <p className="font-semibold"> Network Fee: </p>
                             <p> {networkFee.toFixed(4)} ETH </p>
@@ -225,16 +252,33 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, onConfirm }
 /* ==================================
 INTERNAL TRANSFER
 ================================== */
-export function InternalWithdrawal({ selectedAsset, selectedNetwork, onConfirm }) {
+export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData, onConfirm }) {
     const [step, setStep] = useState(1);
     const [walletId, setWalletId] = useState("");
     const [amount, setAmount] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const MIN_WITHDRAWAL_USD = 1_000_000;
+
     if (!selectedAsset || !selectedNetwork) return <p>Select asset</p>;
+
+    // Find the selected asset in user assets to get price
+    const selectedUserAsset = userAssetsData?.assets.find(
+        (a) => a.coin.toUpperCase() === selectedAsset.symbol
+    );
 
     const amountNumber = Number(amount || 0);
     const walletValid = isValidWalletId(walletId);
+
+    // Calculate USD equivalent based on asset type
+    let usdEquivalent = 0;
+    if (selectedAsset.symbol === "USDT") {
+        usdEquivalent = amountNumber;
+    } else if (selectedUserAsset?.price) {
+        usdEquivalent = amountNumber * selectedUserAsset.price;
+    }
+
+    const insufficientMinimum = amountNumber > 0 && usdEquivalent < MIN_WITHDRAWAL_USD;
 
     const handleConfirm = async () => {
         await onConfirm({

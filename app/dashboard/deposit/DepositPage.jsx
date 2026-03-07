@@ -102,11 +102,11 @@ const tokens = [
   {
     symbol: 'TON',
     name: 'Ton Coin',
-    imageLogo: '/ton-ton-logo.png',
+    imageLogo: '/toncoin-ton-logo.png',
     color: 'from-blue-400 to-blue-600',
     qrCodeImg: '/ton-qrcode-img.png',
     networks: [
-      { name: 'TON', imageLogo: '/ton-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
+      { name: 'TON', imageLogo: '/toncoin-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
     ],
   },
   {

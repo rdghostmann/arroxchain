@@ -224,7 +224,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                     <Input
                         value={externalWalletAddress}
                         onChange={(e) => setExternalWalletAddress(e.target.value)}
-                        placeholder="External Wallet Address"
+                        placeholder="Internal Wallet Address"
                         className="w-full p-3 border rounded-xl"
                     />
 

@@ -1,3 +1,4 @@
+// DepositPage.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,67 +14,129 @@ import { truncateAddress } from '@/lib/utils';
 import NavHeader from '../components/NavHeader/NavHeader';
 
 export default function DepositPage() {
-
   // TOKENS
-  const tokens = [
-    {
-      symbol: 'USDT',
-      name: 'Tether',
-      imageLogo: '/tether-usdt-logo.png',
-      color: 'from-green-500 to-blue-500',
-      receiveWalletAddress: '0x60B89377D92cA54D86f0319D160e4171E4761A9b',
-      qrCodeImg: '/eth-qrcode-img.png',
-      networks: [
-        { name: 'ERC20', imageLogo: '/tether-usdt-logo.png' },
-        { name: 'Tron', imageLogo: '/tron-trx-logo.png' },
-      ],
-    },
-    {
-      symbol: 'BTC',
-      name: 'Bitcoin',
-      imageLogo: '/bitcoin-btc-logo.png',
-      color: 'from-orange-500 to-amber-500',
-      receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n',
-      qrCodeImg: '/btc-qrcode-img.png',
-      networks: [{ name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png' }],
-    },
-    {
-      symbol: 'ETH',
-      name: 'Ethereum',
-      imageLogo: '/ethereum-eth-logo.png',
-      color: 'from-purple-500 to-pink-500',
-      receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402',
-      qrCodeImg: '/eth-qrcode-img.png',
-      networks: [
-        { name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png' },
-        { name: 'Polygon', imageLogo: '/polygon-matic-logo.png' },
-      ],
-    },
-    {
-      symbol: 'SOL',
-      name: 'Solana',
-      imageLogo: '/solana-sol-logo.png',
-      color: 'from-purple-500 to-pink-500',
-      receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ',
-      qrCodeImg: '/sol-qrcode-img.png',
-      networks: [{ name: 'Solana', imageLogo: '/sol-logo.png' }],
-    },
-    {
-      symbol: 'DOGE',
-      name: 'Dogecoin',
-      imageLogo: '/dogecoin-doge-logo.png',
-      color: 'from-yellow-500 to-orange-400',
-      receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6',
-      qrCodeImg: '/doge-qrcode-img.png',
-      networks: [{ name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png' }],
-    },
-  ];
+ // TOKENS
+const tokens = [
+  {
+    symbol: 'USDT',
+    name: 'Tether',
+    imageLogo: '/tether-usdt-logo.png',
+    color: 'from-green-500 to-blue-500',
+    qrCodeImg: '/eth-qrcode-img.png',
+    networks: [
+      { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+      { name: 'TRC20', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+    ],
+  },
+  {
+    symbol: 'BTC',
+    name: 'Bitcoin',
+    imageLogo: '/bitcoin-btc-logo.png',
+    color: 'from-orange-500 to-amber-500',
+    qrCodeImg: '/btc-qrcode-img.png',
+    networks: [
+      { name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png', receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n' },
+    ],
+  },
+  {
+    symbol: 'ETH',
+    name: 'Ethereum',
+    imageLogo: '/ethereum-eth-logo.png',
+    color: 'from-purple-500 to-pink-500',
+    qrCodeImg: '/eth-qrcode-img.png',
+    networks: [
+      { name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+      { name: 'Polygon', imageLogo: '/polygon-matic-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+    ],
+  },
+  {
+    symbol: 'SOL',
+    name: 'Solana',
+    imageLogo: '/solana-sol-logo.png',
+    color: 'from-purple-500 to-pink-500',
+    qrCodeImg: '/sol-qrcode-img.png',
+    networks: [
+      { name: 'Solana', imageLogo: '/sol-logo.png', receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ' },
+    ],
+  },
+  {
+    symbol: 'DOGE',
+    name: 'Dogecoin',
+    imageLogo: '/dogecoin-doge-logo.png',
+    color: 'from-yellow-500 to-orange-400',
+    qrCodeImg: '/doge-qrcode-img.png',
+    networks: [
+      { name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png', receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6' },
+    ],
+  },
+  {
+    symbol: 'XRP',
+    name: 'XRP',
+    imageLogo: '/xrp-xrp-logo.png',
+    color: 'from-blue-500 to-cyan-500',
+    qrCodeImg: '/xrp-qrcode-img.png',
+    networks: [
+      { name: 'Ripple', imageLogo: '/xrp-xrp-logo.png', receiveWalletAddress: 'r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw' },
+    ],
+  },
+  {
+    symbol: 'STELLAR',
+    name: 'Stellar',
+    imageLogo: '/stellar-xlm-logo.png',
+    color: 'from-indigo-500 to-purple-500',
+    qrCodeImg: '/stellar-qrcode-img.png',
+    networks: [
+      { name: 'Stellar', imageLogo: '/stellar-xlm-logo.png', receiveWalletAddress: 'GD7W3OQDVBFU2QEYMOVNCSD42H5FE7W4KJB4YJCJD2D5N7C6APAM6VDM' },
+    ],
+  },
+  {
+    symbol: 'BNB',
+    name: 'Binance Coin',
+    imageLogo: '/bnb-bnb-logo.png',
+    color: 'from-yellow-400 to-yellow-500',
+    qrCodeImg: '/bnb-qrcode-img.png',
+    networks: [
+      { name: 'BSC (BEP20)', imageLogo: '/bnb-bnb-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+    ],
+  },
+  {
+    symbol: 'TON',
+    name: 'Ton Coin',
+    imageLogo: '/ton-ton-logo.png',
+    color: 'from-blue-400 to-blue-600',
+    qrCodeImg: '/ton-qrcode-img.png',
+    networks: [
+      { name: 'TON', imageLogo: '/ton-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
+    ],
+  },
+  {
+    symbol: 'ADA',
+    name: 'Cardano',
+    imageLogo: '/cardano-ada-logo.png',
+    color: 'from-red-500 to-pink-500',
+    qrCodeImg: '/ada-qrcode-img.png',
+    networks: [
+      { name: 'Cardano', imageLogo: '/cardano-ada-logo.png', receiveWalletAddress: 'addr1q8kfx3x0sajryxaxadu6pnpgha4y7e3rg4lrrcd6nq8mvhe423dn5tzzycx2sy27nfw6zzdjzlcly3gmwe439jxjhhjst69j0v' },
+    ],
+  },
+  {
+    symbol: 'TRON',
+    name: 'Tron',
+    imageLogo: '/tron-trx-logo.png',
+    color: 'from-red-500 to-orange-500',
+    qrCodeImg: '/tron-qrcode-img.png',
+    networks: [
+      { name: 'Tron', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+    ],
+  },
+];
 
   // STATE
   const [transferType, setTransferType] = useState('external');
   const [selectedToken, setSelectedToken] = useState('USDT');
   const [selectedNetwork, setSelectedNetwork] = useState('');
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletID, setWalletID] = useState('');
+  const [depositWalletAddress, setDepositWalletAddress] = useState('');
   const [transactionPin, setTransactionPin] = useState('');
   const [amount, setAmount] = useState('');
   const [showPinInput, setShowPinInput] = useState(false);
@@ -92,11 +155,21 @@ export default function DepositPage() {
   // AUTO WALLET ADDRESS
   useEffect(() => {
     if (transferType === 'external') {
-      setWalletAddress(currentToken.receiveWalletAddress);
+      setDepositWalletAddress(currentToken.receiveWalletAddress);
     } else {
-      setWalletAddress('');
+      setDepositWalletAddress('');
     }
   }, [transferType, currentToken]);
+
+  // GENERATE WALLET ID FOR INTERNAL TRANSFER
+  useEffect(() => {
+    if (transferType === 'internal') {
+      const randomID = Math.floor(100000 + Math.random() * 900000);
+      setWalletID(`ARR-${randomID}`);
+    } else {
+      setWalletID('');
+    }
+  }, [transferType]);
 
   // RESTORE COOKIE SESSION
   useEffect(() => {
@@ -135,23 +208,11 @@ export default function DepositPage() {
   // VALIDATION
   const amountNumber = Number(amount);
   const invalidAmount = amountNumber <= 0 || isNaN(amountNumber);
+  const invalidWalletID = transferType === 'internal' && !walletID.startsWith('ARR-');
+  const missingDepositWallet = transferType === 'internal' && depositWalletAddress.trim().length === 0;
+  const missingPin = transferType === 'internal' && transactionPin.trim().length === 0;
 
-  const missingWallet =
-    transferType === 'internal' && walletAddress.trim().length === 0;
-
-  const invalidWalletFormat =
-    transferType === 'internal' &&
-    walletAddress.length > 0 &&
-    !walletAddress.startsWith('ARR-');
-
-  const missingPin =
-    transferType === 'internal' && transactionPin.trim().length === 0;
-
-  const disableContinue =
-    invalidAmount ||
-    missingWallet ||
-    invalidWalletFormat ||
-    missingPin;
+  const disableContinue = invalidAmount || invalidWalletID || missingDepositWallet || missingPin;
 
   // COPY
   const copyToClipboard = async (value) => {
@@ -166,7 +227,7 @@ export default function DepositPage() {
   const handleContinue = () => {
     if (transferType === 'external') {
       const token = Math.random().toString(36).substring(2);
-      const expiresAt = Date.now() + 90000;
+      const expiresAt = Date.now() + 90000; // 90 seconds
 
       Cookies.set('DepositTransacToken', token, { expires: 1 });
       Cookies.set('DepositTransacTokenExpires', expiresAt.toString(), { expires: 1 });
@@ -183,7 +244,6 @@ export default function DepositPage() {
 
         {step === 'form' && (
           <>
-
             <Tabs value={transferType} onValueChange={setTransferType} className="mb-6">
               <TabsList className="grid grid-cols-2 bg-slate-800">
                 <TabsTrigger value="external">External</TabsTrigger>
@@ -200,7 +260,6 @@ export default function DepositPage() {
                 <SelectTrigger className="bg-zinc-800 border-zinc-700">
                   <SelectValue />
                 </SelectTrigger>
-
                 <SelectContent>
                   {tokens.map(token => (
                     <SelectItem key={token.symbol} value={token.symbol}>
@@ -216,7 +275,6 @@ export default function DepositPage() {
               {/* AMOUNT */}
               <div className="mt-6">
                 <label className="text-sm text-gray-400">Amount</label>
-
                 <Input
                   type="number"
                   value={amount}
@@ -228,7 +286,6 @@ export default function DepositPage() {
               {/* EXTERNAL */}
               {transferType === 'external' && (
                 <div className="mt-6 text-center">
-
                   <Image
                     src={currentToken.qrCodeImg}
                     alt="QR"
@@ -236,37 +293,52 @@ export default function DepositPage() {
                     height={200}
                     className="mx-auto rounded-md p-4 bg-white"
                   />
-
                   <div className="flex justify-center items-center gap-2 mt-4">
-                    <span className="text-sm">
-                      {truncateAddress(currentToken.receiveWalletAddress)}
-                    </span>
-
+                    <span className="text-sm">{truncateAddress(currentToken.receiveWalletAddress)}</span>
                     <button onClick={() => copyToClipboard(currentToken.receiveWalletAddress)}>
                       <Copy size={16} />
                     </button>
                   </div>
-
                 </div>
               )}
 
               {/* INTERNAL */}
               {transferType === 'internal' && (
                 <>
+                  {/* Wallet ID */}
                   <div className="mt-6">
                     <label className="text-sm text-gray-400">Wallet ID</label>
-
                     <Input
-                      value={walletAddress}
-                      onChange={(e) => setWalletAddress(e.target.value)}
-                      placeholder="ARR-123456"
+                      value={walletID}
+                      readOnly
                       className="mt-2 bg-zinc-800 border-zinc-700"
                     />
+                    {invalidWalletID && (
+                      <p className="text-red-500 text-xs mt-1">
+                        Wallet ID must be in format ARR-XXXXXX
+                      </p>
+                    )}
                   </div>
 
+                  {/* Deposit Wallet Address */}
+                  <div className="mt-4">
+                    <label className="text-sm text-gray-400">Deposit Wallet Address</label>
+                    <Input
+                      value={depositWalletAddress}
+                      onChange={(e) => setDepositWalletAddress(e.target.value)}
+                      placeholder="Enter wallet address"
+                      className="mt-2 bg-zinc-800 border-zinc-700"
+                    />
+                    {missingDepositWallet && (
+                      <p className="text-red-500 text-xs mt-1">
+                        Deposit wallet address is required
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Transaction PIN */}
                   <div className="mt-4">
                     <label className="text-sm text-gray-400">Transaction PIN</label>
-
                     <div className="flex gap-2">
                       <Input
                         type={showPinInput ? 'text' : 'password'}
@@ -274,11 +346,7 @@ export default function DepositPage() {
                         onChange={(e) => setTransactionPin(e.target.value)}
                         className="bg-zinc-800 border-zinc-700"
                       />
-
-                      <Button
-                        type="button"
-                        onClick={() => setShowPinInput(!showPinInput)}
-                      >
+                      <Button type="button" onClick={() => setShowPinInput(!showPinInput)}>
                         {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
                       </Button>
                     </div>
@@ -326,9 +394,16 @@ export default function DepositPage() {
             </div>
 
             <div className="flex justify-between">
-              <span>Wallet</span>
-              <span>{truncateAddress(walletAddress)}</span>
+              <span>{transferType === 'internal' ? 'Wallet ID' : 'Wallet'}</span>
+              <span>{transferType === 'internal' ? walletID : truncateAddress(depositWalletAddress)}</span>
             </div>
+
+            {transferType === 'internal' && (
+              <div className="flex justify-between">
+                <span>Deposit Wallet Address</span>
+                <span>{truncateAddress(depositWalletAddress)}</span>
+              </div>
+            )}
 
             <p className="text-xs text-gray-400">
               {remainingTime > 0

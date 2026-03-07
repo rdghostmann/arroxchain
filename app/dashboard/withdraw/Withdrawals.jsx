@@ -242,6 +242,7 @@ INTERNAL TRANSFER
 export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData, onConfirm }) {
   const [step, setStep] = useState(1);
   const [walletId, setWalletId] = useState("");
+  const [externalWalletAddress, setExternalWalletAddress] = useState(""); // NEW
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -270,11 +271,13 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
       asset: selectedAsset.symbol,
       amount: amountNumber,
       walletId,
+      externalWalletAddress, // include in the payload
     });
 
     toast.success("Internal transfer submitted!");
     setStep(1);
     setWalletId("");
+    setExternalWalletAddress("");
     setAmount("");
   };
 
@@ -302,6 +305,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
             <Image src={selectedNetwork.imageLogo} alt={selectedNetwork.name} width={32} height={32} className="w-6 h-6 ml-auto" />
           </div>
 
+          {/* Wallet ID */}
           <Input
             value={walletId}
             onChange={(e) => setWalletId(e.target.value.toUpperCase())}
@@ -312,6 +316,15 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
             <p className="text-red-500 text-xs mt-1">Invalid WalletID</p>
           )}
 
+          {/* NEW: External Wallet Address */}
+          <Input
+            value={externalWalletAddress}
+            onChange={(e) => setExternalWalletAddress(e.target.value)}
+            placeholder="External Wallet Address"
+            className="w-full p-3 border rounded-xl"
+          />
+
+          {/* Amount */}
           <Input
             type="number"
             value={amount}
@@ -319,6 +332,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
             placeholder={`Amount (${selectedAsset.symbol})`}
             className="w-full p-3 border rounded-xl"
           />
+
           {insufficientMinimum && (
             <p className="text-yellow-500 text-xs mt-1">
               Minimum transfer is 1,000,000 USD
@@ -347,6 +361,10 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
             <p className="flex gap-4 items-center justify-between">
               <span className="font-semibold">Recipient WalletID:</span>
               <span>{walletId}</span>
+            </p>
+            <p className="flex gap-4 items-center justify-between">
+              <span className="font-semibold">External Wallet:</span>
+              <span>{externalWalletAddress || "-"}</span>
             </p>
             <p className="flex gap-4 items-center justify-between">
               <span className="font-semibold">Asset:</span>

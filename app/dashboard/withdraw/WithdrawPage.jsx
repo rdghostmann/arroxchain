@@ -31,14 +31,16 @@ export default function WithdrawPage() {
       imageLogo: "/tether-usdt-logo.png",
       networks: [
         { name: "ERC20", imageLogo: "/tether-usdt-logo.png" },
-        { name: "Tron", imageLogo: "/tron-trx-logo.png" },
+        { name: "TRC20", imageLogo: "/tron-trx-logo.png" },
       ],
     },
     {
       symbol: "BTC",
       name: "Bitcoin",
       imageLogo: "/bitcoin-btc-logo.png",
-      networks: [{ name: "Bitcoin", imageLogo: "/bitcoin-btc-logo.png" }],
+      networks: [
+        { name: "Bitcoin", imageLogo: "/bitcoin-btc-logo.png" },
+      ],
     },
     {
       symbol: "ETH",
@@ -47,6 +49,62 @@ export default function WithdrawPage() {
       networks: [
         { name: "Ethereum", imageLogo: "/ethereum-eth-logo.png" },
         { name: "Polygon", imageLogo: "/polygon-matic-logo.png" },
+      ],
+    },
+    {
+      symbol: "SOL",
+      name: "Solana",
+      imageLogo: "/solana-sol-logo.png",
+      networks: [
+        { name: "Solana", imageLogo: "/sol-logo.png" },
+      ],
+    },
+    {
+      symbol: "DOGE",
+      name: "Dogecoin",
+      imageLogo: "/dogecoin-doge-logo.png",
+      networks: [
+        { name: "Dogecoin", imageLogo: "/dogecoin-doge-logo.png" },
+      ],
+    },
+    {
+      symbol: "XRP",
+      name: "XRP",
+      imageLogo: "/xrp-xrp-logo.png",
+      networks: [
+        { name: "Ripple", imageLogo: "/xrp-xrp-logo.png" },
+      ],
+    },
+    {
+      symbol: "STELLAR",
+      name: "Stellar",
+      imageLogo: "/stellar-xlm-logo.png",
+      networks: [
+        { name: "Stellar", imageLogo: "/stellar-xlm-logo.png" },
+      ],
+    },
+    {
+      symbol: "TON",
+      name: "Ton Coin",
+      imageLogo: "/ton-ton-logo.png",
+      networks: [
+        { name: "TON", imageLogo: "/ton-ton-logo.png" },
+      ],
+    },
+    {
+      symbol: "ADA",
+      name: "Cardano",
+      imageLogo: "/cardano-ada-logo.png",
+      networks: [
+        { name: "Cardano", imageLogo: "/cardano-ada-logo.png" },
+      ],
+    },
+    {
+      symbol: "BNB",
+      name: "Binance Coin",
+      imageLogo: "/bnb-bnb-logo.png",
+      networks: [
+        { name: "BSC (BEP20)", imageLogo: "/bnb-bnb-logo.png" },
       ],
     },
   ];

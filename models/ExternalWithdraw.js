@@ -26,11 +26,6 @@ const ExternalWithdrawSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    networkFee: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
     status: {
       type: String,
       enum: ["pending", "completed", "failed"],

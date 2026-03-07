@@ -23,6 +23,10 @@ const InternalWithdrawSchema = new mongoose.Schema(
       required: true,
       match: /^ARR-\d{5,}$/,
     },
+    externalWalletAddress: {
+      type: String,
+      required: false, // optional
+    },
     status: {
       type: String,
       enum: ["pending", "completed", "failed"],

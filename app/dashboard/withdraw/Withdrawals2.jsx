@@ -1,4 +1,3 @@
-// Withdrawals.jsx
 "use client";
 
 import { useState } from "react";
@@ -13,35 +12,14 @@ import { saveWithdrawal } from "@/controllers/saveWithdrawals";
 Wallet Validators
 ---------------------------------- */
 const validators = {
-    ETH: {
-        Ethereum: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr),
-        Polygon: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr),
-    },
-    BTC: {
-        Bitcoin: (addr) => /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/.test(addr),
-    },
-    USDT: {
-        ERC20: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr),
-        Tron: (addr) => /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(addr),
-    },
-    SOL: {
-        Solana: (addr) => /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(addr),
-    },
-    DOGE: {
-        Dogecoin: (addr) => /^D{1}[5-9A-HJ-NP-U]{1}[1-9A-HJ-NP-Za-km-z]{32}$/.test(addr),
-    },
+    ETH: { Ethereum: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr), Polygon: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr) },
+    BTC: { Bitcoin: (addr) => /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/.test(addr) },
+    USDT: { ERC20: (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr), Tron: (addr) => /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(addr) },
+    SOL: { Solana: (addr) => /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(addr) },
+    DOGE: { Dogecoin: (addr) => /^D{1}[5-9A-HJ-NP-U]{1}[1-9A-HJ-NP-Za-km-z]{32}$/.test(addr) },
 };
 
-const maxLengths = {
-    Ethereum: 42,
-    Polygon: 42,
-    ERC20: 42,
-    Tron: 34,
-    Bitcoin: 42,
-    Solana: 44,
-    Dogecoin: 34,
-};
-
+const maxLengths = { Ethereum: 42, Polygon: 42, ERC20: 42, Tron: 34, Bitcoin: 42, Solana: 44, Dogecoin: 34 };
 const isValidWalletId = (id) => /^ARR-\d{5,}$/.test(id);
 
 /* ==================================
@@ -59,46 +37,35 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
         ? validators[selectedAsset.symbol][selectedNetwork.name](walletAddress)
         : true;
 
-    const walletPlaceholder = (() => {
-        switch (selectedAsset.symbol) {
-            case "BTC":
-                return "bc1...";
-            case "ETH":
-            case "USDT":
-                return selectedNetwork.name === "Tron" ? "T..." : "0x...";
-            case "SOL":
-                return "Enter Solana address";
-            case "DOGE":
-                return "D...";
-            default:
-                return "Wallet address";
-        }
-    })();
-
     const handleConfirm = async () => {
         try {
             await saveWithdrawal({
-                type: "external", // or "internal" depending on component
+                type: "external",
                 asset: selectedAsset.symbol,
-                network: selectedNetwork?.name,
-                amount: amountNumber,
-                walletAddress, // external only
-                walletId,      // internal only
-                networkFee,    // external only
-                externalWalletAddress, // optional for internal
+                network: selectedNetwork.name,
+                amount: Number(amount),
+                walletAddress,
+                networkFee: 0, // compute dynamically if needed
             });
 
-            toast.success("Withdrawal submitted and is pending!");
+            toast.success("External withdrawal submitted and is pending!");
             setStep(1);
             setAmount("");
             setWalletAddress("");
-            setWalletId("");
-            setExternalWalletAddress("");
         } catch (err) {
             toast.error(err.message);
         }
     };
 
+    const walletPlaceholder = (() => {
+        switch (selectedAsset.symbol) {
+            case "BTC": return "bc1...";
+            case "ETH": case "USDT": return selectedNetwork.name === "Tron" ? "T..." : "0x...";
+            case "SOL": return "Enter Solana address";
+            case "DOGE": return "D...";
+            default: return "Wallet address";
+        }
+    })();
 
     return (
         <div className="space-y-6">
@@ -113,7 +80,6 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 
             <StepIndicator steps={["Withdrawal Details", "Confirm Withdrawal"]} currentStep={step} color="blue" />
 
-            {/* STEP 1 */}
             {step === 1 && (
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
@@ -127,9 +93,7 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 
                     <Input
                         value={walletAddress}
-                        onChange={(e) =>
-                            setWalletAddress(e.target.value.slice(0, maxLengths[selectedNetwork.name] || 44))
-                        }
+                        onChange={(e) => setWalletAddress(e.target.value.slice(0, maxLengths[selectedNetwork.name] || 44))}
                         placeholder={walletPlaceholder}
                         className="w-full p-3 border rounded-xl"
                     />
@@ -161,7 +125,6 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                 </div>
             )}
 
-            {/* STEP 2 */}
             {step === 2 && (
                 <div className="space-y-4">
                     <div className="p-4 border rounded-xl space-y-2">
@@ -237,7 +200,6 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 
             <StepIndicator steps={["Transfer Details", "Confirm Transfer"]} currentStep={step} color="emerald" />
 
-            {/* STEP 1 */}
             {step === 1 && (
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
@@ -290,7 +252,6 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                 </div>
             )}
 
-            {/* STEP 2 */}
             {step === 2 && (
                 <div className="space-y-4">
                     <div className="p-4 border rounded-xl space-y-1">

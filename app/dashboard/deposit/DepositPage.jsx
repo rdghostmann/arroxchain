@@ -222,25 +222,27 @@ export default function DepositPage() {
 
   }, [step, remainingTime])
 
-
   // VALIDATION
   const amountNumber = Number(amount)
 
   const invalidAmount =
-    amountNumber <= 0 || isNaN(amountNumber)
+    transferType === "internal" &&
+    (amountNumber <= 0 || isNaN(amountNumber))
+
+  const missingWallet =
+    depositWalletAddress.trim().length === 0
 
   const invalidWalletID =
     transferType === 'internal' && !walletID.startsWith('ARR-')
-
-  const missingDepositWallet =
-    transferType === 'internal' && depositWalletAddress.trim().length === 0
 
   const missingPin =
     transferType === 'internal' && transactionPin.trim().length === 0
 
   const disableContinue =
-    invalidAmount || invalidWalletID || missingDepositWallet || missingPin
-
+    invalidAmount ||
+    missingWallet ||
+    invalidWalletID ||
+    missingPin
 
 
   // COPY
@@ -429,18 +431,21 @@ export default function DepositPage() {
 
               {/* AMOUNT */}
 
-              <div className="mt-6">
+              {transferType === "internal" && (
 
-                <label className="text-sm text-gray-400">Amount</label>
+                <div className="mt-6">
+                  <label className="text-sm text-gray-400">Amount</label>
 
-                <Input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="mt-2 bg-zinc-800 border-zinc-700"
-                />
+                  <Input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="mt-2 bg-zinc-800 border-zinc-700"
+                  />
 
-              </div>
+                </div>
+
+              )}
 
 
 

@@ -1,3 +1,4 @@
+// Withdrawals2.jsx
 "use client";
 
 import { useState } from "react";
@@ -25,7 +26,7 @@ const isValidWalletId = (id) => /^ARR-\d{5,}$/.test(id);
 /* ==================================
 EXTERNAL WITHDRAWAL
 ================================== */
-export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData, onConfirm }) {
+export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData }) {
     const [step, setStep] = useState(1);
     const [amount, setAmount] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
@@ -160,7 +161,7 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 /* ==================================
 INTERNAL TRANSFER
 ================================== */
-export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData, onConfirm }) {
+export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData }) {
     const [step, setStep] = useState(1);
     const [walletId, setWalletId] = useState("");
     const [externalWalletAddress, setExternalWalletAddress] = useState("");
@@ -172,21 +173,25 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
     const walletValid = isValidWalletId(walletId);
 
     const handleConfirm = async () => {
-        await onConfirm({
-            type: "internal",
-            asset: selectedAsset.symbol,
-            amount: Number(amount),
-            walletId,
-            externalWalletAddress,
-        });
+        try {
+            await saveWithdrawal({
+                type: "internal",
+                asset: selectedAsset.symbol,
+                amount: Number(amount),
+                walletId,
+                externalWalletAddress,
+            });
 
-        toast.success("Internal transfer submitted!");
-        setStep(1);
-        setWalletId("");
-        setExternalWalletAddress("");
-        setAmount("");
+            toast.success("Internal transfer submitted!");
+            setStep(1);
+            setWalletId("");
+            setExternalWalletAddress("");
+            setAmount("");
+
+        } catch (err) {
+            toast.error(err.message);
+        }
     };
-
     return (
         <div className="space-y-6">
             {loading && (

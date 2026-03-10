@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Wallet, Shield, Copy, Coins, EyeOff, Eye } from 'lucide-react';
+import {  Copy, EyeOff, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -14,7 +14,6 @@ import { truncateAddress } from '@/lib/utils';
 import NavHeader from '../components/NavHeader/NavHeader';
 
 export default function DepositPage() {
-  // TOKENS
   // TOKENS
   const tokens = [
     {

@@ -112,7 +112,7 @@ export default function AssetSection() {
             <Card
               key={asset._id}
               className="bg-card border border-border backdrop-blur-md p-5 text-foreground rounded-2xl shadow-lg transition hover:shadow-xl hover:scale-[1.01] cursor-pointer"
-              onClick={() => router.push(`/dashboard/Assets/${coin.toLowerCase()}`)}
+              // onClick={() => router.push(`/dashboard/Assets/${coin.toLowerCase()}`)}
             >
               <CardHeader className="flex items-center justify-between p-0 mb-3">
                 <div className="flex items-center gap-3">

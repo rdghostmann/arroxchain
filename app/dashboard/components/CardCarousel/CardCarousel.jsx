@@ -28,7 +28,6 @@ export default async function CardCarousel({ userIdOrEmail, walletId}) {
     maximumFractionDigits: 2,
   });
 
-  // const shortWallet = walletId?.slice(0, 6) + "..." + walletId?.slice(-4);
 
   return (
     <div className="w-full max-w-2xl mx-auto relative">

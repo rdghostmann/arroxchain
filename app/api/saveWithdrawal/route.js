@@ -2,8 +2,9 @@
 
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/connectDB";
-import ExternalWithdraw from "@/models/ExternalWithdraw";
 import InternalWithdraw from "@/models/InternalWithdraw";
+import ExternalWithdraw from "@/models/ExternalWithdraw";
+
 
 export async function POST(req) {
   try {

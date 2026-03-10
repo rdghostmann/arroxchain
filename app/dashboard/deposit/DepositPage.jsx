@@ -233,39 +233,8 @@ export default function DepositPage() {
 
         <NavHeader />
 
-        <div>
-          <p className="">Follow the correct deposit procedure</p>
-          <ul class="space-y-4">
-
-            {/* <!-- External Transfer --> */}
-            <li class="flex items-start justify-between gap-3">
-              <div class="w-5 h-5 rounded-full bg-blue-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-blue-500/30">
-                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
-              </div>
-
-              <span class="flex-1 text-left text-lg text-gray-200">
-                Use <span class="text-blue-400 font-medium">External Transfer</span> for amounts below
-                <span class="font-semibold">1,000,000 USDT</span> (Wallet address only)
-              </span>
-            </li>
-
-            {/* <!-- Internal Transfer --> */}
-            <li class="flex items-start justify-between gap-3">
-              <div class="w-5 h-5 rounded-full bg-green-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-green-500/30">
-                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-              </div>
-
-              <span class="flex-1 text-left text-lg text-gray-200">
-                Use <span class="text-green-400 font-medium">Internal Transfer</span> for amounts above
-                <span class="font-semibold">1,000,000 USDT</span> (Wallet ID & Compliance address required)
-              </span>
-            </li>
-
-          </ul>
-        </div>
-
         {/* ── FORM STEP ── */}
-        {step === 'form' && (
+        {step === "form" && (
           <>
             <Tabs value={transferType} onValueChange={setTransferType} className="mb-6">
               <TabsList className="grid grid-cols-2 bg-slate-800">
@@ -277,160 +246,51 @@ export default function DepositPage() {
             <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6">
               <h1 className="text-xl font-semibold mb-6">Deposit</h1>
 
-              {/* Token + Network selects */}
-              <div className="flex gap-4 items-end justify-between mb-4">
-                <div className="flex-1">
-                  <label className="block text-sm text-gray-400 mb-1">Token</label>
-                  <Select value={selectedToken} onValueChange={setSelectedToken}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-700 w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {tokens.map(token => (
-                        <SelectItem key={token.symbol} value={token.symbol}>
-                          <div className="flex items-center gap-2">
-                            <Image src={token.imageLogo} width={18} height={18} alt={token.symbol} />
-                            {token.name}
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div>
+                <p>Follow the correct deposit procedure</p>
 
-                <div className="flex-1">
-                  <label className="block text-sm text-gray-400 mb-1">Network</label>
-                  <Select value={selectedNetwork} onValueChange={setSelectedNetwork}>
-                    <SelectTrigger className="bg-zinc-800 border-zinc-700 w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {currentToken.networks.map(net => (
-                        <SelectItem key={net.name} value={net.name}>
-                          <div className="flex items-center gap-2">
-                            <Image src={net.imageLogo} width={18} height={18} alt={net.name} />
-                            {net.name}
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <ul className="space-y-4">
+
+                  {/* External Transfer */}
+                  {transferType === "external" && (
+                    <li className="flex items-start justify-between gap-3">
+                      <div className="w-5 h-5 rounded-full bg-blue-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-blue-500/30">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      </div>
+
+                      <span className="flex-1 text-left text-lg text-gray-200">
+                        Use{" "}
+                        <span className="text-blue-400 font-medium">
+                          External Transfer
+                        </span>{" "}
+                        for amounts below{" "}
+                        <span className="font-semibold">1,000,000 USDT</span>{" "}
+                        (Wallet address only)
+                      </span>
+                    </li>
+                  )}
+
+                  {/* Internal Transfer */}
+                  {transferType === "internal" && (
+                    <li className="flex items-start justify-between gap-3">
+                      <div className="w-5 h-5 rounded-full bg-green-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-green-500/30">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      </div>
+
+                      <span className="flex-1 text-left text-lg text-gray-200">
+                        Use{" "}
+                        <span className="text-green-400 font-medium">
+                          Internal Transfer
+                        </span>{" "}
+                        for amounts above{" "}
+                        <span className="font-semibold">1,000,000 USDT</span>{" "}
+                        (Wallet ID & Compliance address required)
+                      </span>
+                    </li>
+                  )}
+
+                </ul>
               </div>
-
-              {/* Wallet address */}
-              <div className="mt-6">
-                <label className="block text-sm text-gray-400 mb-1">
-                  {transferType === 'internal' ? 'Receiver Wallet Address' : 'Deposit Wallet Address'}
-                </label>
-                <div className="relative flex items-center gap-2">
-                  <Input
-                    value={transferType === 'external' ? currentNetwork.receiveWalletAddress : depositWalletAddress}
-                    readOnly={transferType === 'external'}
-                    onChange={e => setDepositWalletAddress(e.target.value)}
-                    placeholder={transferType === 'internal' ? 'Enter receiver wallet address' : ''}
-                    className="w-full bg-zinc-800 border-zinc-700 pr-10"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() =>
-                      copyToClipboard(
-                        transferType === 'external' ? currentNetwork.receiveWalletAddress : depositWalletAddress
-                      )
-                    }
-                    title="Copy address"
-                  >
-                    <Copy size={16} />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Amount */}
-              <div className="mt-6">
-                <label className="block text-sm text-gray-400 mb-1">Amount</label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={amount}
-                  onChange={e => setAmount(e.target.value)}
-                  placeholder="Enter deposit amount"
-                  className="bg-zinc-800 border-zinc-700"
-                />
-              </div>
-
-              {/* External: QR code */}
-              {transferType === 'external' && (
-                <div className="hidden mt-6 text-center">
-                  <Image
-                    src={currentToken.qrCodeImg}
-                    width={200}
-                    height={200}
-                    alt={`${currentToken.symbol} QR code`}
-                    className="mx-auto rounded-md p-4 bg-white"
-                  />
-                  <div className="flex justify-center items-center gap-2 mt-4">
-                    <span className="text-sm font-mono">
-                      {truncateAddress(currentNetwork.receiveWalletAddress)}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
-                      title="Copy address"
-                    >
-                      <Copy size={16} />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Internal: wallet ID + PIN */}
-              {transferType === 'internal' && (
-                <>
-                  <div className="mt-6">
-                    <label className="block text-sm text-gray-400 mb-1">Receiver Wallet ID</label>
-                    <Input
-                      value={walletID}
-                      onChange={e => setWalletID(e.target.value)}
-                      placeholder="Enter receiver wallet ID"
-                      className="bg-zinc-800 border-zinc-700"
-                    />
-                  </div>
-
-                  <div className="mt-4">
-                    <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
-                    <div className="flex gap-2">
-                      <Input
-                        type={showPinInput ? 'text' : 'password'}
-                        value={transactionPin}
-                        onChange={e => setTransactionPin(e.target.value)}
-                        className="bg-zinc-800 border-zinc-700"
-                        placeholder="Enter PIN"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setShowPinInput(v => !v)}
-                        title={showPinInput ? 'Hide PIN' : 'Show PIN'}
-                      >
-                        {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              <Button
-                onClick={handleContinue}
-                disabled={!canContinue}
-                className="w-full mt-6 bg-green-500 hover:bg-green-400 text-black font-semibold"
-              >
-                Continue
-              </Button>
             </div>
           </>
         )}

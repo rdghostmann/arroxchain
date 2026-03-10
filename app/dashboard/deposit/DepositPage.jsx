@@ -423,7 +423,7 @@ export default function DepositPage() {
                 className="mx-auto"
               />
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-center text-sm text-gray-400">
               Kindly complete the transaction within the specified time limit.
             </p>
 

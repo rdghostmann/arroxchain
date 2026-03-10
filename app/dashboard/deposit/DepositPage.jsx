@@ -25,8 +25,14 @@ export default function DepositPage() {
       color: 'from-green-500 to-blue-500',
       qrCodeImg: '/eth-qrcode-img.png',
       networks: [
-        { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-        { name: 'TRC20', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+        {
+          name: 'ERC20', imageLogo: '/tether-usdt-logo.png',
+          receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402'
+        },
+        {
+          name: 'TRC20', imageLogo: '/tron-trx-logo.png',
+          receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q'
+        },
       ],
     },
     {
@@ -36,7 +42,10 @@ export default function DepositPage() {
       color: 'from-orange-500 to-amber-500',
       qrCodeImg: '/btc-qrcode-img.png',
       networks: [
-        { name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png', receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n' },
+        {
+          name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png',
+          receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n'
+        },
       ],
     },
     {
@@ -46,8 +55,14 @@ export default function DepositPage() {
       color: 'from-purple-500 to-pink-500',
       qrCodeImg: '/eth-qrcode-img.png',
       networks: [
-        { name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-        { name: 'Polygon', imageLogo: '/polygon-matic-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+        {
+          name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png',
+          receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402'
+        },
+        {
+          name: 'Polygon', imageLogo: '/polygon-matic-logo.png',
+          receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402'
+        },
       ],
     },
     {
@@ -57,7 +72,10 @@ export default function DepositPage() {
       color: 'from-purple-500 to-pink-500',
       qrCodeImg: '/sol-qrcode-img.png',
       networks: [
-        { name: 'Solana', imageLogo: '/sol-logo.png', receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ' },
+        {
+          name: 'Solana', imageLogo: '/sol-logo.png',
+          receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ'
+        },
       ],
     },
     {
@@ -67,7 +85,10 @@ export default function DepositPage() {
       color: 'from-yellow-500 to-orange-400',
       qrCodeImg: '/doge-qrcode-img.png',
       networks: [
-        { name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png', receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6' },
+        {
+          name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png',
+          receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6'
+        },
       ],
     },
     {
@@ -77,7 +98,10 @@ export default function DepositPage() {
       color: 'from-blue-500 to-cyan-500',
       qrCodeImg: '/xrp-qrcode-img.png',
       networks: [
-        { name: 'Ripple', imageLogo: '/xrp-xrp-logo.png', receiveWalletAddress: 'r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw' },
+        {
+          name: 'Ripple', imageLogo: '/xrp-xrp-logo.png',
+          receiveWalletAddress: 'r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw'
+        },
       ],
     },
     {
@@ -87,7 +111,10 @@ export default function DepositPage() {
       color: 'from-indigo-500 to-purple-500',
       qrCodeImg: '/stellar-qrcode-img.png',
       networks: [
-        { name: 'Stellar', imageLogo: '/stellar-xlm-logo.png', receiveWalletAddress: 'GD7W3OQDVBFU2QEYMOVNCSD42H5FE7W4KJB4YJCJD2D5N7C6APAM6VDM' },
+        {
+          name: 'Stellar', imageLogo: '/stellar-xlm-logo.png',
+          receiveWalletAddress: 'GD7W3OQDVBFU2QEYMOVNCSD42H5FE7W4KJB4YJCJD2D5N7C6APAM6VDM'
+        },
       ],
     },
     {
@@ -97,7 +124,10 @@ export default function DepositPage() {
       color: 'from-yellow-400 to-yellow-500',
       qrCodeImg: '/bnb-qrcode-img.png',
       networks: [
-        { name: 'BSC (BEP20)', imageLogo: '/bnb-bnb-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+        {
+          name: 'BSC (BEP20)', imageLogo: '/bnb-bnb-logo.png',
+          receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402'
+        },
       ],
     },
     {
@@ -107,7 +137,10 @@ export default function DepositPage() {
       color: 'from-blue-400 to-blue-600',
       qrCodeImg: '/ton-qrcode-img.png',
       networks: [
-        { name: 'TON', imageLogo: '/toncoin-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
+        {
+          name: 'TON', imageLogo: '/toncoin-ton-logo.png',
+          receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5'
+        },
       ],
     },
     {
@@ -117,7 +150,10 @@ export default function DepositPage() {
       color: 'from-red-500 to-pink-500',
       qrCodeImg: '/ada-qrcode-img.png',
       networks: [
-        { name: 'Cardano', imageLogo: '/cardano-ada-logo.png', receiveWalletAddress: 'addr1q8kfx3x0sajryxaxadu6pnpgha4y7e3rg4lrrcd6nq8mvhe423dn5tzzycx2sy27nfw6zzdjzlcly3gmwe439jxjhhjst69j0v' },
+        {
+          name: 'Cardano', imageLogo: '/cardano-ada-logo.png',
+          receiveWalletAddress: 'addr1q8kfx3x0sajryxaxadu6pnpgha4y7e3rg4lrrcd6nq8mvhe423dn5tzzycx2sy27nfw6zzdjzlcly3gmwe439jxjhhjst69j0v'
+        },
       ],
     },
     {
@@ -127,7 +163,10 @@ export default function DepositPage() {
       color: 'from-red-500 to-orange-500',
       qrCodeImg: '/tron-qrcode-img.png',
       networks: [
-        { name: 'Tron', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+        {
+          name: 'Tron', imageLogo: '/tron-trx-logo.png',
+          receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q'
+        },
       ],
     },
   ];
@@ -554,13 +593,15 @@ export default function DepositPage() {
 
           <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 space-y-4">
 
-            <Image
-              src={currentToken.qrCodeImg}
-              width={200}
-              height={200}
-              alt="QR"
-              className="mx-auto border-rounded-lg p-4 bg-white"
-            />
+            <div className="fit-content mx-auto border-rounded-lg p-4 bg-white">
+              <Image
+                src={currentToken.qrCodeImg}
+                width={200}
+                height={200}
+                alt="QR"
+                className="mx-auto "
+              />
+            </div>
 
             <div className="flex justify-between">
 

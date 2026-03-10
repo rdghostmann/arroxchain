@@ -1,16 +1,21 @@
-// controllers/saveWithdrawals.js
-"use server";
+// app/api/saveWithdrawal/route.js
 
+import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/connectDB";
 import ExternalWithdraw from "@/models/ExternalWithdraw";
 import InternalWithdraw from "@/models/InternalWithdraw";
 
-export async function saveWithdrawal(withdrawalData) {
-  await connectToDB();
-
-  let savedWithdrawal;
-
+export async function POST(req) {
   try {
+    const withdrawalData = await req.json();
+
+    // Log the incoming withdrawal data
+    console.log("[saveWithdrawal] Received withdrawal data:", withdrawalData);
+
+    await connectToDB();
+
+    let savedWithdrawal;
+
     if (withdrawalData.type === "internal") {
       savedWithdrawal = await InternalWithdraw.create({
         asset: withdrawalData.asset,
@@ -29,12 +34,21 @@ export async function saveWithdrawal(withdrawalData) {
         status: "pending",
       });
     } else {
-      throw new Error("Invalid withdrawal type");
+      return NextResponse.json(
+        { error: "Invalid withdrawal type" },
+        { status: 400 }
+      );
     }
 
-    return savedWithdrawal;
+    console.log("[saveWithdrawal] Saved withdrawal:", savedWithdrawal);
+
+    return NextResponse.json(savedWithdrawal, { status: 201 });
+
   } catch (err) {
-    console.error("Failed to save withdrawal:", err);
-    throw new Error("Could not save withdrawal. Please try again.");
+    console.error("[saveWithdrawal] Failed to save withdrawal:", err);
+    return NextResponse.json(
+      { error: "Could not save withdrawal. Please try again." },
+      { status: 500 }
+    );
   }
 }

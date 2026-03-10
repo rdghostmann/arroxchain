@@ -260,7 +260,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                             <span>{walletId}</span>
                         </p>
                         <p className="flex gap-4 items-center justify-between">
-                            <span className="font-semibold">External Wallet:</span>
+                            <span className="font-semibold">Wallet Address:</span>
                             <span>{externalWalletAddress || "-"}</span>
                         </p>
                         <p className="flex gap-4 items-center justify-between">

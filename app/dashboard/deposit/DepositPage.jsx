@@ -233,6 +233,37 @@ export default function DepositPage() {
 
         <NavHeader />
 
+        <div>
+          <p className="">Follow the correct deposit procedure</p>
+          <ul class="space-y-4">
+
+            {/* <!-- External Transfer --> */}
+            <li class="flex items-start justify-between gap-3">
+              <div class="w-5 h-5 rounded-full bg-blue-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-blue-500/30">
+                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+              </div>
+
+              <span class="flex-1 text-left text-lg text-gray-200">
+                Use <span class="text-blue-400 font-medium">External Transfer</span> for amounts below
+                <span class="font-semibold">1,000,000 USDT</span> (Wallet address only)
+              </span>
+            </li>
+
+            {/* <!-- Internal Transfer --> */}
+            <li class="flex items-start justify-between gap-3">
+              <div class="w-5 h-5 rounded-full bg-green-500/20 flex justify-center items-center mt-0.5 shrink-0 border border-green-500/30">
+                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+              </div>
+
+              <span class="flex-1 text-left text-lg text-gray-200">
+                Use <span class="text-green-400 font-medium">Internal Transfer</span> for amounts above
+                <span class="font-semibold">1,000,000 USDT</span> (Wallet ID & Compliance address required)
+              </span>
+            </li>
+
+          </ul>
+        </div>
+
         {/* ── FORM STEP ── */}
         {step === 'form' && (
           <>

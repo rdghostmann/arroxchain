@@ -83,12 +83,12 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
             {step === 1 && (
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                        <img src={selectedAsset.imageLogo} alt={selectedAsset.symbol} className="w-8 h-8" />
+                        <Image src={selectedAsset.imageLogo} alt={selectedAsset.symbol} className="w-8 h-8" />
                         <div>
                             <p className="font-semibold">{selectedAsset.symbol}</p>
                             <p className="text-xs text-muted-foreground">{selectedNetwork.name}</p>
                         </div>
-                        <img src={selectedNetwork.imageLogo} alt={selectedNetwork.name} className="w-6 h-6 ml-auto" />
+                        <Image src={selectedAsset.imageLogo} alt={selectedNetwork.name} className="w-6 h-6 ml-auto" />
                     </div>
 
                     <Input
@@ -208,7 +208,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                             <p className="font-semibold">{selectedAsset.symbol}</p>
                             <p className="text-xs text-muted-foreground">{selectedNetwork.name}</p>
                         </div>
-                        <Image src={selectedNetwork.imageLogo} alt={selectedNetwork.name} width={32} height={32} className="w-6 h-6 ml-auto" />
+                        <Image src={selectedAsset.imageLogo} alt={selectedAsset.symbol} width={32} height={32} className="w-6 h-6 ml-auto" />
                     </div>
 
                     <Input

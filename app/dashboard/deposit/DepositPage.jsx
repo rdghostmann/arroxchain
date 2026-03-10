@@ -308,88 +308,100 @@ export default function DepositPage() {
               <h1 className="text-xl font-semibold mb-6">Deposit</h1>
 
 
-              {/* TOKEN */}
+              <div className="flex gap-4 items-center justify-between mb-4">
+                {/* TOKEN */}
 
-              <Select value={selectedToken} onValueChange={setSelectedToken}>
+                <span className="block">
+                  <label className="text-sm text-gray-400">Token</label>
+                  <Select value={selectedToken} onValueChange={setSelectedToken}>
 
-                <SelectTrigger className="bg-zinc-800 border-zinc-700">
+                    <SelectTrigger className="bg-zinc-800 border-zinc-700">
 
-                  <SelectValue />
+                      <SelectValue />
 
-                </SelectTrigger>
+                    </SelectTrigger>
 
-                <SelectContent>
+                    <SelectContent>
 
-                  {tokens.map(token => (
+                      {tokens.map(token => (
 
-                    <SelectItem key={token.symbol} value={token.symbol}>
+                        <SelectItem key={token.symbol} value={token.symbol}>
 
-                      <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2">
 
-                        <Image src={token.imageLogo} width={18} height={18} alt="" />
+                            <Image src={token.imageLogo} width={18} height={18} alt="" />
 
-                        {token.name}
+                            {token.name}
 
-                      </div>
+                          </div>
 
-                    </SelectItem>
+                        </SelectItem>
 
-                  ))}
+                      ))}
 
-                </SelectContent>
+                    </SelectContent>
 
-              </Select>
+                  </Select>
+                </span>
 
 
+                {/* NETWORK */}
 
-              {/* NETWORK */}
+                <span className="block">
 
-              <Select value={selectedNetwork} onValueChange={setSelectedNetwork}>
+                  <label className="text-sm text-gray-400">Network</label>
 
-                <SelectTrigger className="bg-zinc-800 border-zinc-700 mt-4">
+                  <Select value={selectedNetwork} onValueChange={setSelectedNetwork}>
 
-                  <SelectValue />
+                    <SelectTrigger className="bg-zinc-800 border-zinc-700 mt-4">
 
-                </SelectTrigger>
+                      <SelectValue />
 
-                <SelectContent>
+                    </SelectTrigger>
 
-                  {currentToken.networks.map(net => (
+                    <SelectContent>
 
-                    <SelectItem key={net.name} value={net.name}>
+                      {currentToken.networks.map(net => (
 
-                      <div className="flex items-center gap-2">
+                        <SelectItem key={net.name} value={net.name}>
 
-                        <Image src={net.imageLogo} width={18} height={18} alt="" />
+                          <div className="flex items-center gap-2">
 
-                        {net.name}
+                            <Image src={net.imageLogo} width={18} height={18} alt="" />
 
-                      </div>
+                            {net.name}
 
-                    </SelectItem>
+                          </div>
 
-                  ))}
+                        </SelectItem>
 
-                </SelectContent>
+                      ))}
 
-              </Select>
+                    </SelectContent>
+
+                  </Select>
+                </span>
+              </div>
 
 
 
               {/* WALLET */}
 
-              <div className="mt-6 relative">
+              <div className="mt-6">
+                <label className="text-sm text-gray-400">Wallet Address</label>
 
-                <Input
-                  value={currentNetwork.receiveWalletAddress}
-                  readOnly
-                  className="bg-zinc-800 border-zinc-700"
-                />
+                <div className="relative">
+                  <Input
+                    value={currentNetwork.receiveWalletAddress}
+                    readOnly
+                    className="bg-zinc-800 border-zinc-700"
+                  />
 
-                <Copy
-                  className="absolute top-3 right-3 cursor-pointer"
-                  onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
-                />
+                  <Copy
+                    className="absolute top-3 right-3 cursor-pointer"
+                    onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
+                  />
+                </div>
 
               </div>
 
@@ -412,7 +424,7 @@ export default function DepositPage() {
 
 
 
-              {/* EXTERNAL */}
+              {/* EXTERNAL QRCODE */}
 
               {transferType === 'external' && (
 
@@ -448,7 +460,7 @@ export default function DepositPage() {
 
 
 
-              {/* INTERNAL */}
+              {/* INTERNAL QRCODE */}
 
               {transferType === 'internal' && (
 
@@ -465,24 +477,6 @@ export default function DepositPage() {
                     />
 
                   </div>
-
-
-
-                  <div className="mt-4">
-
-                    <label className="text-sm text-gray-400">
-                      Deposit Wallet Address
-                    </label>
-
-                    <Input
-                      value={depositWalletAddress}
-                      onChange={(e) => setDepositWalletAddress(e.target.value)}
-                      className="mt-2 bg-zinc-800 border-zinc-700"
-                    />
-
-                  </div>
-
-
 
                   <div className="mt-4">
 

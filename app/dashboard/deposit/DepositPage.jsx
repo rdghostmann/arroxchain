@@ -189,6 +189,9 @@ export default function DepositPage() {
     currentToken.networks.find(n => n.name === selectedNetwork) ||
     currentToken.networks[0];
 
+  const minutes = String(Math.floor(remainingTime / 60)).padStart(2, '0')
+  const seconds = String(remainingTime % 60).padStart(2, '0')
+
 
   // DEFAULT NETWORK
   useEffect(() => {
@@ -304,7 +307,7 @@ export default function DepositPage() {
     if (transferType === 'external') {
 
       const token = Math.random().toString(36).substring(2)
-      const expiresAt = Date.now() + 90000
+      const expiresAt = Date.now() + 180000 // 3 minutes
 
       Cookies.set('DepositTransacToken', token, { expires: 1 })
       Cookies.set('DepositTransacTokenExpires', expiresAt.toString(), { expires: 1 })
@@ -593,6 +596,13 @@ export default function DepositPage() {
 
           <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 space-y-4">
 
+            <p className="text-sm text-gray-400 border border-gray-700 rounded-md p-3">
+              Kindly complete the transaction within the specified time limit.
+            </p>
+            <p className="text-sm text-green-400 border border-green-700 rounded-md p-3">
+              Make sure to send the exact amount to the correct wallet address to avoid any issues.
+            </p>
+
             <div className="fit-content mx-auto border-rounded-lg p-4 bg-white">
               <Image
                 src={currentToken.qrCodeImg}
@@ -660,10 +670,9 @@ export default function DepositPage() {
                 : `Time remaining: ${Math.floor(remainingTime / 60)}:${('0' + (remainingTime % 60)).slice(-2)}`
               }
 
-
-              {/* : 'Transaction Initiated'} */}
-
             </p>
+
+            <p className="text-xs text-gray-400">Time remaining: {minutes}:{seconds} </p>
 
           </div>
 

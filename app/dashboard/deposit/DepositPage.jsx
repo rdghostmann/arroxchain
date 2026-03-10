@@ -387,24 +387,44 @@ export default function DepositPage() {
 
               {/* WALLET */}
 
+              {/* WALLET ADDRESS */}
+
               <div className="mt-6">
-                <label className="text-sm text-gray-400">Wallet Address</label>
+                <label className="text-sm text-gray-400">
+                  {transferType === "internal" ? "Receiver Wallet Address" : "Deposit Wallet Address"}
+                </label>
 
                 <div className="relative">
+
                   <Input
-                    value={currentNetwork.receiveWalletAddress}
-                    readOnly
+                    value={
+                      transferType === "external"
+                        ? currentNetwork.receiveWalletAddress
+                        : depositWalletAddress
+                    }
+                    readOnly={transferType === "external"}
+                    onChange={(e) => setDepositWalletAddress(e.target.value)}
+                    placeholder={
+                      transferType === "internal"
+                        ? "Enter receiver wallet address"
+                        : ""
+                    }
                     className="w-full bg-zinc-800 border-zinc-700"
                   />
 
                   <Copy
-                    className="absolute top-0 right-0 cursor-pointer"
-                    onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
+                    className="absolute right-3 top-3 cursor-pointer"
+                    onClick={() =>
+                      copyToClipboard(
+                        transferType === "external"
+                          ? currentNetwork.receiveWalletAddress
+                          : depositWalletAddress
+                      )
+                    }
                   />
+
                 </div>
-
               </div>
-
 
 
               {/* AMOUNT */}

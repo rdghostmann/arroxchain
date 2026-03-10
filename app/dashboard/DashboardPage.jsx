@@ -15,6 +15,8 @@ export default async function DashboardPage() {
   await connectToDB();
   const user = userEmail ? await User.findOne({ email: userEmail }).lean() : null;
 
+  const walletId = user?.walletID ;
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       {/* Premium Glow Effects */}
@@ -33,7 +35,7 @@ export default async function DashboardPage() {
           <h1 className="hidden text-4xl font-bold tracking-tight mb-6 leading-tight text-foreground">
             Welcome back{user ? `, ${user.username || ""}` : ""} 👋
           </h1>
-          <p className="text-muted-foreground mt-3 max-w-xl text-lg">
+          <p className="text-muted-foreground my-3 text-lg">
             Manage your crypto, stocks, and investments in one sleek dashboard.
           </p>
         </div>
@@ -44,7 +46,7 @@ export default async function DashboardPage() {
           <div className="order-1 lg:col-span-2 space-y-20">
             {/* Carousel */}
             <div className="">
-              <CardCarousel userIdOrEmail={userEmail} />
+              <CardCarousel userIdOrEmail={userEmail} walletId={walletId} />
             </div>
 
             {/* Quick Actions */}

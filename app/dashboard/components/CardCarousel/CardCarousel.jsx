@@ -1,9 +1,7 @@
-import axios from "axios";
+// Balance Card
+
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
-import { connectToDB } from "@/lib/connectDB";
-import User from "@/models/User";
-import UserAsset from "@/models/UserAsset";
 import BalanceDisplay from "./BalanceDisplay";
 import totalUserAssetBalance from "@/controllers/TotalUserAssetBalance";
 
@@ -22,7 +20,7 @@ const coinSlugMap = {
   SHIB: "shiba-inu",
 };
 
-export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123...DEF456" }) {
+export default async function CardCarousel({ userIdOrEmail, walletId}) {
   const totalUsd = await totalUserAssetBalance(userIdOrEmail);
 
   const formattedBalance = Number(totalUsd).toLocaleString(undefined, {
@@ -30,7 +28,7 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
     maximumFractionDigits: 2,
   });
 
-  const shortWallet = walletId?.slice(0, 6) + "..." + walletId?.slice(-4);
+  // const shortWallet = walletId?.slice(0, 6) + "..." + walletId?.slice(-4);
 
   return (
     <div className="w-full max-w-2xl mx-auto relative">
@@ -63,10 +61,10 @@ export default async function CardCarousel({ userIdOrEmail, walletId = "0xABC123
             {/* Wallet Info */}
             <div className="mb-6">
               <p className="text-xs uppercase tracking-widest text-muted-foreground/70">
-                Wallet Address
+                Wallet ID
               </p>
               <p className="mt-2 text-sm sm:text-base font-semibold text-foreground tracking-wide">
-                {shortWallet}
+                {walletId}
               </p>
             </div>
 

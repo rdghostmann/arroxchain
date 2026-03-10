@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { Menu, X, ChevronRight, Download, ShieldCheck } from 'lucide-react'
+import { Menu, X, ChevronRight} from 'lucide-react'
 import Image from 'next/image'
 
 export function Navbar() {

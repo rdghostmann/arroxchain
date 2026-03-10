@@ -226,9 +226,6 @@ export default function DepositPage() {
     setStep('summary');
   };
 
-  const handleBack = () => {
-    setStep('form');
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -411,16 +408,7 @@ export default function DepositPage() {
         {step === 'summary' && (
           <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 space-y-4">
 
-            <button
-              onClick={handleBack}
-              className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors mb-2"
-            >
-              <ArrowLeft size={16} /> Back
-            </button>
 
-            <p className="text-sm text-gray-400 border border-gray-700 rounded-md p-3">
-              Kindly complete the transaction within the specified time limit.
-            </p>
             <p className="text-sm text-green-400 border border-green-700 rounded-md p-3">
               Make sure to send the exact amount to the correct wallet address to avoid any issues.
             </p>
@@ -435,6 +423,9 @@ export default function DepositPage() {
                 className="mx-auto"
               />
             </div>
+            <p className="text-sm text-gray-400">
+              Kindly complete the transaction within the specified time limit.
+            </p>
 
             {/* Summary rows */}
             {[
@@ -456,6 +447,7 @@ export default function DepositPage() {
                 <span className="font-medium">{value}</span>
               </div>
             ))}
+
 
             {/* Timer — shown only for external transfers */}
             {transferType === 'external' && (

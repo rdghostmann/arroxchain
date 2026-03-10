@@ -282,7 +282,7 @@ export default function DepositPage() {
 
     <div className="min-h-screen flex items-center justify-center px-4">
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-7xl mx-auto py-10">
 
         <NavHeader />
 

@@ -15,121 +15,121 @@ import NavHeader from '../components/NavHeader/NavHeader';
 
 export default function DepositPage() {
   // TOKENS
- // TOKENS
-const tokens = [
-  {
-    symbol: 'USDT',
-    name: 'Tether',
-    imageLogo: '/tether-usdt-logo.png',
-    color: 'from-green-500 to-blue-500',
-    qrCodeImg: '/eth-qrcode-img.png',
-    networks: [
-      { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-      { name: 'TRC20', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
-    ],
-  },
-  {
-    symbol: 'BTC',
-    name: 'Bitcoin',
-    imageLogo: '/bitcoin-btc-logo.png',
-    color: 'from-orange-500 to-amber-500',
-    qrCodeImg: '/btc-qrcode-img.png',
-    networks: [
-      { name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png', receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n' },
-    ],
-  },
-  {
-    symbol: 'ETH',
-    name: 'Ethereum',
-    imageLogo: '/ethereum-eth-logo.png',
-    color: 'from-purple-500 to-pink-500',
-    qrCodeImg: '/eth-qrcode-img.png',
-    networks: [
-      { name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-      { name: 'Polygon', imageLogo: '/polygon-matic-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-    ],
-  },
-  {
-    symbol: 'SOL',
-    name: 'Solana',
-    imageLogo: '/solana-sol-logo.png',
-    color: 'from-purple-500 to-pink-500',
-    qrCodeImg: '/sol-qrcode-img.png',
-    networks: [
-      { name: 'Solana', imageLogo: '/sol-logo.png', receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ' },
-    ],
-  },
-  {
-    symbol: 'DOGE',
-    name: 'Dogecoin',
-    imageLogo: '/dogecoin-doge-logo.png',
-    color: 'from-yellow-500 to-orange-400',
-    qrCodeImg: '/doge-qrcode-img.png',
-    networks: [
-      { name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png', receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6' },
-    ],
-  },
-  {
-    symbol: 'XRP',
-    name: 'XRP',
-    imageLogo: '/xrp-xrp-logo.png',
-    color: 'from-blue-500 to-cyan-500',
-    qrCodeImg: '/xrp-qrcode-img.png',
-    networks: [
-      { name: 'Ripple', imageLogo: '/xrp-xrp-logo.png', receiveWalletAddress: 'r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw' },
-    ],
-  },
-  {
-    symbol: 'STELLAR',
-    name: 'Stellar',
-    imageLogo: '/stellar-xlm-logo.png',
-    color: 'from-indigo-500 to-purple-500',
-    qrCodeImg: '/stellar-qrcode-img.png',
-    networks: [
-      { name: 'Stellar', imageLogo: '/stellar-xlm-logo.png', receiveWalletAddress: 'GD7W3OQDVBFU2QEYMOVNCSD42H5FE7W4KJB4YJCJD2D5N7C6APAM6VDM' },
-    ],
-  },
-  {
-    symbol: 'BNB',
-    name: 'Binance Coin',
-    imageLogo: '/bnb-bnb-logo.png',
-    color: 'from-yellow-400 to-yellow-500',
-    qrCodeImg: '/bnb-qrcode-img.png',
-    networks: [
-      { name: 'BSC (BEP20)', imageLogo: '/bnb-bnb-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
-    ],
-  },
-  {
-    symbol: 'TON',
-    name: 'Ton Coin',
-    imageLogo: '/toncoin-ton-logo.png',
-    color: 'from-blue-400 to-blue-600',
-    qrCodeImg: '/ton-qrcode-img.png',
-    networks: [
-      { name: 'TON', imageLogo: '/toncoin-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
-    ],
-  },
-  {
-    symbol: 'ADA',
-    name: 'Cardano',
-    imageLogo: '/cardano-ada-logo.png',
-    color: 'from-red-500 to-pink-500',
-    qrCodeImg: '/ada-qrcode-img.png',
-    networks: [
-      { name: 'Cardano', imageLogo: '/cardano-ada-logo.png', receiveWalletAddress: 'addr1q8kfx3x0sajryxaxadu6pnpgha4y7e3rg4lrrcd6nq8mvhe423dn5tzzycx2sy27nfw6zzdjzlcly3gmwe439jxjhhjst69j0v' },
-    ],
-  },
-  {
-    symbol: 'TRON',
-    name: 'Tron',
-    imageLogo: '/tron-trx-logo.png',
-    color: 'from-red-500 to-orange-500',
-    qrCodeImg: '/tron-qrcode-img.png',
-    networks: [
-      { name: 'Tron', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
-    ],
-  },
-];
+  // TOKENS
+  const tokens = [
+    {
+      symbol: 'USDT',
+      name: 'Tether',
+      imageLogo: '/tether-usdt-logo.png',
+      color: 'from-green-500 to-blue-500',
+      qrCodeImg: '/eth-qrcode-img.png',
+      networks: [
+        { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+        { name: 'TRC20', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+      ],
+    },
+    {
+      symbol: 'BTC',
+      name: 'Bitcoin',
+      imageLogo: '/bitcoin-btc-logo.png',
+      color: 'from-orange-500 to-amber-500',
+      qrCodeImg: '/btc-qrcode-img.png',
+      networks: [
+        { name: 'Bitcoin', imageLogo: '/bitcoin-btc-logo.png', receiveWalletAddress: 'bc1qz4k4w6jq6mq0ku9t5cksjcf6upkjfy9f0s9k4n' },
+      ],
+    },
+    {
+      symbol: 'ETH',
+      name: 'Ethereum',
+      imageLogo: '/ethereum-eth-logo.png',
+      color: 'from-purple-500 to-pink-500',
+      qrCodeImg: '/eth-qrcode-img.png',
+      networks: [
+        { name: 'Ethereum', imageLogo: '/ethereum-eth-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+        { name: 'Polygon', imageLogo: '/polygon-matic-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+      ],
+    },
+    {
+      symbol: 'SOL',
+      name: 'Solana',
+      imageLogo: '/solana-sol-logo.png',
+      color: 'from-purple-500 to-pink-500',
+      qrCodeImg: '/sol-qrcode-img.png',
+      networks: [
+        { name: 'Solana', imageLogo: '/sol-logo.png', receiveWalletAddress: '7xobDDbnnywZR6DY9UP1jS3QuvkFAGwVnUfugcGqjXVQ' },
+      ],
+    },
+    {
+      symbol: 'DOGE',
+      name: 'Dogecoin',
+      imageLogo: '/dogecoin-doge-logo.png',
+      color: 'from-yellow-500 to-orange-400',
+      qrCodeImg: '/doge-qrcode-img.png',
+      networks: [
+        { name: 'Dogecoin', imageLogo: '/dogecoin-doge-logo.png', receiveWalletAddress: 'DRhAMz5YH6uucEZWFuJrNznbrEf8yvD2R6' },
+      ],
+    },
+    {
+      symbol: 'XRP',
+      name: 'XRP',
+      imageLogo: '/xrp-xrp-logo.png',
+      color: 'from-blue-500 to-cyan-500',
+      qrCodeImg: '/xrp-qrcode-img.png',
+      networks: [
+        { name: 'Ripple', imageLogo: '/xrp-xrp-logo.png', receiveWalletAddress: 'r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw' },
+      ],
+    },
+    {
+      symbol: 'STELLAR',
+      name: 'Stellar',
+      imageLogo: '/stellar-xlm-logo.png',
+      color: 'from-indigo-500 to-purple-500',
+      qrCodeImg: '/stellar-qrcode-img.png',
+      networks: [
+        { name: 'Stellar', imageLogo: '/stellar-xlm-logo.png', receiveWalletAddress: 'GD7W3OQDVBFU2QEYMOVNCSD42H5FE7W4KJB4YJCJD2D5N7C6APAM6VDM' },
+      ],
+    },
+    {
+      symbol: 'BNB',
+      name: 'Binance Coin',
+      imageLogo: '/bnb-bnb-logo.png',
+      color: 'from-yellow-400 to-yellow-500',
+      qrCodeImg: '/bnb-qrcode-img.png',
+      networks: [
+        { name: 'BSC (BEP20)', imageLogo: '/bnb-bnb-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+      ],
+    },
+    {
+      symbol: 'TON',
+      name: 'Ton Coin',
+      imageLogo: '/toncoin-ton-logo.png',
+      color: 'from-blue-400 to-blue-600',
+      qrCodeImg: '/ton-qrcode-img.png',
+      networks: [
+        { name: 'TON', imageLogo: '/toncoin-ton-logo.png', receiveWalletAddress: 'UQDTYf6CS_kMhP_fKnXsiDYJfHI0b3IcBQm_oinVXwwEEyA5' },
+      ],
+    },
+    {
+      symbol: 'ADA',
+      name: 'Cardano',
+      imageLogo: '/cardano-ada-logo.png',
+      color: 'from-red-500 to-pink-500',
+      qrCodeImg: '/ada-qrcode-img.png',
+      networks: [
+        { name: 'Cardano', imageLogo: '/cardano-ada-logo.png', receiveWalletAddress: 'addr1q8kfx3x0sajryxaxadu6pnpgha4y7e3rg4lrrcd6nq8mvhe423dn5tzzycx2sy27nfw6zzdjzlcly3gmwe439jxjhhjst69j0v' },
+      ],
+    },
+    {
+      symbol: 'TRON',
+      name: 'Tron',
+      imageLogo: '/tron-trx-logo.png',
+      color: 'from-red-500 to-orange-500',
+      qrCodeImg: '/tron-qrcode-img.png',
+      networks: [
+        { name: 'Tron', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
+      ],
+    },
+  ];
 
   // STATE
   const [transferType, setTransferType] = useState('external');
@@ -271,6 +271,15 @@ const tokens = [
                   ))}
                 </SelectContent>
               </Select>
+
+              <div>
+                <Input
+                  value={currentToken.receiveWalletAddress}
+                  readOnly
+                  className="mt-4 bg-zinc-800 border-zinc-700"
+                />
+                <Copy value={currentToken.receiveWalletAddress} />
+              </div>
 
               {/* AMOUNT */}
               <div className="mt-6">

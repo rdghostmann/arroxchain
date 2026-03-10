@@ -565,7 +565,7 @@ export default function DepositPage() {
               width={200}
               height={200}
               alt="QR"
-              className="mx-auto border-rounded-sm p-4 bg-white"
+              className="mx-auto border-rounded-lg p-4 bg-white"
             />
 
             <div className="flex justify-between">

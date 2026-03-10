@@ -64,10 +64,7 @@ const TransactionPage = () => {
     if (type === "stocks") icon = <LineChart className="w-6 h-6 text-blue-400" />;
 
     return (
-      <div
-        key={tx._id}
-        className={`relative p-4 sm:p-5 rounded-xl border border-white/10 ${bgColor} shadow-lg transition-all duration-300 hover:scale-[1.01] flex flex-col gap-2`}
-      >
+      <div key={tx._id} className={`relative p-4 sm:p-5 rounded-xl border border-white/10 ${bgColor} shadow-lg transition-all duration-300 hover:scale-[1.01] flex flex-col gap-2`} >
         {/* Premium Glow Effects */}
         <div className="absolute inset-0 pointer-events-none z-0">
           <div className="absolute top-20 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse"></div>
@@ -125,7 +122,7 @@ const TransactionPage = () => {
   };
 
   return (
-        <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6">
       {/* Premium Glow Effects */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-20 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse"></div>
@@ -136,15 +133,15 @@ const TransactionPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
         <NavHeader />
 
-        <Card className="border-none bg-black/30 shadow-xl backdrop-blur-lg">
-          <CardHeader>
-            <CardTitle>
-              <span className="bg-linear-to-r from-sky-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent text-xl sm:text-2xl font-extrabold drop-shadow-lg">
+        <div className="border-none bg-black/30 shadow-xl backdrop-blur-lg">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <h2 className="bg-linear-to-r from-sky-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent text-xl sm:text-2xl font-extrabold drop-shadow-lg">
                 Transaction History
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+              </h2>
+            </div>
+          </div>
+          <div>
             <Tabs defaultValue="received" className="w-full mx-auto">
               <TabsList
                 className="mx-auto mb-4 flex flex-nowrap justify-center gap-2 bg-gray-900/80 rounded-md shadow-lg border border-gray-700 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
@@ -235,8 +232,8 @@ const TransactionPage = () => {
                 )}
               </TabsContent>
             </Tabs>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

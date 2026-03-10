@@ -7,7 +7,7 @@ import { StepIndicator } from "./StepIndicator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation"
 /* ----------------------------------
    API Helper — calls /api/saveWithdrawal
 ---------------------------------- */
@@ -80,7 +80,7 @@ function LoadingOverlay({ message, color = "blue" }) {
 /* ==================================
    EXTERNAL WITHDRAWAL
 ================================== */
-export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData }) {
+export function ExternalWithdrawal({ selectedAsset, selectedNetwork }) {
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
@@ -96,6 +96,8 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 
   const amountValid = Number(amount) > 0;
 
+  const router = useRouter();
+
   const handleConfirm = async () => {
     try {
       setLoading(true);
@@ -110,11 +112,13 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
       });
 
       toast.success("Withdrawal submitted!");
+      router.push("/dashboard");
 
       // Reset form
       setStep(1);
       setAmount("");
       setWalletAddress("");
+
     } catch (err) {
       toast.error(err.message || "Withdrawal failed");
     } finally {
@@ -246,7 +250,7 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
 /* ==================================
    INTERNAL TRANSFER
 ================================== */
-export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsData }) {
+export function InternalWithdrawal({ selectedAsset, selectedNetwork }) {
   const [step, setStep] = useState(1);
   const [walletId, setWalletId] = useState("");
   const [externalWalletAddress, setExternalWalletAddress] = useState("");
@@ -273,6 +277,7 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
       });
 
       toast.success("Internal transfer successful!");
+      router.push("/dashboard");
 
       // Reset form
       setStep(1);

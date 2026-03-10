@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const coinSlugMap = {
   BTC: "bitcoin",
@@ -116,9 +117,11 @@ export default function AssetSection() {
             >
               <CardHeader className="flex items-center justify-between p-0 mb-3">
                 <div className="flex items-center gap-3">
-                  <img
+                  <Image
                     src={`/cryptocoin/${baseSlug}.svg`}
                     alt={coin}
+                    width={40}
+                    height={40}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = `/cryptocoin/${baseSlug}.png`;

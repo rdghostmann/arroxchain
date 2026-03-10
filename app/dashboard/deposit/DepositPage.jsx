@@ -226,24 +226,21 @@ export default function DepositPage() {
   const amountNumber = Number(amount)
 
   const invalidAmount =
-    transferType === "internal" &&
-    (amountNumber <= 0 || isNaN(amountNumber))
+    amountNumber <= 0 || isNaN(amountNumber)
 
   const missingWallet =
+    transferType === "internal" &&
     depositWalletAddress.trim().length === 0
 
   const invalidWalletID =
-    transferType === 'internal' && !walletID.startsWith('ARR-')
+    transferType === "internal" &&
+    walletID.trim().length === 0
 
   const missingPin =
-    transferType === 'internal' && transactionPin.trim().length === 0
+    transferType === "internal" &&
+    transactionPin.trim().length === 0
 
-  const disableContinue =
-    invalidAmount ||
-    missingWallet ||
-    invalidWalletID ||
-    missingPin
-
+  const disableContinue = invalidAmount || missingWallet || invalidWalletID || missingPin
 
   // COPY
   const copyToClipboard = async (value) => {
@@ -431,21 +428,17 @@ export default function DepositPage() {
 
               {/* AMOUNT */}
 
-              {transferType === "internal" && (
+              <div className="mt-6">
+                <label className="text-sm text-gray-400">Amount</label>
 
-                <div className="mt-6">
-                  <label className="text-sm text-gray-400">Amount</label>
-
-                  <Input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mt-2 bg-zinc-800 border-zinc-700"
-                  />
-
-                </div>
-
-              )}
+                <Input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter deposit amount"
+                  className="mt-2 bg-zinc-800 border-zinc-700"
+                />
+              </div>
 
 
 
@@ -493,11 +486,12 @@ export default function DepositPage() {
 
                   <div className="mt-6">
 
-                    <label className="text-sm text-gray-400">Wallet ID</label>
+                    <label className="text-sm text-gray-400">Receiver Wallet ID</label>
 
                     <Input
                       value={walletID}
-                      readOnly
+                      onChange={(e) => setWalletID(e.target.value)}
+                      placeholder="Enter receiver wallet ID"
                       className="mt-2 bg-zinc-800 border-zinc-700"
                     />
 

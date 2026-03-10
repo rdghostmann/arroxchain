@@ -42,5 +42,4 @@ const ExternalWithdrawSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export default mongoose.models.ExternalWithdraw ||
-  mongoose.model("ExternalWithdraw", ExternalWithdrawSchema);
+export default mongoose.models.ExternalWithdraw || mongoose.model("ExternalWithdraw", ExternalWithdrawSchema);

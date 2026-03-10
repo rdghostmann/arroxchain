@@ -39,22 +39,34 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
         : true;
 
     const handleConfirm = async () => {
+
         try {
+
+            setLoading(true);
+
             await saveWithdrawal({
                 type: "external",
                 asset: selectedAsset.symbol,
                 network: selectedNetwork.name,
                 amount: Number(amount),
                 walletAddress,
-                networkFee: 0, // compute dynamically if needed
+                networkFee: 0
             });
 
-            toast.success("External withdrawal submitted and is pending!");
+            toast.success("Withdrawal submitted!");
+
             setStep(1);
             setAmount("");
             setWalletAddress("");
+
         } catch (err) {
-            toast.error(err.message);
+
+            toast.error(err.message || "Withdrawal failed");
+
+        } finally {
+
+            setLoading(false);
+
         }
     };
 
@@ -173,7 +185,11 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
     const walletValid = isValidWalletId(walletId);
 
     const handleConfirm = async () => {
+
         try {
+
+            setLoading(true);
+
             await saveWithdrawal({
                 type: "internal",
                 asset: selectedAsset.symbol,
@@ -182,14 +198,21 @@ export function InternalWithdrawal({ selectedAsset, selectedNetwork, userAssetsD
                 externalWalletAddress,
             });
 
-            toast.success("Internal transfer submitted!");
+            toast.success("Internal transfer successful!");
+
             setStep(1);
             setWalletId("");
             setExternalWalletAddress("");
             setAmount("");
 
         } catch (err) {
-            toast.error(err.message);
+
+            toast.error(err.message || "Transfer failed");
+
+        } finally {
+
+            setLoading(false);
+
         }
     };
     return (

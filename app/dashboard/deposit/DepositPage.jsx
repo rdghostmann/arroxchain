@@ -157,11 +157,16 @@ export default function DepositPage() {
   }, [transferType, currentNetwork]);
 
   // Generate wallet ID for internal transfers
+  // useEffect(() => {
+  //   if (transferType === 'internal') {
+  //     const randomID = Math.floor(100000 + Math.random() * 900000);
+  //     setWalletID(`ARR-${randomID}`);
+  //   } else {
+  //     setWalletID('');
+  //   }
+  // }, [transferType]);
   useEffect(() => {
-    if (transferType === 'internal') {
-      const randomID = Math.floor(100000 + Math.random() * 900000);
-      setWalletID(`ARR-${randomID}`);
-    } else {
+    if (transferType !== 'internal') {
       setWalletID('');
     }
   }, [transferType]);

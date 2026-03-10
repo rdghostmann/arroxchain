@@ -415,7 +415,7 @@ export default function DepositPage() {
                   />
 
                   <Copy
-                    className="absolute right-3 top-3 cursor-pointer"
+                    className="hidden absolute right-3 top-3 cursor-pointer"
                     onClick={() =>
                       copyToClipboard(
                         transferType === "external"
@@ -622,7 +622,11 @@ export default function DepositPage() {
 
               {remainingTime > 0
                 ? `Time remaining: ${Math.floor(remainingTime / 60)}:${('0' + (remainingTime % 60)).slice(-2)}`
-                : 'Transaction Initiated'}
+                : `Time remaining: ${Math.floor(remainingTime / 60)}:${('0' + (remainingTime % 60)).slice(-2)}`
+              }
+
+
+              {/* : 'Transaction Initiated'} */}
 
             </p>
 

@@ -331,7 +331,7 @@ export default function DepositPage() {
 
               {/* External: QR code */}
               {transferType === 'external' && (
-                <div className="mt-6 text-center">
+                <div className="hidden mt-6 text-center">
                   <Image
                     src={currentToken.qrCodeImg}
                     width={200}
@@ -414,15 +414,30 @@ export default function DepositPage() {
             </p>
 
             {/* QR Code */}
-            <div className="w-fit mx-auto rounded-lg p-4 bg-white">
+            <div className="mt-6 text-center">
               <Image
                 src={currentToken.qrCodeImg}
                 width={200}
                 height={200}
                 alt={`${currentToken.symbol} QR code`}
-                className="mx-auto"
+                className="mx-auto rounded-md p-4 bg-white"
               />
+              <div className="flex justify-center items-center gap-2 mt-4">
+                <span className="text-sm font-mono">
+                  {truncateAddress(currentNetwork.receiveWalletAddress)}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
+                  title="Copy address"
+                >
+                  <Copy size={16} />
+                </Button>
+              </div>
             </div>
+
             <p className="text-center text-sm text-gray-400">
               Kindly complete the transaction within the specified time limit.
             </p>

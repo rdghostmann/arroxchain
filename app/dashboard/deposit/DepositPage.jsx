@@ -272,7 +272,7 @@ export default function DepositPage() {
                 </SelectContent>
               </Select>
 
-              <div>
+              <div className="mt-6">
                 <Input
                   value={currentToken.receiveWalletAddress}
                   readOnly

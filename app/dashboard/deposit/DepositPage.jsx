@@ -353,7 +353,7 @@ export default function DepositPage() {
 
                   <Select value={selectedNetwork} onValueChange={setSelectedNetwork}>
 
-                    <SelectTrigger className="bg-zinc-800 border-zinc-700 mt-4">
+                    <SelectTrigger className="bg-zinc-800 border-zinc-700">
 
                       <SelectValue />
 
@@ -394,11 +394,11 @@ export default function DepositPage() {
                   <Input
                     value={currentNetwork.receiveWalletAddress}
                     readOnly
-                    className="bg-zinc-800 border-zinc-700"
+                    className="w-full bg-zinc-800 border-zinc-700"
                   />
 
                   <Copy
-                    className="absolute top-3 right-3 cursor-pointer"
+                    className="absolute top-0 right-0 cursor-pointer"
                     onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
                   />
                 </div>
@@ -540,7 +540,7 @@ export default function DepositPage() {
               width={200}
               height={200}
               alt="QR"
-              className="mx-auto"
+              className="mx-auto border-rounded-sm p-4 bg-white"
             />
 
             <div className="flex justify-between">

@@ -33,6 +33,7 @@ export async function getAllcustomer() {
     zipCode: user.zipCode ?? "",
     role: user.role,
     status: user.status,
+    walletID: user.walletID ?? "N/A",
     kycStatus: user.kycStatus ?? "pending",
     balance: user.balance,
     joinDate: user.createdAt?.toISOString().split("T")[0] ?? "",

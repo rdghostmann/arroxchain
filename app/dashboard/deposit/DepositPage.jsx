@@ -302,6 +302,43 @@ export default function DepositPage() {
                   </Button>
                 </div>
               </div>
+              
+                {/* Internal: wallet ID (manually entered) + PIN */}
+                {transferType === 'internal' && (
+                  <>
+                    <div className="mt-6">
+                      <label className="block text-sm text-gray-400 mb-1">Receiver Wallet ID</label>
+                      <Input
+                        value={walletID}
+                        onChange={e => setWalletID(e.target.value)}
+                        placeholder="Enter receiver wallet ID"
+                        className="bg-zinc-800 border-zinc-700"
+                      />
+                    </div>
+  
+                    <div className="hidden mt-4">
+                      <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
+                      <div className="flex gap-2">
+                        <Input
+                          type={showPinInput ? 'text' : 'password'}
+                          value={transactionPin}
+                          onChange={e => setTransactionPin(e.target.value)}
+                          className="bg-zinc-800 border-zinc-700"
+                          placeholder="Enter PIN"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setShowPinInput(v => !v)}
+                          title={showPinInput ? 'Hide PIN' : 'Show PIN'}
+                        >
+                          {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
 
               {/* Amount */}
               <div className="mt-6">
@@ -316,42 +353,6 @@ export default function DepositPage() {
                 />
               </div>
 
-              {/* Internal: wallet ID (manually entered) + PIN */}
-              {transferType === 'internal' && (
-                <>
-                  <div className="mt-6">
-                    <label className="block text-sm text-gray-400 mb-1">Receiver Wallet ID</label>
-                    <Input
-                      value={walletID}
-                      onChange={e => setWalletID(e.target.value)}
-                      placeholder="Enter receiver wallet ID"
-                      className="bg-zinc-800 border-zinc-700"
-                    />
-                  </div>
-
-                  <div className="hidden mt-4">
-                    <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
-                    <div className="flex gap-2">
-                      <Input
-                        type={showPinInput ? 'text' : 'password'}
-                        value={transactionPin}
-                        onChange={e => setTransactionPin(e.target.value)}
-                        className="bg-zinc-800 border-zinc-700"
-                        placeholder="Enter PIN"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setShowPinInput(v => !v)}
-                        title={showPinInput ? 'Hide PIN' : 'Show PIN'}
-                      >
-                        {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              )}
 
               <Button
                 onClick={handleContinue}

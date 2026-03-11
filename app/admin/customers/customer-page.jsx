@@ -218,7 +218,7 @@ export default function CustomersPage() {
                   <CardTitle>Customers ({filteredCustomers.length})</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
-                  <table className="w-full min-w-[800px] text-white">
+                  <table className="w-full min-w-200 text-white">
                     <thead className="border-b border-white/20">
                       <tr className="text-left">
                         <th className="p-4 font-medium">Username</th>
@@ -237,10 +237,12 @@ export default function CustomersPage() {
                         <tr key={customer.id} className="border-b border-white/20 hover:bg-white/5 transition">
                           <td className="p-4">
                             <div className="flex items-center gap-3">
-                              <Avatar>
-                                <AvatarImage src={customer.avatar || "/placeholder.svg"} />
-                                <AvatarFallback>{(customer.username || "NA").split(" ").map((n) => n[0]).join("")}</AvatarFallback>
-                              </Avatar>
+                              <div className="hidden">
+                                <Avatar>
+                                  <AvatarImage src={customer.avatar || "/placeholder.svg"} />
+                                  <AvatarFallback>{(customer.username || "NA").split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                                </Avatar>
+                              </div>
                               <span>{customer.username || "No Name"}</span>
                             </div>
                           </td>
@@ -248,6 +250,7 @@ export default function CustomersPage() {
                           <td className="p-4 space-y-1 text-sm">
                             <div className="flex items-center gap-1"><Mail className="w-3 h-3" /> {customer.email}</div>
                             <div className="flex items-center gap-1"><Phone className="w-3 h-3" /> {customer.phone}</div>
+                            <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div>
                           </td>
                           <td className="p-4">{customer.country}</td>
                           <td className="p-4"><Badge className={getStatusColor(customer.status)}>{customer.status}</Badge></td>

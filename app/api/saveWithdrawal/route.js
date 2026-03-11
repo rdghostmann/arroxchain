@@ -24,8 +24,8 @@ export async function POST(req) {
     // ── 2. Parse body ──────────────────────────────────────
     const withdrawalData = await req.json();
 
-    console.log("[saveWithdrawal] userId:", userId);
-    console.log("[saveWithdrawal] Received withdrawal data:", withdrawalData);
+    // console.log("[saveWithdrawal] userId:", userId);
+    // console.log("[saveWithdrawal] Received withdrawal data:", withdrawalData);
 
     // ── 3. DB ──────────────────────────────────────────────
     await connectToDB();
@@ -60,7 +60,7 @@ export async function POST(req) {
       );
     }
 
-    console.log("[saveWithdrawal] Saved withdrawal:", savedWithdrawal);
+    // console.log("[saveWithdrawal] Saved withdrawal:", savedWithdrawal);
 
     return NextResponse.json(savedWithdrawal, { status: 201 });
 

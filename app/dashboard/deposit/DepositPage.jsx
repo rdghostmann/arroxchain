@@ -1,11 +1,8 @@
 // DepositPage.jsx
-
-'use client';
-
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy, EyeOff, Eye, ArrowLeft } from 'lucide-react';
+import { Copy, EyeOff, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -128,7 +125,7 @@ export default function DepositPage() {
   const [selectedNetwork, setSelectedNetwork] = useState('');
   const [walletID, setWalletID] = useState('');
   const [depositWalletAddress, setDepositWalletAddress] = useState('');
-  const [transactionPin, setTransactionPin] = useState('');
+  const [transactionPin, setTransactionPin] = useState('Password@1');
   const [amount, setAmount] = useState('');
   const [showPinInput, setShowPinInput] = useState(false);
   const [step, setStep] = useState('form');
@@ -156,15 +153,7 @@ export default function DepositPage() {
     }
   }, [transferType, currentNetwork]);
 
-  // Generate wallet ID for internal transfers
-  // useEffect(() => {
-  //   if (transferType === 'internal') {
-  //     const randomID = Math.floor(100000 + Math.random() * 900000);
-  //     setWalletID(`ARR-${randomID}`);
-  //   } else {
-  //     setWalletID('');
-  //   }
-  // }, [transferType]);
+  // Clear walletID when switching away from internal
   useEffect(() => {
     if (transferType !== 'internal') {
       setWalletID('');
@@ -206,7 +195,7 @@ export default function DepositPage() {
   // Validation
   const amountNumber = Number(amount);
   const isAmountValid = !isNaN(amountNumber) && amountNumber > 0;
-  const isWalletValid = transferType === 'external' || depositWalletAddress.trim().length > 0;
+  const isWalletValid = true; // always provided by currentNetwork.receiveWalletAddress
   const isWalletIDValid = transferType === 'external' || walletID.trim().length > 0;
   const isPinValid = transferType === 'external' || transactionPin.trim().length > 0;
   const canContinue = isAmountValid && isWalletValid && isWalletIDValid && isPinValid;
@@ -230,7 +219,6 @@ export default function DepositPage() {
     }
     setStep('summary');
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -299,21 +287,15 @@ export default function DepositPage() {
                 </label>
                 <div className="relative flex items-center gap-2">
                   <Input
-                    value={transferType === 'external' ? currentNetwork.receiveWalletAddress : depositWalletAddress}
-                    readOnly={transferType === 'external'}
-                    onChange={e => setDepositWalletAddress(e.target.value)}
-                    placeholder={transferType === 'internal' ? 'Enter receiver wallet address' : ''}
+                    value={currentNetwork.receiveWalletAddress}
+                    readOnly
                     className="w-full bg-zinc-800 border-zinc-700 pr-10"
                   />
                   <Button
                     variant="ghost"
                     size="icon"
                     className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() =>
-                      copyToClipboard(
-                        transferType === 'external' ? currentNetwork.receiveWalletAddress : depositWalletAddress
-                      )
-                    }
+                    onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
                     title="Copy address"
                   >
                     <Copy size={16} />
@@ -334,34 +316,7 @@ export default function DepositPage() {
                 />
               </div>
 
-              {/* External: QR code */}
-              {transferType === 'external' && (
-                <div className="hidden mt-6 text-center">
-                  <Image
-                    src={currentToken.qrCodeImg}
-                    width={200}
-                    height={200}
-                    alt={`${currentToken.symbol} QR code`}
-                    className="mx-auto rounded-md p-4 bg-white"
-                  />
-                  <div className="flex justify-center items-center gap-2 mt-4">
-                    <span className="text-sm font-mono">
-                      {truncateAddress(currentNetwork.receiveWalletAddress)}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
-                      title="Copy address"
-                    >
-                      <Copy size={16} />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Internal: wallet ID + PIN */}
+              {/* Internal: wallet ID (manually entered) + PIN */}
               {transferType === 'internal' && (
                 <>
                   <div className="mt-6">
@@ -412,7 +367,6 @@ export default function DepositPage() {
         {/* ── SUMMARY STEP ── */}
         {step === 'summary' && (
           <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 space-y-4">
-
 
             <p className="text-sm text-green-400 border border-green-700 rounded-md p-3">
               Make sure to send the exact amount to the correct wallet address to avoid any issues.
@@ -468,7 +422,6 @@ export default function DepositPage() {
               </div>
             ))}
 
-
             {/* Timer — shown only for external transfers */}
             {transferType === 'external' && (
               <p className={`text-sm font-mono text-center ${remainingTime <= 30 ? 'text-red-400' : 'text-gray-400'}`}>
@@ -477,6 +430,7 @@ export default function DepositPage() {
             )}
           </div>
         )}
+
       </div>
     </div>
   );

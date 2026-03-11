@@ -78,13 +78,11 @@ function LoadingOverlay({ message, color = "blue" }) {
 }
 
 
-  const router = useRouter();
-
-
 /* ==================================
    EXTERNAL WITHDRAWAL
 ================================== */
 export function ExternalWithdrawal({ selectedAsset, selectedNetwork }) {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [amount, setAmount] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
@@ -254,6 +252,7 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork }) {
    INTERNAL TRANSFER
 ================================== */
 export function InternalWithdrawal({ selectedAsset, selectedNetwork }) {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [walletId, setWalletId] = useState("");
   const [externalWalletAddress, setExternalWalletAddress] = useState("");

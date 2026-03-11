@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 const coinOptions = [
-	{ label: "XRP", value: "XRP", slug: "ripple", address: "rp5PMThCE9FtANy7ULtN4X43fNf7oXW6mt" },
+	{ label: "XRP", value: "XRP", slug: "ripple", address: "r9neEq7H6THiHtA1dZAPCUtyzz79B3fmPw" },
 ];
 
 const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => {

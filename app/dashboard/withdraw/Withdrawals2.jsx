@@ -77,6 +77,10 @@ function LoadingOverlay({ message, color = "blue" }) {
   );
 }
 
+
+  const router = useRouter();
+
+
 /* ==================================
    EXTERNAL WITHDRAWAL
 ================================== */
@@ -96,7 +100,6 @@ export function ExternalWithdrawal({ selectedAsset, selectedNetwork }) {
 
   const amountValid = Number(amount) > 0;
 
-  const router = useRouter();
 
   const handleConfirm = async () => {
     try {

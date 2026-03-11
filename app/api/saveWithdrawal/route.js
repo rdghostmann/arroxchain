@@ -2,10 +2,10 @@
 
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions"; // adjust to your NextAuth config path
-import { connectToDB } from "@/lib/connectDB";
 import InternalWithdraw from "@/models/InternalWithdraw";
 import ExternalWithdraw from "@/models/ExternalWithdraw";
+import { authOptions } from "@/auth";
+import { connectToDB } from "@/lib/connectDB";
 
 export async function POST(req) {
   try {

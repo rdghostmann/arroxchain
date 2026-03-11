@@ -27,6 +27,18 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 		setTimeout(() => setCopied(false), 1500);
 	};
 
+	// Generate dynamic card number
+	const generateCardNumber = () => {
+		return Array.from({ length: 16 }, () => Math.floor(Math.random() * 10)).join('');
+	};
+	const cardNumber = generateCardNumber();
+	const formattedCardNumber = `${cardNumber.slice(0, 4)} ${cardNumber.slice(4, 8)} **** ${cardNumber.slice(12, 16)}`;
+
+	// Generate expiry date (4 years from current year)
+	const currentYear = new Date().getFullYear();
+	const expiryYear = (currentYear + 4) % 100;
+	const expiry = `12/${expiryYear.toString().padStart(2, '0')}`;
+
 	return (
 		<div className="min-h-screen bg-background text-foreground pb-10">
 			<div className="max-w-2xl mx-auto py-10 px-4 sm:px-8">
@@ -89,10 +101,10 @@ const CardPage = ({ firstName = "", lastName = "", email = "", phone = "" }) => 
 						</div>
 						{/* Card Number */}
 						<div className="flex justify-between font-mono text-xl text-white tracking-widest z-10 mt-2">
-							<span>5234</span>
-							<span>9210</span>
-							<span>****</span>
-							<span>8472</span>
+							<span>{formattedCardNumber.split(' ')[0]}</span>
+							<span>{formattedCardNumber.split(' ')[1]}</span>
+							<span>{formattedCardNumber.split(' ')[2]}</span>
+							<span>{formattedCardNumber.split(' ')[3]}</span>
 						</div>
 						{/* Cardholder & Expiry */}
 						<div className="flex items-center justify-between z-10 mt-2">

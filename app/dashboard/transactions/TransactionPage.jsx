@@ -1,7 +1,7 @@
 // tRANSACTIONpAGE.JSX
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle } from "lucide-react";
@@ -13,53 +13,56 @@ import NavHeader from "../components/NavHeader/NavHeader";
 /* -------------------------------------------------- */
 
 function TransactionCard({ tx, type }) {
-    const isReceived = type === "received";
+  const isReceived = type === "received";
 
-    return (
-        <div className="flex items-center justify-between p-4 border-b border-zinc-800">
+  const statusColor =
+    tx.status === "completed"
+      ? "bg-green-900 text-green-400"
+      : tx.status === "pending"
+      ? "bg-yellow-900 text-yellow-400"
+      : "bg-red-900 text-red-400";
 
-            {/* LEFT */}
-            <div className="flex flex-col">
-                <span className="text-sm font-medium text-white">
-                    {isReceived ? "+" : "-"}
-                    {tx.amount} {tx.asset}
+  return (
+    <div className="flex items-center justify-between p-4 border-b border-zinc-800">
 
-                    {tx.network && (
-                        <span className="text-[10px] text-zinc-500 ml-2">
-                            {tx.network}
-                        </span>
-                    )}
-                </span>
+      {/* LEFT */}
+      <div className="flex flex-col">
+        <span className="text-sm font-medium text-white">
+          {isReceived ? "+" : "-"}
+          {tx.amount} {tx.asset}
 
-                <span className="text-[12px] text-zinc-500">
-                    {isReceived
-                        ? "Deposit"
-                        : tx.type === "internal"
-                            ? "Internal Transfer"
-                            : "Withdrawal"}
-                </span>
-            </div>
+          {tx.network && (
+            <span className="text-[10px] text-zinc-500 ml-2">
+              {tx.network}
+            </span>
+          )}
+        </span>
 
-            {/* RIGHT */}
-            <div className="flex flex-col items-end">
-                <span
-                    className={`text-xs px-2 py-1 rounded ${tx.status === "completed"
-                            ? "bg-green-900 text-green-400"
-                            : tx.status === "pending"
-                                ? "bg-yellow-900 text-yellow-400"
-                                : "bg-red-900 text-red-400"
-                        }`}
-                >
-                    {tx.status}
-                </span>
+        <span className="text-[12px] text-zinc-500">
+          {isReceived
+            ? "Deposit"
+            : tx.type === "internal"
+            ? "Internal Transfer"
+            : "Withdrawal"}
+        </span>
+      </div>
 
-                <span className="text-[11px] text-zinc-500 mt-1">
-                    {new Date(tx.createdAt).toLocaleString()}
-                </span>
-            </div>
+      {/* RIGHT */}
+      <div className="flex flex-col items-end">
 
-        </div>
-    );
+        <span className={`text-xs px-2 py-1 rounded ${statusColor}`}>
+          {tx.status}
+        </span>
+
+        <span className="text-[11px] text-zinc-500 mt-1">
+          {tx.createdAt
+            ? new Date(tx.createdAt).toLocaleString()
+            : "-"}
+        </span>
+
+      </div>
+    </div>
+  );
 }
 
 /* -------------------------------------------------- */
@@ -67,179 +70,190 @@ function TransactionCard({ tx, type }) {
 /* -------------------------------------------------- */
 
 function LoadingSkeleton() {
-    return (
-        <div className="space-y-4 p-4">
-            {[...Array(5)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full bg-zinc-800" />
-            ))}
-        </div>
-    );
+  return (
+    <div className="space-y-4 p-4">
+      {[...Array(5)].map((_, i) => (
+        <Skeleton key={i} className="h-16 w-full bg-zinc-800" />
+      ))}
+    </div>
+  );
 }
 
 /* -------------------------------------------------- */
 /* TRANSACTION PAGE */
 /* -------------------------------------------------- */
 
-export default function TransactionPage({userId}) {
+export default function TransactionPage({ userId }) {
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const [receivedTransactions, setReceivedTransactions] = useState([]);
-    const [sentTransactions, setSentTransactions] = useState([]);
-    const [stocksTransactions, setStocksTransactions] = useState([]);
+  const [receivedTransactions, setReceivedTransactions] = useState([]);
+  const [sentTransactions, setSentTransactions] = useState([]);
+  const [stocksTransactions, setStocksTransactions] = useState([]);
 
-    /* -------------------------------------------------- */
-    /* FETCH TRANSACTIONS */
-    /* -------------------------------------------------- */
+  /* -------------------------------------------------- */
+  /* FETCH TRANSACTIONS */
+  /* -------------------------------------------------- */
 
-    async function fetchTransactions() {
-        try {
+  const fetchTransactions = useCallback(async () => {
 
-            setLoading(true);
-            setError(null);
-
-            const res = await getWithdrawals(userId);
-
-            if (!res.success) {
-                throw new Error(res.message);
-            }
-
-            const internal = res.withdrawals.internal ?? [];
-            const external = res.withdrawals.external ?? [];
-
-            const withdrawals = [...internal, ...external].sort(
-                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-            );
-
-            setSentTransactions(withdrawals);
-
-            // if you later add deposits
-            setReceivedTransactions([]);
-
-            setStocksTransactions([]);
-
-        } catch (err) {
-            console.error(err);
-            setError("Unable to load transactions");
-        } finally {
-            setLoading(false);
-        }
+    if (!userId) {
+      setLoading(false);
+      setError("User not authenticated");
+      return;
     }
 
-    useEffect(() => {
-        fetchTransactions();
-    }, []);
+    try {
 
-    /* -------------------------------------------------- */
-    /* EMPTY STATE */
-    /* -------------------------------------------------- */
+      setLoading(true);
+      setError(null);
 
-    const EmptyState = ({ label }) => (
-        <div className="flex flex-col items-center justify-center py-12 text-zinc-500 text-sm">
-            No {label} transactions yet
-        </div>
-    );
+      const res = await getWithdrawals(userId);
 
-    /* -------------------------------------------------- */
-    /* ERROR STATE */
-    /* -------------------------------------------------- */
+      if (!res?.success) {
+        throw new Error(res?.message || "Failed to fetch withdrawals");
+      }
 
-    const ErrorState = () => (
-        <div className="flex flex-col items-center justify-center py-12 text-red-400">
-            <AlertTriangle className="w-6 h-6 mb-2" />
-            {error}
+      const internal = res.withdrawals?.internal ?? [];
+      const external = res.withdrawals?.external ?? [];
 
-            <button
-                onClick={fetchTransactions}
-                className="mt-3 text-xs px-3 py-1 bg-zinc-800 rounded"
-            >
-                Retry
-            </button>
-        </div>
-    );
+      const withdrawals = [...internal, ...external].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
 
-    /* -------------------------------------------------- */
-    /* UI */
-    /* -------------------------------------------------- */
+      setSentTransactions(withdrawals);
 
-    return (
+      // placeholder for future
+      setReceivedTransactions([]);
+      setStocksTransactions([]);
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
-            {/* Navigation */}
-            <NavHeader />
+    } catch (err) {
 
-            <h1 className="text-xl font-semibold text-white mb-4">
-                Transaction History
-            </h1>
+      console.error("Transaction fetch error:", err);
+      setError("Unable to load transactions");
 
-            <Tabs defaultValue="received">
+    } finally {
 
-                <TabsList className="bg-zinc-900 border border-zinc-800">
-                    <TabsTrigger value="received">Received</TabsTrigger>
-                    <TabsTrigger value="sent">Sent</TabsTrigger>
-                    <TabsTrigger value="stocks">Stocks</TabsTrigger>
-                </TabsList>
+      setLoading(false);
 
-                {/* RECEIVED */}
+    }
 
-                <TabsContent value="received">
+  }, [userId]);
 
-                    {loading && <LoadingSkeleton />}
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
-                    {!loading && error && <ErrorState />}
+  /* -------------------------------------------------- */
+  /* EMPTY STATE */
+  /* -------------------------------------------------- */
 
-                    {!loading && !error && receivedTransactions.length === 0 && (
-                        <EmptyState label="deposit" />
-                    )}
+  const EmptyState = ({ label }) => (
+    <div className="flex flex-col items-center justify-center py-12 text-zinc-500 text-sm">
+      No {label} transactions yet
+    </div>
+  );
 
-                    {!loading &&
-                        receivedTransactions.map((tx, i) => (
-                            <TransactionCard key={tx._id || i} tx={tx} type="received" />
-                        ))}
+  /* -------------------------------------------------- */
+  /* ERROR STATE */
+  /* -------------------------------------------------- */
 
-                </TabsContent>
+  const ErrorState = () => (
+    <div className="flex flex-col items-center justify-center py-12 text-red-400">
+      <AlertTriangle className="w-6 h-6 mb-2" />
+      {error}
 
-                {/* SENT */}
+      <button
+        onClick={fetchTransactions}
+        className="mt-3 text-xs px-3 py-1 bg-zinc-800 rounded"
+      >
+        Retry
+      </button>
+    </div>
+  );
 
-                <TabsContent value="sent">
+  /* -------------------------------------------------- */
+  /* UI */
+  /* -------------------------------------------------- */
 
-                    {loading && <LoadingSkeleton />}
+  return (
 
-                    {!loading && error && <ErrorState />}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 relative z-10">
 
-                    {!loading && !error && sentTransactions.length === 0 && (
-                        <EmptyState label="withdrawal" />
-                    )}
+      <NavHeader />
 
-                    {!loading &&
-                        sentTransactions.map((tx, i) => (
-                            <TransactionCard key={tx._id || i} tx={tx} type="sent" />
-                        ))}
+      <h1 className="text-xl font-semibold text-white mb-4">
+        Transaction History
+      </h1>
 
-                </TabsContent>
+      <Tabs defaultValue="received">
 
-                {/* STOCKS */}
+        <TabsList className="bg-zinc-900 border border-zinc-800">
+          <TabsTrigger value="received">Received</TabsTrigger>
+          <TabsTrigger value="sent">Sent</TabsTrigger>
+          <TabsTrigger value="stocks">Stocks</TabsTrigger>
+        </TabsList>
 
-                <TabsContent value="stocks">
+        {/* RECEIVED */}
 
-                    {loading && <LoadingSkeleton />}
+        <TabsContent value="received">
 
-                    {!loading && error && <ErrorState />}
+          {loading && <LoadingSkeleton />}
 
-                    {!loading && !error && stocksTransactions.length === 0 && (
-                        <EmptyState label="stock" />
-                    )}
+          {!loading && error && <ErrorState />}
 
-                    {!loading &&
-                        stocksTransactions.map((tx, i) => (
-                            <TransactionCard key={tx._id || i} tx={tx} type="stocks" />
-                        ))}
+          {!loading && !error && receivedTransactions.length === 0 && (
+            <EmptyState label="deposit" />
+          )}
 
-                </TabsContent>
+          {!loading &&
+            receivedTransactions.map((tx, i) => (
+              <TransactionCard key={tx._id || i} tx={tx} type="received" />
+            ))}
 
-            </Tabs>
+        </TabsContent>
 
-        </div>
-    );
+        {/* SENT */}
+
+        <TabsContent value="sent">
+
+          {loading && <LoadingSkeleton />}
+
+          {!loading && error && <ErrorState />}
+
+          {!loading && !error && sentTransactions.length === 0 && (
+            <EmptyState label="withdrawal" />
+          )}
+
+          {!loading &&
+            sentTransactions.map((tx, i) => (
+              <TransactionCard key={tx._id || i} tx={tx} type="sent" />
+            ))}
+
+        </TabsContent>
+
+        {/* STOCKS */}
+
+        <TabsContent value="stocks">
+
+          {loading && <LoadingSkeleton />}
+
+          {!loading && error && <ErrorState />}
+
+          {!loading && !error && stocksTransactions.length === 0 && (
+            <EmptyState label="stock" />
+          )}
+
+          {!loading &&
+            stocksTransactions.map((tx, i) => (
+              <TransactionCard key={tx._id || i} tx={tx} type="stocks" />
+            ))}
+
+        </TabsContent>
+
+      </Tabs>
+
+    </div>
+  );
 }

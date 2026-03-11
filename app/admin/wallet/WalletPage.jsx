@@ -4,13 +4,14 @@ import { useState, useMemo, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/Label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, Edit, Plus, Wallet, TrendingUp, Users, DollarSign } from "lucide-react"
+import { Search, Edit, Wallet, TrendingUp, Users } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
 import { toast } from "sonner"
+import { Select } from "@/components/ui/select"
 
 const ASSETS = {
   BTC: { name: "Bitcoin", symbol: "BTC", color: "bg-orange-500" },
@@ -291,7 +292,7 @@ export default function WalletPage({ users: initialUsers }) {
                     </Button>
                   </DialogTrigger>
 
-                  <DialogContent className="bg-linear-to-bl from-[#350661] via-black to-[#001F3F] border border-white/10 shadow-2xl max-w-4xl w-full rounded-3xl overflow-hidden">
+                  <DialogContent className="bg-linear-to-bl from-[#350661] via-black to-[#001F3F] border border-white/10 shadow-2xl max-w-4xl w-full rounded-xl overflow-hidden">
                     <div className="space-y-12 px-12 py-10 max-h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
                       {/* Current Assets */}
                       <div>
@@ -313,15 +314,15 @@ export default function WalletPage({ users: initialUsers }) {
                                     {asset.coin}
                                   </div>
                                   <div>
-                                    <label className="text-white text-base">{ASSETS[asset.coin]?.name}</label>
+                                    <Label className="text-white text-base">{ASSETS[asset.coin]?.name}</Label>
                                     <p className="text-gray-400 text-sm">{asset.network}</p>
                                   </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                   <div>
-                                    <label htmlFor={`network-${index}`} className="text-white text-sm">Network</label>
-                                    <select
+                                    <Label htmlFor={`network-${index}`} className="text-white text-sm">Network</Label>
+                                    <Select
                                       id={`network-${index}`}
                                       value={asset.network}
                                       onChange={(e) => updateAssetNetwork(index, e.target.value)}
@@ -330,12 +331,12 @@ export default function WalletPage({ users: initialUsers }) {
                                       {COIN_NETWORKS[asset.coin]?.map((net) => (
                                         <option key={net} value={net}>{net}</option>
                                       ))}
-                                    </select>
+                                    </Select>
                                   </div>
 
                                   <div>
-                                    <label htmlFor={`amount-${index}`} className="text-white text-sm">Amount</label>
-                                    <input
+                                    <Label htmlFor={`amount-${index}`} className="text-white text-sm">Amount</Label>
+                                    <Input
                                       id={`amount-${index}`}
                                       type="number"
                                       step="any"
@@ -365,65 +366,75 @@ export default function WalletPage({ users: initialUsers }) {
                       <div>
                         <h3 className="text-xl md:text-2xl font-semibold mb-5 text-white">Add New Asset</h3>
                         <div className="flex flex-col md:flex-row gap-4 items-center">
-                          <select
+                          <Select
                             value={newAssetCoin}
-                            onChange={e => {
-                              setNewAssetCoin(e.target.value);
+                            onValueChange={(value) => {
+                              setNewAssetCoin(value);
                               setNewAssetNetwork("");
                             }}
-                            className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-[160px] w-full md:w-auto"
                           >
-                            <option value="">Select Coin</option>
-                            {Object.entries(ASSETS).map(([symbol, asset]) => (
-                              <option key={symbol} value={symbol}>{asset.name} ({symbol})</option>
-                            ))}
-                          </select>
+                            <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-40 w-full md:w-auto">
+                              <SelectValue placeholder="Select Coin" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-black/80 border border-white/10 text-white">
+                              {Object.entries(ASSETS).map(([symbol, asset]) => (
+                                <SelectItem key={symbol} value={symbol} className="text-white hover:bg-white/10">
+                                  {asset.name} ({symbol})
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
 
                           {newAssetCoin && (
-                            <select
+                            <Select
                               value={newAssetNetwork}
-                              onChange={e => setNewAssetNetwork(e.target.value)}
-                              className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-[160px] w-full md:w-auto"
+                              onValueChange={setNewAssetNetwork}
                             >
-                              <option value="">Select Network</option>
-                              {COIN_NETWORKS[newAssetCoin]
-                                .filter(network =>
-                                  !editingAssets.some(a => a.coin === newAssetCoin && a.network === network)
-                                )
-                                .map(network => (
-                                  <option key={network} value={network}>{network}</option>
-                                ))}
-                            </select>
+                              <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-40 w-full md:w-auto">
+                                <SelectValue placeholder="Select Network" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-black/80 border border-white/10 text-white">
+                                {COIN_NETWORKS[newAssetCoin]
+                                  .filter(network =>
+                                    !editingAssets.some(a => a.coin === newAssetCoin && a.network === network)
+                                  )
+                                  .map(network => (
+                                    <SelectItem key={network} value={network} className="text-white hover:bg-white/10">
+                                      {network}
+                                    </SelectItem>
+                                  ))}
+                              </SelectContent>
+                            </Select>
                           )}
 
-                          <button
+                          <Button
                             type="button"
                             onClick={addNewAsset}
                             disabled={!newAssetCoin || !newAssetNetwork}
-                            className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-xl text-sm font-medium transition disabled:opacity-50"
+                            className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-md text-sm font-medium transition disabled:opacity-50"
                           >
                             + Add Asset
-                          </button>
+                          </Button>
                         </div>
                       </div>
 
                       {/* Action Buttons */}
                       <div className="flex justify-end gap-6 pt-8">
-                        <button
+                        <Button
                           type="button"
                           onClick={() => setSelectedUser(null)}
-                          className="bg-white/10 hover:bg-white/20 px-8 py-3 text-sm rounded-xl transition"
+                          className="bg-white/10 hover:bg-white/20 px-8 py-3 text-sm rounded-md transition"
                         >
                           Cancel
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           type="button"
                           onClick={handleSaveAssets}
                           disabled={loading}
-                          className="bg-primary hover:bg-primary/80 px-8 py-3 text-sm rounded-xl text-white transition disabled:opacity-50"
+                          className="bg-primary hover:bg-primary/80 px-8 py-3 text-sm rounded-md text-white transition disabled:opacity-50"
                         >
                           {loading ? "Saving..." : "Save Changes"}
-                        </button>
+                        </Button>
                       </div>
 
                     </div>

@@ -23,6 +23,7 @@ import {
   Shield,
   Loader2,
   Trash2,
+  Wallet,
 } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
 

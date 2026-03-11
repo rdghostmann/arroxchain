@@ -2,8 +2,7 @@
 
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
-import Wallet from "@/models/Wallet";
-import UserAsset from "@/models/UserAsset";
+
 
 export async function getAllcustomer() {
   await connectToDB();
@@ -33,7 +32,7 @@ export async function getAllcustomer() {
     zipCode: user.zipCode ?? "",
     role: user.role,
     status: user.status,
-    walletID: user.walletID ?? "N/A",
+    walletID: user.walletID,
     kycStatus: user.kycStatus ?? "pending",
     balance: user.balance,
     joinDate: user.createdAt?.toISOString().split("T")[0] ?? "",

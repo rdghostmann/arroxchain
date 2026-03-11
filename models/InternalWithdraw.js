@@ -1,7 +1,7 @@
-// models/ExternalWithdraw.js
+// models/InternalWithdraw.js
 import mongoose from "mongoose";
 
-const ExternalWithdrawSchema = new mongoose.Schema(
+const InternalWithdrawSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -12,17 +12,12 @@ const ExternalWithdrawSchema = new mongoose.Schema(
 
     type: {
       type: String,
-      default: "external",
-      enum: ["external"],
+      default: "internal",
+      enum: ["internal"],
       required: true,
     },
 
     asset: {
-      type: String,
-      required: true,
-    },
-
-    network: {
       type: String,
       required: true,
     },
@@ -33,9 +28,14 @@ const ExternalWithdrawSchema = new mongoose.Schema(
       min: 1,
     },
 
-    walletAddress: {
+    walletId: {
       type: String,
       required: true,
+    },
+
+    externalWalletAddress: {
+      type: String,
+      default: null,
     },
 
     status: {
@@ -56,5 +56,5 @@ const ExternalWithdrawSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export default mongoose.models.ExternalWithdraw ||
-  mongoose.model("ExternalWithdraw", ExternalWithdrawSchema);
+export default mongoose.models.InternalWithdraw ||
+  mongoose.model("InternalWithdraw", InternalWithdrawSchema);

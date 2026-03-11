@@ -329,7 +329,7 @@ export default function DepositPage() {
                     />
                   </div>
 
-                  <div className="mt-4">
+                  <div className="hidden mt-4">
                     <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
                     <div className="flex gap-2">
                       <Input

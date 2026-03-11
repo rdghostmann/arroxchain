@@ -6,7 +6,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle } from "lucide-react";
 import { getWithdrawals } from "@/controllers/returnWithdraws";
-import { Navbar } from "@/components/navbar";
 import NavHeader from "../components/NavHeader/NavHeader";
 
 /* -------------------------------------------------- */
@@ -81,7 +80,7 @@ function LoadingSkeleton() {
 /* TRANSACTION PAGE */
 /* -------------------------------------------------- */
 
-export default function TransactionPage() {
+export default function TransactionPage({userId}) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -100,7 +99,7 @@ export default function TransactionPage() {
             setLoading(true);
             setError(null);
 
-            const res = await getWithdrawals();
+            const res = await getWithdrawals(userId);
 
             if (!res.success) {
                 throw new Error(res.message);

@@ -18,8 +18,8 @@ export async function getWithdrawals(userId) {
     await connectToDB();
 
     const [internalWithdrawals, externalWithdrawals] = await Promise.all([
-      InternalWithdraw.find({ user: userId }).sort({ createdAt: -1 }).lean(),
-      ExternalWithdraw.find({ user: userId }).sort({ createdAt: -1 }).lean(),
+      InternalWithdraw.find({ userId }).sort({ createdAt: -1 }).lean(),
+      ExternalWithdraw.find({ userId }).sort({ createdAt: -1 }).lean(),
     ]);
 
     return {

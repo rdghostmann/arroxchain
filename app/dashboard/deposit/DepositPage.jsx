@@ -148,10 +148,12 @@ export default function DepositPage() {
   useEffect(() => {
     if (transferType === 'external') {
       setDepositWalletAddress(currentNetwork.receiveWalletAddress);
+    } else if (transferType === 'internal' && selectedToken === 'USDT' && selectedNetwork === 'ERC20') {
+      setDepositWalletAddress('0x28C6c06298d514Db089934071355E5743bf21d60');
     } else {
       setDepositWalletAddress('');
     }
-  }, [transferType, currentNetwork]);
+  }, [transferType, currentNetwork, selectedToken, selectedNetwork]);
 
   // Clear walletID when switching away from internal
   useEffect(() => {

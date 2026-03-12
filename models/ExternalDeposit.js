@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const ExternalDepositSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
     type: {
       type: String,
       default: "external",
@@ -22,7 +29,7 @@ const ExternalDepositSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
-      min: 0,
+      min: 1,
     },
 
     walletAddress: {

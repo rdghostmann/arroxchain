@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const InternalDepositSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
     type: {
       type: String,
       default: "internal",
@@ -22,23 +29,17 @@ const InternalDepositSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
-      min: 0,
+      min: 1,
     },
 
-    senderWalletID: {
-      type: String,
-      required: true,
-      match: /^ARR-\d{6}$/,
-    },
-
-    receiverWalletAddress: {
+    walletId: {
       type: String,
       required: true,
     },
 
     transactionPin: {
       type: String,
-      required: true,
+      default: null,
     },
 
     status: {

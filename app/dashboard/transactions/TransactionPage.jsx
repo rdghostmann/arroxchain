@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle } from "lucide-react";
 import { getWithdrawals } from "@/controllers/returnWithdraws";
+import { getDeposits } from "@/controllers/returnDeposit";
 import NavHeader from "../components/NavHeader/NavHeader";
 
 /* -------------------------------------------------- */
@@ -124,8 +125,20 @@ export default function TransactionPage({ userId }) {
 
       setSentTransactions(withdrawals);
 
-      // placeholder for future
-      setReceivedTransactions([]);
+      // fetch deposits as well
+      const depositRes = await getDeposits(userId);
+      if (depositRes.success) {
+        const di = depositRes.deposits?.internal ?? [];
+        const de = depositRes.deposits?.external ?? [];
+        const deposits = [...di, ...de].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setReceivedTransactions(deposits);
+      } else {
+        setReceivedTransactions([]);
+      }
+
+      // placeholder for stocks
       setStocksTransactions([]);
 
     } catch (err) {

@@ -200,6 +200,24 @@ export default function DepositPage() {
   const isPinValid = transferType === 'external' || transactionPin.trim().length > 0;
   const canContinue = isAmountValid && isWalletValid && isWalletIDValid && isPinValid;
 
+  /* --------------------------------------------------
+     API helper to POST a deposit request
+  -------------------------------------------------- */
+  async function saveDeposit(depositData) {
+    const res = await fetch('/api/saveDeposit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(depositData),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({}));
+      throw new Error(error || 'Request failed');
+    }
+
+    return res.json();
+  }
+
   const copyToClipboard = async (value) => {
     try {
       await navigator.clipboard.writeText(value);
@@ -209,7 +227,26 @@ export default function DepositPage() {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    // build payload
+    const payload = {
+      type: transferType,
+      token: selectedToken,
+      network: selectedNetwork,
+      amount: Number(amount),
+      walletId: walletID || undefined,
+      walletAddress: depositWalletAddress || undefined,
+      transactionPin: transactionPin || undefined,
+    };
+
+    try {
+      await saveDeposit(payload);
+      toast.success('Deposit submitted!');
+    } catch (err) {
+      toast.error(err.message || 'Deposit failed');
+      return; // do not advance step
+    }
+
     if (transferType === 'external') {
       const token = Math.random().toString(36).substring(2);
       const expiresAt = Date.now() + TIMER_DURATION_MS;

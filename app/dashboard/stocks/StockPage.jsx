@@ -94,7 +94,7 @@ export default function StockPage() {
       setModalStock(null);
       if (data.success) {
         toast.success(
-          `Purchased ${sharesInput} shares of ${modalStock.symbol}. Awaiting admin approval.`
+          `Purchased ${sharesInput} shares of ${modalStock.symbol}. Awaiting approval.`
         );
       } else {
         toast.error(data.error || "Failed to save purchase.");

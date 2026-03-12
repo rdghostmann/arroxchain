@@ -1,4 +1,4 @@
-// tRANSACTIONpAGE.JSX
+// TransactionPage.JSX
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertTriangle } from "lucide-react";
 import { getWithdrawals } from "@/controllers/returnWithdraws";
 import { getDeposits } from "@/controllers/returnDeposit";
+import { getStocks } from "@/controllers/returnStock";
 import NavHeader from "../components/NavHeader/NavHeader";
 
 /* -------------------------------------------------- */
@@ -15,52 +16,62 @@ import NavHeader from "../components/NavHeader/NavHeader";
 
 function TransactionCard({ tx, type }) {
   const isReceived = type === "received";
+  const isStocks = type === "stocks";  // New flag for stocks
 
   const statusColor =
     tx.status === "completed"
       ? "bg-green-900 text-green-400"
       : tx.status === "pending"
-      ? "bg-yellow-900 text-yellow-400"
-      : "bg-red-900 text-red-400";
+        ? "bg-yellow-900 text-yellow-400"
+        : "bg-red-900 text-red-400";
 
   return (
     <div className="flex items-center justify-between p-4 border-b border-zinc-800">
-
       {/* LEFT */}
       <div className="flex flex-col">
-        <span className="text-sm font-medium text-white">
-          {isReceived ? "+" : "-"}
-          {tx.amount} {tx.asset}
-
-          {tx.network && (
-            <span className="text-[10px] text-zinc-500 ml-2">
-              {tx.network}
+        {isStocks ? (
+          // Custom display for stocks
+          <>
+            <span className="text-sm font-medium text-white">
+              {tx.symbol} - {tx.shares} shares
             </span>
-          )}
-        </span>
-
-        <span className="text-[12px] text-zinc-500">
-          {isReceived
-            ? "Deposit"
-            : tx.type === "internal"
-            ? "Internal Transfer"
-            : "Withdrawal"}
-        </span>
+            <span className="text-[12px] text-zinc-500">
+              Price: ${tx.price}
+            </span>
+          </>
+        ) : (
+          // Existing display for deposits/withdrawals
+          <>
+            <span className="text-sm font-medium text-white">
+              {isReceived ? "+" : "-"}
+              {tx.amount} {tx.asset}
+              {tx.network && (
+                <span className="text-[10px] text-zinc-500 ml-2">
+                  {tx.network}
+                </span>
+              )}
+            </span>
+            <span className="text-[12px] text-zinc-500">
+              {isReceived
+                ? "Deposit"
+                : tx.type === "internal"
+                  ? "Internal Transfer"
+                  : "Withdrawal"}
+            </span>
+          </>
+        )}
       </div>
 
-      {/* RIGHT */}
+      {/* RIGHT - Status and date remain the same */}
       <div className="flex flex-col items-end">
-
         <span className={`text-xs px-2 py-1 rounded ${statusColor}`}>
           {tx.status}
         </span>
-
         <span className="text-[11px] text-zinc-500 mt-1">
           {tx.createdAt
             ? new Date(tx.createdAt).toLocaleString()
             : "-"}
         </span>
-
       </div>
     </div>
   );
@@ -138,8 +149,16 @@ export default function TransactionPage({ userId }) {
         setReceivedTransactions([]);
       }
 
-      // placeholder for stocks
-      setStocksTransactions([]);
+      // Fetch stocks
+      const stockRes = await getStocks(userId);
+      if (stockRes.success) {
+        const stocks = stockRes.stocks.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setStocksTransactions(stocks);
+      } else {
+        setStocksTransactions([]);
+      }
 
     } catch (err) {
 

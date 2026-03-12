@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { UserCircle, Power } from "lucide-react";
+import Image from "next/image";
 
 function getOrdinal(n) {
   if (n > 3 && n < 21) return "th";
@@ -43,44 +44,47 @@ const NavHeader = () => {
         <h1 className="text-2xl font-bold text-foreground">Welcome, {username}!</h1>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="ml-4 cursor-pointer rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 transition focus:outline-none"
-            size="icon"
-            aria-label="Open user menu"
-          >
-            <img
-              src="/assets/25s.png"
-              width={45}
-              className="rounded-md"
-              alt="Profile"
-            />
-          </Button>
-        </DropdownMenuTrigger>
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="ml-4 cursor-pointer rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:opacity-90 transition focus:outline-none"
+              size="icon"
+              aria-label="Open user menu"
+            >
+              <Image
+                src="/assets/25s.png"
+                width={45}
+                height={45}
+                className="rounded-md"
+                alt="Profile"
+              />
+            </Button>
+          </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-lg">
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard/#profile" className="flex items-center gap-3 w-full">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-yellow-400 to-yellow-600 text-white">
-                <UserCircle size={18} />
+          <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-lg">
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/#profile" className="flex items-center gap-3 w-full">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-yellow-400 to-yellow-600 text-white">
+                  <UserCircle size={18} />
+                </span>
+                <span className="font-medium text-sm">Account</span>
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="flex items-center gap-3 w-full cursor-pointer"
+            >
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-red-400 to-red-600 text-white">
+                <Power size={18} />
               </span>
-              <span className="font-medium text-sm">Account</span>
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: "/login" })}
-            className="flex items-center gap-3 w-full cursor-pointer"
-          >
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded bg-linear-to-r from-red-400 to-red-600 text-white">
-              <Power size={18} />
-            </span>
-            <span className="font-medium text-sm">Log Out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+              <span className="font-medium text-sm">Log Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };

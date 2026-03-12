@@ -109,7 +109,6 @@ export default function TransactionPage({ userId }) {
   /* -------------------------------------------------- */
 
   const fetchTransactions = useCallback(async () => {
-
     if (!userId) {
       setLoading(false);
       setError("User not authenticated");
@@ -117,30 +116,31 @@ export default function TransactionPage({ userId }) {
     }
 
     try {
-
       setLoading(true);
       setError(null);
 
-      const res = await getWithdrawals(userId);
+      // Run the three API calls in parallel
+      const [withdrawalsRes, depositsRes, stocksRes] = await Promise.all([
+        getWithdrawals(userId),
+        getDeposits(userId),
+        getStocks(userId)
+      ]);
 
-      if (!res?.success) {
-        throw new Error(res?.message || "Failed to fetch withdrawals");
+      // Process withdrawals
+      if (!withdrawalsRes?.success) {
+        throw new Error(withdrawalsRes?.message || "Failed to fetch withdrawals");
       }
-
-      const internal = res.withdrawals?.internal ?? [];
-      const external = res.withdrawals?.external ?? [];
-
+      const internal = withdrawalsRes.withdrawals?.internal ?? [];
+      const external = withdrawalsRes.withdrawals?.external ?? [];
       const withdrawals = [...internal, ...external].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-
       setSentTransactions(withdrawals);
 
-      // fetch deposits as well
-      const depositRes = await getDeposits(userId);
-      if (depositRes.success) {
-        const di = depositRes.deposits?.internal ?? [];
-        const de = depositRes.deposits?.external ?? [];
+      // Process deposits
+      if (depositsRes.success) {
+        const di = depositsRes.deposits?.internal ?? [];
+        const de = depositsRes.deposits?.external ?? [];
         const deposits = [...di, ...de].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -149,10 +149,9 @@ export default function TransactionPage({ userId }) {
         setReceivedTransactions([]);
       }
 
-      // Fetch stocks
-      const stockRes = await getStocks(userId);
-      if (stockRes.success) {
-        const stocks = stockRes.stocks.sort(
+      // Process stocks
+      if (stocksRes.success) {
+        const stocks = stocksRes.stocks.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setStocksTransactions(stocks);
@@ -161,18 +160,12 @@ export default function TransactionPage({ userId }) {
       }
 
     } catch (err) {
-
       console.error("Transaction fetch error:", err);
       setError("Unable to load transactions");
-
     } finally {
-
       setLoading(false);
-
     }
-
   }, [userId]);
-
   useEffect(() => {
     fetchTransactions();
   }, [fetchTransactions]);

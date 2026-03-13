@@ -82,7 +82,13 @@ export default function CustomersPage() {
         body: JSON.stringify({ userId }),
       })
       const data = await res.json()
-      if (data.success) setCustomers((prev) => prev.filter((c) => c.id !== userId))
+      if (data.success) setCustomers((prev) =>
+        prev.map((user) =>
+          user.id === userId
+            ? { ...user, status: "deleted", isActive: false }
+            : user
+        )
+      )
     } catch (err) {
       console.error(err)
     }
@@ -320,8 +326,9 @@ export default function CustomersPage() {
                             <td className="p-4">
                               <Badge className={getStatusColor(customer.status)}>{customer.status}</Badge>
                             </td>
-                            <td className="p-4 font-medium">{customer.balance}</td>
-                            <td className="p-4">
+                            <td className="p-4 font-medium">
+                              ${Number(customer.balance).toLocaleString()}
+                            </td>                            <td className="p-4">
                               {loadingRoleUserId === customer.id ? (
                                 <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
                               ) : (

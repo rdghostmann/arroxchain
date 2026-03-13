@@ -18,6 +18,7 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import { SearchSlash } from "lucide-react"
 
 const ASSETS = {
   BTC: { name: "Bitcoin", symbol: "BTC", color: "bg-orange-500" },
@@ -249,13 +250,13 @@ export default function WalletPage({ users: initialUsers }) {
 
           {/* Search Bar */}
           <div className="relative max-w-md">
-            <div className="absolute inset-0 bg-white/5 rounded-xl blur-xl opacity-40"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+            <div className="absolute inset-0 bg-white/5 rounded-sm blur-xl opacity-40"></div>
+            <SearchSlash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
             <Input
               placeholder="Search users by name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="relative z-20 pl-10 bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder:text-gray-400 rounded-xl focus:border-primary focus:ring-0"
+              className="w-full relative z-20 pl-10 bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder:text-gray-400 rounded-xl focus:border-primary focus:ring-0"
             />
           </div>
         </div>

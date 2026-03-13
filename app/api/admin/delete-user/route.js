@@ -12,7 +12,8 @@ export async function POST(req) {
     if (!user) {
       return new Response(JSON.stringify({ success: false, message: "User not found" }), { status: 404 });
     }
-    await User.deleteOne({ _id: userId });
+    user.status = "deleted";
+    await user.save();
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (err) {
     console.error("Delete user error:", err);

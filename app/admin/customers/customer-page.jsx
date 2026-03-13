@@ -61,7 +61,7 @@ export default function CustomersPage() {
   }, [])
 
   const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Are you sure you want to permanently delete this user?")) return
+    if (!window.confirm("Are you sure you want to mark this user as deleted?")) return
     setDeletingUserId(userId)
     try {
       const res = await fetch("/api/admin/delete-user", {
@@ -143,6 +143,7 @@ export default function CustomersPage() {
       case "active": return "bg-green-100 text-green-800"
       case "inactive": return "bg-yellow-100 text-yellow-800"
       case "suspended": return "bg-red-100 text-red-800"
+      case "deleted": return "bg-gray-100 text-gray-800"
       default: return "bg-gray-100 text-gray-800"
     }
   }
@@ -234,6 +235,7 @@ export default function CustomersPage() {
                     <DropdownMenuItem onClick={() => setStatusFilter("active")}>Active</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setStatusFilter("inactive")}>Inactive</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setStatusFilter("suspended")}>Suspended</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setStatusFilter("deleted")}>Deleted</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <DropdownMenu>

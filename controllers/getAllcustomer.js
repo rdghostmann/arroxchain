@@ -7,7 +7,7 @@ import User from "@/models/User";
 export async function getAllcustomer() {
   await connectToDB();
 
-  const users = await User.find({ status: { $ne: "deleted" } })
+  const users = await User.find({})
     .populate({ path: "wallets", model: "Wallet" })
     .populate({ path: "assets", model: "UserAsset" })
     .lean();

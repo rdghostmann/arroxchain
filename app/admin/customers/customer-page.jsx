@@ -1,3 +1,4 @@
+// /admin/customers/customer-page.jsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -22,6 +23,7 @@ import {
   Loader2,
   Trash2,
   Wallet,
+  AlertCircle,
 } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
 
@@ -34,14 +36,26 @@ export default function CustomersPage() {
   const [loadingRoleUserId, setLoadingRoleUserId] = useState(null)
   const [deletingUserId, setDeletingUserId] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState(null)
 
   useEffect(() => {
     async function fetchCustomers() {
       setLoading(true)
-      const res = await fetch("/api/admin/customers")
-      const data = await res.json()
-      setCustomers(data.customers || [])
-      setLoading(false)
+      setFetchError(null)
+      try {
+        const res = await fetch("/api/admin/customers")
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}))
+          throw new Error(errorData.error || `Server error: ${res.status}`)
+        }
+        const data = await res.json()
+        setCustomers(data.customers || [])
+      } catch (err) {
+        console.error("[fetchCustomers]", err)
+        setFetchError(err.message || "Failed to load customers")
+      } finally {
+        setLoading(false)
+      }
     }
     fetchCustomers()
   }, [])
@@ -126,27 +140,19 @@ export default function CustomersPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800"
-      case "inactive":
-        return "bg-yellow-100 text-yellow-800"
-      case "suspended":
-        return "bg-red-100 text-red-800"
-      default:
-        return "bg-gray-100 text-gray-800"
+      case "active": return "bg-green-100 text-green-800"
+      case "inactive": return "bg-yellow-100 text-yellow-800"
+      case "suspended": return "bg-red-100 text-red-800"
+      default: return "bg-gray-100 text-gray-800"
     }
   }
 
   const getKycStatusColor = (status) => {
     switch (status) {
-      case "verified":
-        return "bg-green-100 text-green-800"
-      case "pending":
-        return "bg-yellow-100 text-yellow-800"
-      case "rejected":
-        return "bg-red-100 text-red-800"
-      default:
-        return "bg-gray-100 text-gray-800"
+      case "verified": return "bg-green-100 text-green-800"
+      case "pending": return "bg-yellow-100 text-yellow-800"
+      case "rejected": return "bg-red-100 text-red-800"
+      default: return "bg-gray-100 text-gray-800"
     }
   }
 
@@ -172,6 +178,29 @@ export default function CustomersPage() {
           <div className="flex flex-col items-center justify-center py-32">
             <Loader2 className="w-12 h-12 animate-spin text-yellow-400 mb-4" />
             <p className="text-lg text-yellow-200">Loading customers...</p>
+          </div>
+        ) : fetchError ? (
+          /* Error state */
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <AlertCircle className="w-12 h-12 text-red-400" />
+            <p className="text-lg text-red-300">{fetchError}</p>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setFetchError(null)
+                setLoading(true)
+                fetch("/api/admin/customers")
+                  .then((res) => {
+                    if (!res.ok) throw new Error(`Server error: ${res.status}`)
+                    return res.json()
+                  })
+                  .then((data) => setCustomers(data.customers || []))
+                  .catch((err) => setFetchError(err.message))
+                  .finally(() => setLoading(false))
+              }}
+            >
+              Retry
+            </Button>
           </div>
         ) : (
           <>
@@ -231,71 +260,89 @@ export default function CustomersPage() {
                   <CardTitle>Customers ({filteredCustomers.length})</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 overflow-x-auto">
-                  <table className="w-full min-w-200 text-white">
-                    <thead className="border-b border-white/20">
-                      <tr className="text-left">
-                        <th className="p-4 font-medium">Username</th>
-                        <th className="p-4 font-medium">Name</th>
-                        <th className="p-4 font-medium">Contact</th>
-                        <th className="p-4 font-medium">Country</th>
-                        <th className="p-4 font-medium">KYC Status</th>
-                        <th className="p-4 font-medium">Status</th>
-                        <th className="p-4 font-medium">Balance</th>
-                        <th className="p-4 font-medium">Role</th>
-                        <th className="p-4 font-medium">Status Switch</th>
-                        <th className="p-4 font-medium">Delete User</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredCustomers.map((customer) => (
-                        <tr key={customer.id} className="border-b border-white/20 hover:bg-white/5 transition">
-                          <td className="p-4">
-                            <div className="flex items-center gap-3">
-                              <div className="hidden">
-                                <Avatar>
-                                  <AvatarImage src={customer.avatar || "/placeholder.svg"} />
-                                  <AvatarFallback>{(customer.username || "NA").split(" ").map((n) => n[0]).join("")}</AvatarFallback>
-                                </Avatar>
-                              </div>
-                              <span>{customer.username || "No Name"}</span>
-                            </div>
-                          </td>
-                          <td className="p-4">{customer.firstName} {customer.lastName}</td>
-                          <td className="p-4 space-y-1 text-sm">
-                            <div className="flex items-center gap-1"><Mail className="w-3 h-3" /> {customer.email}</div>
-                            <div className="flex items-center gap-1"><Phone className="w-3 h-3" /> {customer.phone}</div>
-                            <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div>
-                          </td>
-                          <td className="p-4">{customer.country}</td>
-                          <td className="p-4"><Badge className={getKycStatusColor(customer.kycStatus)}>{customer.kycStatus}</Badge></td>
-                          <td className="p-4"><Badge className={getStatusColor(customer.status)}>{customer.status}</Badge></td>
-                          <td className="p-4 font-medium">{customer.balance}</td>
-                          <td className="p-4">
-                            {loadingRoleUserId === customer.id ? (
-                              <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
-                            ) : (
-                              <div className="flex items-center gap-2">
-                                <Switch checked={customer.role === "admin"} onCheckedChange={() => handleToggleRole(customer.id)} className={`${customer.role === "admin" ? "bg-blue-600" : "bg-gray-400"} border rounded-full`} />
-                                <span className="text-sm text-gray-300">{customer.role === "admin" ? "Admin" : "User"}</span>
-                              </div>
-                            )}
-                          </td>
-                          <td className="p-4">
-                            {loadingUserId === customer.id ? (
-                              <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
-                            ) : (
-                              <Switch checked={customer.isActive} onCheckedChange={() => handleToggle(customer.id)} className={`${customer.isActive ? "bg-green-500" : "bg-gray-300"} border rounded-full`} />
-                            )}
-                          </td>
-                          <td className="p-4">
-                            <Button variant="destructive" size="sm" onClick={() => handleDeleteUser(customer.id)} disabled={deletingUserId === customer.id} className="flex items-center gap-2">
-                              <Trash2 className="w-4 h-4" /> {deletingUserId === customer.id ? "Deleting..." : "Delete"}
-                            </Button>
-                          </td>
+                  {filteredCustomers.length === 0 ? (
+                    <p className="text-center text-gray-400 py-16">No customers found.</p>
+                  ) : (
+                    <table className="w-full min-w-200 text-white">
+                      <thead className="border-b border-white/20">
+                        <tr className="text-left">
+                          <th className="p-4 font-medium">Username</th>
+                          <th className="p-4 font-medium">Name</th>
+                          <th className="p-4 font-medium">Contact</th>
+                          <th className="p-4 font-medium">Country</th>
+                          <th className="p-4 font-medium">KYC Status</th>
+                          <th className="p-4 font-medium">Status</th>
+                          <th className="p-4 font-medium">Balance</th>
+                          <th className="p-4 font-medium">Role</th>
+                          <th className="p-4 font-medium">Status Switch</th>
+                          <th className="p-4 font-medium">Delete User</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {filteredCustomers.map((customer) => (
+                          <tr key={customer.id} className="border-b border-white/20 hover:bg-white/5 transition">
+                            <td className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="hidden">
+                                  <Avatar>
+                                    <AvatarImage src={customer.avatar || "/placeholder.svg"} />
+                                    <AvatarFallback>{(customer.username || "NA").split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                                  </Avatar>
+                                </div>
+                                <span>{customer.username || "No Name"}</span>
+                              </div>
+                            </td>
+                            <td className="p-4">{customer.firstName} {customer.lastName}</td>
+                            <td className="p-4 space-y-1 text-sm">
+                              <div className="flex items-center gap-1"><Mail className="w-3 h-3" /> {customer.email}</div>
+                              <div className="flex items-center gap-1"><Phone className="w-3 h-3" /> {customer.phone}</div>
+                              <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div>
+                            </td>
+                            <td className="p-4">{customer.country}</td>
+                            <td className="p-4"><Badge className={getKycStatusColor(customer.kycStatus)}>{customer.kycStatus}</Badge></td>
+                            <td className="p-4"><Badge className={getStatusColor(customer.status)}>{customer.status}</Badge></td>
+                            <td className="p-4 font-medium">{customer.balance}</td>
+                            <td className="p-4">
+                              {loadingRoleUserId === customer.id ? (
+                                <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <Switch
+                                    checked={customer.role === "admin"}
+                                    onCheckedChange={() => handleToggleRole(customer.id)}
+                                    className={`${customer.role === "admin" ? "bg-blue-600" : "bg-gray-400"} border rounded-full`}
+                                  />
+                                  <span className="text-sm text-gray-300">{customer.role === "admin" ? "Admin" : "User"}</span>
+                                </div>
+                              )}
+                            </td>
+                            <td className="p-4">
+                              {loadingUserId === customer.id ? (
+                                <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                              ) : (
+                                <Switch
+                                  checked={customer.isActive}
+                                  onCheckedChange={() => handleToggle(customer.id)}
+                                  className={`${customer.isActive ? "bg-green-500" : "bg-gray-300"} border rounded-full`}
+                                />
+                              )}
+                            </td>
+                            <td className="p-4">
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleDeleteUser(customer.id)}
+                                disabled={deletingUserId === customer.id}
+                                className="flex items-center gap-2"
+                              >
+                                <Trash2 className="w-4 h-4" /> {deletingUserId === customer.id ? "Deleting..." : "Delete"}
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>

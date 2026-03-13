@@ -1,22 +1,14 @@
-"use server";
+// controllers/getAllcustomer.js
 
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
 
-
 export async function getAllcustomer() {
   await connectToDB();
 
-  // Populate wallets and assets
   const users = await User.find({ status: { $ne: "deleted" } })
-    .populate({
-      path: "wallets",
-      model: "Wallet",
-    })
-    .populate({
-      path: "assets",
-      model: "UserAsset",
-    })
+    .populate({ path: "wallets", model: "Wallet" })
+    .populate({ path: "assets", model: "UserAsset" })
     .lean();
 
   return users.map((user) => ({
@@ -44,20 +36,20 @@ export async function getAllcustomer() {
     avatar: user.avatar ?? "/placeholder.svg",
     wallets: Array.isArray(user.wallets)
       ? user.wallets.map((wallet) => ({
-          id: wallet._id?.toString(),
-          walletAddress: wallet.walletAddress,
-          network: wallet.network,
-          createdAt: wallet.createdAt,
-        }))
+        id: wallet._id?.toString(),
+        walletAddress: wallet.walletAddress,
+        network: wallet.network,
+        createdAt: wallet.createdAt,
+      }))
       : [],
     assets: Array.isArray(user.assets)
       ? user.assets.map((asset) => ({
-          id: asset._id?.toString(),
-          coin: asset.coin,
-          network: asset.network,
-          amount: asset.amount,
-          createdAt: asset.createdAt,
-        }))
+        id: asset._id?.toString(),
+        coin: asset.coin,
+        network: asset.network,
+        amount: asset.amount,
+        createdAt: asset.createdAt,
+      }))
       : [],
   }));
 }

@@ -1,3 +1,4 @@
+// models/Wallet.js
 import mongoose from "mongoose";
 
 const walletSchema = new mongoose.Schema(

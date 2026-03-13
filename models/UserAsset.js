@@ -1,3 +1,4 @@
+// models/UserAsset.js
 import mongoose from "mongoose";
 
 const UserAssetSchema = new mongoose.Schema(

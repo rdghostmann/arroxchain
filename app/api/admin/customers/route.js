@@ -8,11 +8,8 @@ export async function GET() {
   try {
     await connectToDB();
 
-    // Fetch all users regardless of status so the admin can see
-    // every account including suspended/inactive ones.
-    // Deleted users are excluded — they are soft-deleted and
-    // should not appear in the management UI at all.
-    const users = await User.find({ status: { $ne: "deleted" } })
+    // Fetch all users from the database
+    const users = await User.find({})
       .populate({ path: "wallets", model: "Wallet" })
       .populate({ path: "assets", model: "UserAsset" })
       .sort({ createdAt: -1 }) // newest first

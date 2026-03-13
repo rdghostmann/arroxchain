@@ -8,7 +8,7 @@ export async function getAllcustomer() {
   try {
     await connectToDB();
 
-    const users = await User.find({ status: { $ne: "deleted" } })
+    const users = await User.find({})
       .populate({ path: "wallets", model: "Wallet" })
       .populate({ path: "assets", model: "UserAsset" })
       .sort({ createdAt: -1 })

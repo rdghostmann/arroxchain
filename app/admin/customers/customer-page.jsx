@@ -142,6 +142,7 @@ export default function CustomersPage() {
       customer.username,
       customer.email,
       customer.phone,
+      customer.walletID,
       customer.firstName,
       customer.lastName,
       customer.country,

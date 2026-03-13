@@ -32,6 +32,7 @@ export async function getAllcustomer() {
     zipCode: user.zipCode ?? "",
     role: user.role,
     status: user.status,
+    isActive: user.status === "active",
     walletID: user.walletID,
     kycStatus: user.kycStatus ?? "pending",
     balance: user.balance,

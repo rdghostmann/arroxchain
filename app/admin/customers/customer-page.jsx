@@ -207,6 +207,20 @@ export default function CustomersPage() {
                     <DropdownMenuItem onClick={() => setStatusFilter("suspended")}>Suspended</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                      <Filter className="w-4 h-4 mr-2" />
+                      KYC: {kycFilter === "all" ? "All" : kycFilter}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setKycFilter("all")}>All</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setKycFilter("pending")}>Pending</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setKycFilter("verified")}>Verified</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setKycFilter("rejected")}>Rejected</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </motion.div>
 
@@ -224,6 +238,7 @@ export default function CustomersPage() {
                         <th className="p-4 font-medium">Name</th>
                         <th className="p-4 font-medium">Contact</th>
                         <th className="p-4 font-medium">Country</th>
+                        <th className="p-4 font-medium">KYC Status</th>
                         <th className="p-4 font-medium">Status</th>
                         <th className="p-4 font-medium">Balance</th>
                         <th className="p-4 font-medium">Role</th>
@@ -252,6 +267,7 @@ export default function CustomersPage() {
                             <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div>
                           </td>
                           <td className="p-4">{customer.country}</td>
+                          <td className="p-4"><Badge className={getKycStatusColor(customer.kycStatus)}>{customer.kycStatus}</Badge></td>
                           <td className="p-4"><Badge className={getStatusColor(customer.status)}>{customer.status}</Badge></td>
                           <td className="p-4 font-medium">{customer.balance}</td>
                           <td className="p-4">

@@ -79,8 +79,13 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["active", "inactive"],
+      enum: ["active", "inactive", "suspended", "deleted"],
       default: "active",
+    },
+    kycStatus: {
+      type: String,
+      enum: ["pending", "verified", "rejected"],
+      default: "pending",
     },
     walletID: {
       type: String,

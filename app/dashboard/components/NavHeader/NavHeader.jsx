@@ -1,7 +1,9 @@
+// NavHeader.jsx - Dashboard navigation header with user greeting and account menu
 "use client";
 
 import React from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserCircle, Power } from "lucide-react";
 import Image from "next/image";
+import { Bell } from "lucide-react";
 
 function getOrdinal(n) {
   if (n > 3 && n < 21) return "th";
@@ -37,6 +40,29 @@ const NavHeader = () => {
   ];
   const formattedDate = `${dayNames[today.getDay()]} ${today.getDate()}${getOrdinal(today.getDate())} ${monthNames[today.getMonth()]}`;
 
+  const [notifications, setNotifications] = useState([]);
+  const [unread, setUnread] = useState(0);
+
+
+  useEffect(() => {
+
+    const loadNotifications = async () => {
+
+      const res = await fetch("/api/notifications");
+
+      const data = await res.json();
+
+      if (data.success) {
+        setNotifications(data.notifications);
+        setUnread(data.notifications.filter(n => !n.isRead).length);
+      }
+
+    };
+
+    loadNotifications();
+
+  }, []);
+
   return (
     <div className="w-full px-4 py-4 flex items-center justify-between mb-5">
       <div>
@@ -44,7 +70,68 @@ const NavHeader = () => {
         <h1 className="text-2xl font-bold text-foreground">Welcome, {username}!</h1>
       </div>
 
-      <div>
+      <div className="flex gap-2 items-center justify-between">
+        {/* Notification Icon with dropdown of the notification message */}
+        <DropdownMenu>
+
+          <DropdownMenuTrigger asChild>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative mr-3"
+            >
+              <Bell size={20} />
+
+              {unread > 0 && (
+                <span className="absolute -top-1 -right-1 text-[10px] bg-red-500 text-white px-1 rounded-full">
+                  {unread}
+                </span>
+              )}
+
+            </Button>
+
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            align="end"
+            className="w-72 max-h-80 overflow-y-auto"
+          >
+
+            {notifications.length === 0 && (
+              <div className="text-sm text-muted-foreground p-4">
+                No notifications
+              </div>
+            )}
+
+            {notifications.map((n) => (
+
+              <DropdownMenuItem key={n._id} asChild>
+
+                <Link
+                  href={n.link || "#"}
+                  className={`flex flex-col gap-1 ${!n.isRead ? "bg-muted/40" : ""
+                    }`}
+                >
+
+                  <span className="text-sm font-medium">
+                    {n.title}
+                  </span>
+
+                  <span className="text-xs text-muted-foreground">
+                    {n.message}
+                  </span>
+
+                </Link>
+
+              </DropdownMenuItem>
+
+            ))}
+
+          </DropdownMenuContent>
+
+        </DropdownMenu>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

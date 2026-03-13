@@ -98,7 +98,13 @@ const UserSchema = new mongoose.Schema(
         ref: "UserAsset",
       },
     ],
-    
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Notification"
+      }
+    ]
+
   },
   {
     timestamps: true,

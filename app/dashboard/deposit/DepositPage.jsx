@@ -22,7 +22,7 @@ const tokens = [
     imageLogo: '/tether-usdt-logo.png',
     qrCodeImg: '/eth-qrcode-img.png',
     networks: [
-      { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402' },
+      { name: 'ERC20', imageLogo: '/tether-usdt-logo.png', receiveWalletAddress: '0x0688353c8f46299781e1a33ade320e25983d2402', internalWalletAddress: '0x28C6c06298d514Db089934071355E5743bf21d60' },
       { name: 'TRC20', imageLogo: '/tron-trx-logo.png', receiveWalletAddress: 'TDKqRjF2shav3nZTqD3wwBMmtqUC81i88q' },
     ],
   },
@@ -134,6 +134,12 @@ export default function DepositPage() {
   const currentToken = tokens.find(t => t.symbol === selectedToken) ?? tokens[0];
   const currentNetwork = currentToken.networks.find(n => n.name === selectedNetwork) ?? currentToken.networks[0];
 
+  // Resolve the wallet address to display based on transfer type
+  const displayWalletAddress =
+    transferType === 'internal' && currentNetwork.internalWalletAddress
+      ? currentNetwork.internalWalletAddress
+      : currentNetwork.receiveWalletAddress;
+
   const minutes = String(Math.floor(remainingTime / 60)).padStart(2, '0');
   const seconds = String(remainingTime % 60).padStart(2, '0');
 
@@ -148,8 +154,8 @@ export default function DepositPage() {
   useEffect(() => {
     if (transferType === 'external') {
       setDepositWalletAddress(currentNetwork.receiveWalletAddress);
-    } else if (transferType === 'internal' && selectedToken === 'USDT' && selectedNetwork === 'ERC20') {
-      setDepositWalletAddress('0x28C6c06298d514Db089934071355E5743bf21d60');
+    } else if (transferType === 'internal' && currentNetwork.internalWalletAddress) {
+      setDepositWalletAddress(currentNetwork.internalWalletAddress);
     } else {
       setDepositWalletAddress('');
     }
@@ -326,7 +332,7 @@ export default function DepositPage() {
                 </label>
                 <div className="relative flex items-center gap-2">
                   <Input
-                    value={currentNetwork.receiveWalletAddress}
+                    value={displayWalletAddress}
                     readOnly
                     className="w-full bg-zinc-800 border-zinc-700 pr-10"
                   />
@@ -334,50 +340,50 @@ export default function DepositPage() {
                     variant="ghost"
                     size="icon"
                     className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                    onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
+                    onClick={() => copyToClipboard(displayWalletAddress)}
                     title="Copy address"
                   >
                     <Copy size={16} />
                   </Button>
                 </div>
               </div>
-              
-                {/* Internal: wallet ID (manually entered) + PIN */}
-                {transferType === 'internal' && (
-                  <>
-                    <div className="mt-6">
-                      <label className="block text-sm text-gray-400 mb-1">Receiver Wallet ID</label>
+
+              {/* Internal: wallet ID (manually entered) + PIN */}
+              {transferType === 'internal' && (
+                <>
+                  <div className="mt-6">
+                    <label className="block text-sm text-gray-400 mb-1">Receiver Wallet ID</label>
+                    <Input
+                      value={walletID}
+                      onChange={e => setWalletID(e.target.value)}
+                      placeholder="Enter receiver wallet ID"
+                      className="bg-zinc-800 border-zinc-700"
+                    />
+                  </div>
+
+                  <div className="hidden mt-4">
+                    <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
+                    <div className="flex gap-2">
                       <Input
-                        value={walletID}
-                        onChange={e => setWalletID(e.target.value)}
-                        placeholder="Enter receiver wallet ID"
+                        type={showPinInput ? 'text' : 'password'}
+                        value={transactionPin}
+                        onChange={e => setTransactionPin(e.target.value)}
                         className="bg-zinc-800 border-zinc-700"
+                        placeholder="Enter PIN"
                       />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setShowPinInput(v => !v)}
+                        title={showPinInput ? 'Hide PIN' : 'Show PIN'}
+                      >
+                        {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </Button>
                     </div>
-  
-                    <div className="hidden mt-4">
-                      <label className="block text-sm text-gray-400 mb-1">Transaction PIN</label>
-                      <div className="flex gap-2">
-                        <Input
-                          type={showPinInput ? 'text' : 'password'}
-                          value={transactionPin}
-                          onChange={e => setTransactionPin(e.target.value)}
-                          className="bg-zinc-800 border-zinc-700"
-                          placeholder="Enter PIN"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="icon"
-                          onClick={() => setShowPinInput(v => !v)}
-                          title={showPinInput ? 'Hide PIN' : 'Show PIN'}
-                        >
-                          {showPinInput ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                )}
+                  </div>
+                </>
+              )}
 
               {/* Amount */}
               <div className="mt-6">
@@ -391,7 +397,6 @@ export default function DepositPage() {
                   className="bg-zinc-800 border-zinc-700"
                 />
               </div>
-
 
               <Button
                 onClick={handleContinue}
@@ -423,13 +428,13 @@ export default function DepositPage() {
               />
               <div className="flex justify-center items-center gap-2 mt-4">
                 <span className="text-sm font-mono">
-                  {truncateAddress(currentNetwork.receiveWalletAddress)}
+                  {truncateAddress(displayWalletAddress)}
                 </span>
                 <Button
                   variant="outline"
                   size="icon"
                   className="h-8 w-8"
-                  onClick={() => copyToClipboard(currentNetwork.receiveWalletAddress)}
+                  onClick={() => copyToClipboard(displayWalletAddress)}
                   title="Copy address"
                 >
                   <Copy size={16} />

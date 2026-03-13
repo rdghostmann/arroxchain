@@ -19,8 +19,6 @@ import {
   Filter,
   Mail,
   Phone,
-  CreditCard,
-  Shield,
   Loader2,
   Trash2,
   Wallet,

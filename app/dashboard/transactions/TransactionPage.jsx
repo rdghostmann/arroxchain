@@ -97,6 +97,9 @@ function LoadingSkeleton() {
 
 export default function TransactionPage({ userId }) {
 
+console.log("userid:", userId);
+
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

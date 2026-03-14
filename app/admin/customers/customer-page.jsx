@@ -27,6 +27,7 @@ import {
   AlertCircle,
 } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
+import { Wallet } from "lucide-react";
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState([])

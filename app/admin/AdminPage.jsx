@@ -152,8 +152,8 @@ export default function AdminDashboard({ recentCustomers = [] }) {
   <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
 
     {/* Background Glow Effects */}
-    <div className="absolute top-[-100px] right-[-100px] w-[400px] h-[400px] bg-primary/20 blur-[120px] rounded-full opacity-30 animate-pulse" />
-    <div className="absolute bottom-[-120px] left-[-120px] w-[400px] h-[400px] bg-blue-600/20 blur-[140px] rounded-full opacity-20" />
+    <div className="absolute -top-25 -right-25 w-100 h-100 bg-primary/20 blur-[120px] rounded-full opacity-30 animate-pulse" />
+    <div className="absolute bottom-30 left-30 w-100 h-100 bg-blue-600/20 blur-[140px] rounded-full opacity-20" />
 
     <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 

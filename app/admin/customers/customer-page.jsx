@@ -1,4 +1,4 @@
-// /admin/customers/customer-page.jsx
+// /admin/customers/CustomerPage.jsx
 "use client"
 
 export const dynamic = 'force-dynamic';
@@ -24,11 +24,9 @@ import {
   Phone,
   Loader2,
   Trash2,
-  Wallet,
   AlertCircle,
 } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
-import { getAllcustomer } from "@/controllers/getAllcustomer"
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState([])
@@ -42,23 +40,28 @@ export default function CustomersPage() {
   const [fetchError, setFetchError] = useState(null)
 
   const loadCustomers = async () => {
-
-    setLoading(true)
-    setFetchError(null)
-
     try {
-      const res = await fetch("/api/admin/customers");
-      const data = await res.json();
-      setUsers(data.customers || []);
-    } catch (err) {
-      toast.error("Failed to fetch users");
-    }
+      setLoading(true);
+      setFetchError(null);
 
-  }
+      const res = await fetch("/api/admin/get-customers");
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Failed to fetch customers");
+      }
+
+      setCustomers(data.users);
+    } catch (err) {
+      setFetchError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    loadCustomers()
-  }, [])
+    loadCustomers();
+  }, []);
 
   const handleDeleteUser = async (userId) => {
     if (!window.confirm("Are you sure you want to mark this user as deleted?")) return
@@ -132,30 +135,30 @@ export default function CustomersPage() {
 
   const filteredCustomers = customers.filter(customer => {
 
-    const fields = [
-      customer.username,
-      customer.email,
-      customer.phone,
-      // customer.walletID,
-      customer.firstName,
-      customer.lastName,
-      customer.country,
-      customer.state,
-      customer.zipCode,
-    ].map(f => f?.toString().toLowerCase() || "")
+      const fields = [
+        customer.username,
+        customer.email,
+        customer.phone,
+        // customer.walletID,
+        customer.firstName,
+        customer.lastName,
+        customer.country,
+        customer.state,
+        customer.zipCode,
+      ].map(f => f?.toString().toLowerCase() || "")
 
-    const matchesSearch =
-      fields.some(f => f.includes(searchTerm.toLowerCase()))
+      const matchesSearch =
+        fields.some(f => f.includes(searchTerm.toLowerCase()))
 
-    const matchesStatus =
-      statusFilter === "all" || customer.status === statusFilter
+      const matchesStatus =
+        statusFilter === "all" || customer.status === statusFilter
 
-    const matchesKyc =
-      kycFilter === "all" || customer.kycStatus === kycFilter
+      const matchesKyc =
+        kycFilter === "all" || customer.kycStatus === kycFilter
 
-    return matchesSearch && matchesStatus && matchesKyc
+      return matchesSearch && matchesStatus && matchesKyc
 
-  })
+    })
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -315,7 +318,7 @@ export default function CustomersPage() {
                               <Badge className={getStatusColor(customer.status)}>{customer.status}</Badge>
                             </td>
                             <td className="p-4 font-medium">
-                              ${Number(customer.balance).toLocaleString()}
+                              ${Number(customer.balance ?? 0).toLocaleString()}
                             </td>                            <td className="p-4">
                               {loadingRoleUserId === customer.id ? (
                                 <Loader2 className="w-5 h-5 animate-spin text-gray-400" />

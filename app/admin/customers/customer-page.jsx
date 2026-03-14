@@ -148,7 +148,7 @@ export default function CustomersPage() {
       customer.username,
       customer.email,
       customer.phone,
-      customer.walletID,
+      // customer.walletID,
       customer.firstName,
       customer.lastName,
       customer.country,
@@ -317,7 +317,7 @@ export default function CustomersPage() {
                             <td className="p-4 space-y-1 text-sm">
                               <div className="flex items-center gap-1"><Mail className="w-3 h-3" /> {customer.email}</div>
                               <div className="flex items-center gap-1"><Phone className="w-3 h-3" /> {customer.phone}</div>
-                              <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div>
+                              {/* <div className="flex items-center gap-1"><Wallet className="w-3 h-3" /> {customer.walletID}</div> */}
                             </td>
                             <td className="p-4">{customer.country}</td>
                             <td className="p-4">

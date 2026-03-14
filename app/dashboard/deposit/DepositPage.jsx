@@ -270,10 +270,17 @@ export default function DepositPage() {
       <div className="w-full max-w-7xl mx-auto py-10">
 
         <NavHeader />
+        <ul className="flex flex-col gap-1 text-sm text-gray-400 mb-4">
+          <li className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-400 inline-block shrink-0" />
+            Transfer above $1,000,000 for External Deposit
+          </li>
+          <li className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-400 inline-block shrink-0" />
+            Transfer below $1,000,000 for Internal Deposit
+          </li>
+        </ul>
 
-
-        <p className="text-center">Transfer below $1,000,000 for Internal Deposit</p>
-        <p className="text-center">Transfer below $1,000,000 for Internal Deposit</p>
 
         {/* ── FORM STEP ── */}
         {step === 'form' && (

@@ -24,8 +24,7 @@ export async function POST(req) {
     }
 
     // Guard: prevent deleting a superAdmin
-    if (user.role === "superadmin") {
-    // if (user.role === "superAdmin") {
+    if (user.role === "superAdmin") {
       return NextResponse.json(
         { success: false, message: "Cannot delete a superAdmin account" },
         { status: 403 }

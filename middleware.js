@@ -24,7 +24,7 @@ export async function middleware(req) {
     const userRole = token.role
 
     // Admin route protection
-    if (pathname.startsWith("/admin") && userRole !== "admin" || "superadmin") {
+    if (pathname.startsWith("/admin") && userRole !== "admin") {
         return NextResponse.redirect(new URL("/dashboard", req.url))
     }
 

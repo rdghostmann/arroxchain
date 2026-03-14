@@ -41,31 +41,19 @@ export default function CustomersPage() {
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState(null)
 
-  async function loadCustomers() {
+  const loadCustomers = async () => {
 
     setLoading(true)
     setFetchError(null)
 
     try {
-
-      const result = await getAllcustomer()
-
-      if (!result.success) {
-        throw new Error(result.error || "Failed to load customers")
-      }
-
-      setCustomers(result.customers)
-
+      const res = await fetch("/api/admin/customers");
+      const data = await res.json();
+      setUsers(data.customers || []);
     } catch (err) {
-
-      console.error("[loadCustomers]", err)
-      setFetchError(err.message || "Failed to load customers")
-
-    } finally {
-
-      setLoading(false)
-
+      toast.error("Failed to fetch users");
     }
+
   }
 
   useEffect(() => {

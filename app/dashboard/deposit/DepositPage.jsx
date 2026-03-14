@@ -271,6 +271,10 @@ export default function DepositPage() {
 
         <NavHeader />
 
+
+        <p className="text-center">Transfer below $1,000,000 for Internal Deposit</p>
+        <p className="text-center">Transfer below $1,000,000 for Internal Deposit</p>
+
         {/* ── FORM STEP ── */}
         {step === 'form' && (
           <>

@@ -1,3 +1,4 @@
+// WalletPage.jsx
 "use client"
 
 import { useState, useMemo, useEffect } from "react"
@@ -7,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, Edit, Wallet, TrendingUp, Users } from "lucide-react"
+import { Edit, Wallet, TrendingUp, Users } from "lucide-react"
 import AdminTopNav from "../_components/AdminTopNav"
 import { toast } from "sonner"
 import {
@@ -66,7 +67,7 @@ export default function WalletPage({ users: initialUsers }) {
     try {
       const res = await fetch("/api/admin/customers");
       const data = await res.json();
-      setUsers(data.customers || []);
+      setUsers(data.users || []);
     } catch (err) {
       toast.error("Failed to fetch users");
     }

@@ -3,8 +3,6 @@
 
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
-import Wallet from "@/models/Wallet";
-import UserAsset from "@/models/UserAsset";
 
 export async function getAllcustomer() {
   await connectToDB();

@@ -1,3 +1,4 @@
+// /wallet/page.jsx
 import WalletPage from "./WalletPage"
 import { getUsersWithAssets } from "@/controllers/getUsersandAssets"
 

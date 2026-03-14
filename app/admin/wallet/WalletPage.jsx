@@ -55,7 +55,7 @@ const COIN_NETWORKS = {
 };
 
 export default function WalletPage({ users: initialUsers }) {
-const [users, setUsers] = useState(initialUsers ?? [])
+  const [users, setUsers] = useState(initialUsers ?? [])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedUser, setSelectedUser] = useState(null)
   const [editingAssets, setEditingAssets] = useState([]);
@@ -64,16 +64,20 @@ const [users, setUsers] = useState(initialUsers ?? [])
   const [newAssetCoin, setNewAssetCoin] = useState("");
   const [newAssetNetwork, setNewAssetNetwork] = useState("");
 
-const fetchUsers = async () => {
-  try {
-    const res = await fetch("/api/admin/get-wallet-users"); // ✅ correct endpoint
-    const data = await res.json();
-    setUsers(data.users || []);
-  } catch (err) {
-    toast.error("Failed to refresh users");
-  }
-};
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("/api/admin/get-wallet-users"); // ✅ correct endpoint
+      const data = await res.json();
+      setUsers(data.users || []);
+    } catch (err) {
+      toast.error("Failed to refresh users");
+    }
+  };
 
+  // ✅ Add this useEffect to sync prop changes
+  useEffect(() => {
+    if (initialUsers) setUsers(initialUsers);
+  }, [initialUsers]);
 
 
   useEffect(() => {
@@ -167,9 +171,11 @@ const fetchUsers = async () => {
   };
 
   // Save assets: send as array of {coin, network, amount}
-  const handleSaveAssets = async () => {
-    if (!selectedUser) return;
-    setLoading(true);
+ // ✅ Fix — wrap in try/catch/finally
+const handleSaveAssets = async () => {
+  if (!selectedUser) return;
+  setLoading(true);
+  try {
     const res = await fetch("/api/admin/update-assets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -180,16 +186,19 @@ const fetchUsers = async () => {
     });
     const result = await res.json();
     if (result.success) {
-      toast("Assets updated successfully");
+      toast.success("Assets updated successfully");
       setSelectedUser(null);
       setEditingAssets([]);
-      // Fetch fresh users/assets after top-up
       await fetchUsers();
     } else {
       toast.error("Failed to update assets: " + (result.error || "Unknown error"));
     }
-    setLoading(false);
-  };
+  } catch (err) {
+    toast.error("Network error: " + err.message);
+  } finally {
+    setLoading(false); // ✅ always runs
+  }
+};
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
@@ -251,7 +260,7 @@ const fetchUsers = async () => {
           {/* Search Bar */}
           <div className="relative max-w-md">
             <div className="absolute inset-0 bg-white/5 rounded-sm blur-xl opacity-40"></div>
-            <Search  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
             <Input
               placeholder="Search users by name or email..."
               value={searchTerm}
@@ -313,7 +322,7 @@ const fetchUsers = async () => {
                             <div className="space-y-6">
                               {editingAssets.map((asset, index) => (
                                 <div
-                                 key={`${asset.coin}-${asset.network}`}
+                                  key={`${asset.coin}-${asset.network}`}
                                   className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 space-y-5 hover:border-primary/40 transition"
                                 >
                                   <div className="flex items-center gap-4">
@@ -475,9 +484,8 @@ const fetchUsers = async () => {
                   <div>
                     <p className="text-sm text-gray-400 mb-2">Assets ({Array.isArray(user.assets) ? user.assets.length : 0})</p>
                     <div className="flex flex-wrap gap-1">
-                      {Array.isArray(user.assets) && user.assets.map((asset, idx) => (
-                        <Badge
-                          key={idx}
+                      {Array.isArray(user.assets) && user.assets.map((asset) => (
+                        <Badge key={`${asset.coin}-${asset.network}`}
                           variant="secondary"
                           className="bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs rounded-full px-3 py-1"
                         >

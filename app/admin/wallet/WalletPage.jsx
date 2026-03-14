@@ -73,9 +73,7 @@ export default function WalletPage({ users: initialUsers }) {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+
 
   useEffect(() => {
     async function fetchPrices() {

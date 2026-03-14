@@ -171,34 +171,34 @@ export default function WalletPage({ users: initialUsers }) {
   };
 
   // Save assets: send as array of {coin, network, amount}
- // ✅ Fix — wrap in try/catch/finally
-const handleSaveAssets = async () => {
-  if (!selectedUser) return;
-  setLoading(true);
-  try {
-    const res = await fetch("/api/admin/update-assets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: selectedUser.id,
-        assets: editingAssets,
-      }),
-    });
-    const result = await res.json();
-    if (result.success) {
-      toast.success("Assets updated successfully");
-      setSelectedUser(null);
-      setEditingAssets([]);
-      await fetchUsers();
-    } else {
-      toast.error("Failed to update assets: " + (result.error || "Unknown error"));
+  // ✅ Fix — wrap in try/catch/finally
+  const handleSaveAssets = async () => {
+    if (!selectedUser) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/update-assets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: selectedUser.id,
+          assets: editingAssets,
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        toast.success("Assets updated successfully");
+        setSelectedUser(null);
+        setEditingAssets([]);
+        await fetchUsers();
+      } else {
+        toast.error("Failed to update assets: " + (result.error || "Unknown error"));
+      }
+    } catch (err) {
+      toast.error("Network error: " + err.message);
+    } finally {
+      setLoading(false); // ✅ always runs
     }
-  } catch (err) {
-    toast.error("Network error: " + err.message);
-  } finally {
-    setLoading(false); // ✅ always runs
-  }
-};
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">

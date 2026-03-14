@@ -4,6 +4,7 @@ import { connectToDB } from "@/lib/connectDB"
 
 export async function getUsersWithAssets(search = "") {
   await connectToDB()
+
   const query = search
     ? {
       $or: [
@@ -19,11 +20,10 @@ export async function getUsersWithAssets(search = "") {
 
   return users.map(user => ({
     id: user._id.toString(),
-    name: user.username || user.email?.split("@")[0] || "Unknown",
+    name: user.username || user.email?.split("@")[0] || "Unknown", // ✅ Bug 2
     email: user.email,
     avatar: user.avatar,
-    // ✅ Fix — return full asset objects as array
-    assets: Array.isArray(user.assets)
+    assets: Array.isArray(user.assets)                             // ✅ Bug 1
       ? user.assets.map((asset) => ({
         id: asset._id?.toString(),
         coin: asset.coin,
@@ -31,6 +31,8 @@ export async function getUsersWithAssets(search = "") {
         amount: asset.amount,
       }))
       : [],
-    lastActive: user.lastLogin ? user.lastLogin.toISOString().slice(0, 10) : "",
+    lastActive: user.lastLogin
+      ? new Date(user.lastLogin).toISOString().slice(0, 10)
+      : "",
   }))
 }

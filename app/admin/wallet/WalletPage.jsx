@@ -19,7 +19,9 @@ import {
   SelectValue
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import { SearchSlash } from "lucide-react"
+// import { SearchSlash } from "lucide-react"
+import { Search } from "lucide-react"
+
 
 const ASSETS = {
   BTC: { name: "Bitcoin", symbol: "BTC", color: "bg-orange-500" },
@@ -53,7 +55,7 @@ const COIN_NETWORKS = {
 };
 
 export default function WalletPage({ users: initialUsers }) {
-  const [users, setUsers] = useState(initialUsers)
+const [users, setUsers] = useState(initialUsers ?? [])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedUser, setSelectedUser] = useState(null)
   const [editingAssets, setEditingAssets] = useState([]);
@@ -62,16 +64,15 @@ export default function WalletPage({ users: initialUsers }) {
   const [newAssetCoin, setNewAssetCoin] = useState("");
   const [newAssetNetwork, setNewAssetNetwork] = useState("");
 
-  // Fetch users from API (like in page.jsx)
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch("/api/admin/customers");
-      const data = await res.json();
-      setUsers(data.users || []);
-    } catch (err) {
-      toast.error("Failed to fetch users");
-    }
-  };
+const fetchUsers = async () => {
+  try {
+    const res = await fetch("/api/admin/get-wallet-users"); // ✅ correct endpoint
+    const data = await res.json();
+    setUsers(data.users || []);
+  } catch (err) {
+    toast.error("Failed to refresh users");
+  }
+};
 
 
 
@@ -250,7 +251,7 @@ export default function WalletPage({ users: initialUsers }) {
           {/* Search Bar */}
           <div className="relative max-w-md">
             <div className="absolute inset-0 bg-white/5 rounded-sm blur-xl opacity-40"></div>
-            <SearchSlash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+            <Search  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
             <Input
               placeholder="Search users by name or email..."
               value={searchTerm}
@@ -312,7 +313,7 @@ export default function WalletPage({ users: initialUsers }) {
                             <div className="space-y-6">
                               {editingAssets.map((asset, index) => (
                                 <div
-                                  key={index}
+                                 key={`${asset.coin}-${asset.network}`}
                                   className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 space-y-5 hover:border-primary/40 transition"
                                 >
                                   <div className="flex items-center gap-4">

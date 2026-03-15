@@ -13,7 +13,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { getWalletUsers, updateUserAssets } from "./actions";
+// import { getWalletUsers, updateUserAssets } from "./actions";
 
 // ── Static config ──────────────────────────────────────────────────────────
 const ASSETS = {
@@ -55,16 +55,51 @@ export default function WalletPage({ initialUsers }) {
   const [newAssetCoin, setNewAssetCoin]   = useState("");
   const [newAssetNetwork, setNewAssetNetwork] = useState("");
   const [livePrices, setLivePrices]     = useState({});
-  const [isPending, startTransition]    = useTransition(); // ✅ replaces manual loading state
+  const [isPending, startTransition]    = useTransition(); 
 
-  // ── Refresh users list via server action ──────────────────────────────
-  const refreshUsers = () => {
-    startTransition(async () => {
-      const fresh = await getWalletUsers();
-      setUsers(fresh);
-    });
-  };
+// ── Refresh users ──────────────────────────────────────────────────────────
+const refreshUsers = () => {
+  startTransition(async () => {
+    try {
+      const res = await fetch("/api/admin/wallet/users");
+      const data = await res.json();
+      if (data.success) setUsers(data.users);
+      else toast.error("Failed to refresh: " + data.error);
+    } catch (err) {
+      toast.error("Network error: " + err.message);
+    }
+  });
+};
 
+// ── Save assets ────────────────────────────────────────────────────────────
+const handleSaveAssets = () => {
+  if (!selectedUser) return;
+
+  startTransition(async () => {
+    try {
+      const res = await fetch("/api/admin/wallet/update-assets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: selectedUser.id, assets: editingAssets }),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setUsers((prev) =>
+          prev.map((u) => (u.id === result.user.id ? result.user : u))
+        );
+        setSelectedUser(null);
+        setEditingAssets([]);
+        toast.success("Assets updated successfully");
+      } else {
+        toast.error("Failed to update: " + (result.error || "Unknown error"));
+      }
+    } catch (err) {
+      toast.error("Network error: " + err.message);
+    }
+  });
+};
   // ── Live prices from CoinGecko ─────────────────────────────────────────
   useEffect(() => {
     async function fetchPrices() {
@@ -156,26 +191,7 @@ export default function WalletPage({ initialUsers }) {
   const removeAsset = (index) =>
     setEditingAssets((prev) => prev.filter((_, i) => i !== index));
 
-  // ── Save — calls server action directly ───────────────────────────────
-  const handleSaveAssets = () => {
-    if (!selectedUser) return;
 
-    startTransition(async () => {
-      const result = await updateUserAssets(selectedUser.id, editingAssets);
-
-      if (result.success) {
-        toast.success("Assets updated successfully");
-        // Optimistically patch local state so UI reflects change instantly
-        setUsers((prev) =>
-          prev.map((u) => (u.id === result.user.id ? result.user : u))
-        );
-        setSelectedUser(null);
-        setEditingAssets([]);
-      } else {
-        toast.error("Failed to update: " + (result.error || "Unknown error"));
-      }
-    });
-  };
 
   // ── UI ─────────────────────────────────────────────────────────────────
   return (

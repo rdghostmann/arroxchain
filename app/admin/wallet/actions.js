@@ -3,124 +3,104 @@
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
 import UserAsset from "@/models/UserAsset";
-import Transaction from "@/models/Transaction";
 import mongoose from "mongoose";
 
 // ─────────────────────────────────────────────────────────────
-// ACTION 1: Fetch all users with role "user" and their assets
+// ACTION 1: Fetch all role:"user" accounts with their assets
 // ─────────────────────────────────────────────────────────────
 export async function getWalletUsers() {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const users = await User.find({ role: "user" })
-    .populate({ path: "assets", model: "UserAsset" })
-    .lean();
+    const users = await User.find({ role: "user" })
+      .populate({ path: "assets", model: "UserAsset" })
+      .lean();
 
-  return users.map((user) => ({
-    id: user._id.toString(),
-    name: user.username || user.email?.split("@")[0] || "Unknown",
-    email: user.email ?? "",
-    avatar: user.avatar ?? "",
-    assets: Array.isArray(user.assets)
-      ? user.assets.map((asset) => ({
-          id: asset._id?.toString(),
-          coin: asset.coin,
-          network: asset.network,
-          amount: asset.amount,
-        }))
-      : [],
-    lastActive: user.lastLogin
-      ? new Date(user.lastLogin).toISOString().slice(0, 10)
-      : "",
-  }));
+    return users.map((user) => ({
+      id: user._id.toString(),
+      name: user.username || user.email?.split("@")[0] || "Unknown",
+      email: user.email ?? "",
+      avatar: user.avatar ?? "",
+      assets: Array.isArray(user.assets)
+        ? user.assets.map((asset) => ({
+            id: asset._id?.toString(),
+            coin: asset.coin,
+            network: asset.network,
+            amount: asset.amount,
+          }))
+        : [],
+      lastActive: user.lastLogin
+        ? new Date(user.lastLogin).toISOString().slice(0, 10)
+        : "",
+    }));
+  } catch (error) {
+    console.error("❌ getWalletUsers failed:", error.message);
+    return [];
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
-// ACTION 2: Update a user's assets (transactional)
+// ACTION 2: Update a user's assets
 // ─────────────────────────────────────────────────────────────
 export async function updateUserAssets(userId, assets) {
-  await connectToDB();
-
-  if (!userId || !Array.isArray(assets)) {
-    return { success: false, error: "Invalid userId or assets payload" };
-  }
-
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
-    const user = await User.findById(userId).session(session);
-    if (!user) throw new Error("User not found");
+    await connectToDB();
+
+    if (!userId || !Array.isArray(assets)) {
+      return { success: false, error: "Invalid userId or assets payload" };
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return { success: false, error: "Invalid userId format" };
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return { success: false, error: "User not found" };
 
     const newAssetIds = [];
 
     for (const { coin, network, amount } of assets) {
-      // Validate each asset entry
       if (!coin || !network || amount === undefined || amount === null) {
-        throw new Error(`Invalid entry — coin: ${coin}, network: ${network}`);
+        return { success: false, error: `Invalid entry — coin: ${coin}, network: ${network}` };
       }
 
       const parsedAmount = parseFloat(amount);
       if (isNaN(parsedAmount) || parsedAmount < 0) {
-        throw new Error(`Invalid amount for ${coin} (${network}): ${amount}`);
+        return { success: false, error: `Invalid amount for ${coin} (${network}): ${amount}` };
       }
 
       let asset = await UserAsset.findOne({
         user: new mongoose.Types.ObjectId(userId),
         coin,
         network,
-      }).session(session);
+      });
 
       if (asset) {
-        // Create a deposit transaction only if amount increased
-        if (parsedAmount > asset.amount) {
-          await Transaction.create(
-            [{
-              userId: user._id,
-              type: "deposit",
-              amount: parsedAmount - asset.amount,
-              coin,
-              network,
-              status: "confirmed",
-            }],
-            { session }
-          );
-        }
-        asset.amount = parsedAmount;
-        await asset.save({ session });
+        asset = await UserAsset.findByIdAndUpdate(
+          asset._id,
+          { $set: { amount: parsedAmount } },
+          { new: true }
+        );
       } else {
-        // Brand new asset — create document + transaction
-        const [newAsset] = await UserAsset.create(
-          [{ user: user._id, coin, network, amount: parsedAmount }],
-          { session }
-        );
-        await Transaction.create(
-          [{
-            userId: user._id,
-            type: "deposit",
-            amount: parsedAmount,
-            coin,
-            network,
-            status: "confirmed",
-          }],
-          { session }
-        );
-        asset = newAsset;
+        asset = await UserAsset.create({
+          user: user._id,
+          coin,
+          network,
+          amount: parsedAmount,
+        });
       }
 
       newAssetIds.push(asset._id);
     }
 
-    // Sync user.assets ref array atomically
+    // Sync user.assets ref array
     await User.findByIdAndUpdate(
       userId,
       { $set: { assets: newAssetIds } },
-      { new: true, session }
+      { new: true }
     );
 
-    await session.commitTransaction();
-
-    // Read fresh data AFTER commit
+    // Return fresh data
     const updatedUser = await User.findById(userId)
       .populate({ path: "assets", model: "UserAsset" })
       .lean();
@@ -144,10 +124,7 @@ export async function updateUserAssets(userId, assets) {
       },
     };
   } catch (error) {
-    await session.abortTransaction();
-    console.error("❌ updateUserAssets aborted:", error.message);
-    return { success: false, error: error.message || "Transaction failed" };
-  } finally {
-    session.endSession();
+    console.error("❌ updateUserAssets failed:", error.message);
+    return { success: false, error: error.message || "Update failed" };
   }
 }

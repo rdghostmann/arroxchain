@@ -1,8 +1,8 @@
-// /wallet/page.jsx
-import WalletPage from "./WalletPage"
-import { getUsersWithAssets } from "@/controllers/getUsersandAssets"
+// app/admin/wallet/page.jsx
+import WalletPage from "./WalletPage";
+import { getWalletUsers } from "./actions";
 
 export default async function Page() {
-  const users = await getUsersWithAssets()
-  return <WalletPage users={users} />
+  const users = await getWalletUsers();
+  return <WalletPage initialUsers={users} />;
 }

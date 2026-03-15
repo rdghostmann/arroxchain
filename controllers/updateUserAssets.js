@@ -1,7 +1,9 @@
+// controllers/updateUserAssets.js
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
 import UserAsset from "@/models/UserAsset";
 import Transaction from "@/models/Transaction";
+import mongoose from "mongoose";
 
 export async function updateUserAssets(userId, assets) {
   await connectToDB();
@@ -10,19 +12,28 @@ export async function updateUserAssets(userId, assets) {
     throw new Error("Invalid assets data");
   }
 
-  const user = await User.findById(userId).populate("assets");
+  // ✅ Do NOT populate here — we only need the raw user document
+  const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
 
   const newAssetIds = [];
 
   for (const { coin, network, amount } of assets) {
-    let asset = await UserAsset.findOne({ user: user._id, coin, network });
+    if (!coin || !network || amount === undefined || amount === null) continue;
+
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount < 0) continue;
+
+    // ✅ Use new mongoose.Types.ObjectId(userId) to ensure correct type match
+    let asset = await UserAsset.findOne({
+      user: new mongoose.Types.ObjectId(userId),
+      coin,
+      network,
+    });
 
     if (asset) {
-      // Only create transaction if new amount is greater than previous
-      if (amount > asset.amount) {
-        const addedAmount = amount - asset.amount;
-
+      if (parsedAmount > asset.amount) {
+        const addedAmount = parsedAmount - asset.amount;
         await Transaction.create({
           userId: user._id,
           type: "deposit",
@@ -33,52 +44,48 @@ export async function updateUserAssets(userId, assets) {
         });
       }
 
-      asset.amount = amount;
-      await asset.save();
+      asset.amount = parsedAmount;
+      await asset.save(); // ✅ Persist updated amount
     } else {
-      // First-time deposit
+      // ✅ Create new UserAsset document
+      asset = await UserAsset.create({
+        user: user._id,
+        coin,
+        network,
+        amount: parsedAmount,
+      });
+
       await Transaction.create({
         userId: user._id,
         type: "deposit",
-        amount,
+        amount: parsedAmount,
         coin,
         network,
         status: "confirmed",
-      });
-
-      asset = await UserAsset.create({
-        coin,
-        network,
-        amount,
-        user: user._id,
       });
     }
 
     newAssetIds.push(asset._id);
   }
 
-  // Sync user.assets to reflect these IDs
-  user.assets = newAssetIds;
-  await user.save();
+  // ✅ Use $set with the plain ObjectId array — avoid Mongoose populated-doc confusion
+  await User.findByIdAndUpdate(
+    userId,
+    { $set: { assets: newAssetIds } },
+    { new: true }
+  );
 
-  // Fetch updated user and assets as array
+  // ✅ Fetch fresh data for the response
   const updatedUser = await User.findById(userId).populate("assets").lean();
 
   return {
-    success: true,
-    user: {
-      id: updatedUser._id.toString(),
-      name: updatedUser.username,
-      email: updatedUser.email,
-      avatar: updatedUser.avatar,
-      assets: updatedUser.assets.map((asset) => ({
-        coin: asset.coin,
-        network: asset.network,
-        amount: asset.amount,
-      })),
-      lastActive: updatedUser.lastLogin
-        ? updatedUser.lastLogin.toISOString().slice(0, 10)
-        : "",
-    },
+    id: updatedUser._id.toString(),
+    name: updatedUser.username,
+    email: updatedUser.email,
+    assets: updatedUser.assets.map((a) => ({
+      coin: a.coin,
+      network: a.network,
+      amount: a.amount,
+    })),
   };
 }

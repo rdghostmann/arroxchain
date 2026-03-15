@@ -1,21 +1,25 @@
+// app/api/admin/update-assets/route.js
+import { NextResponse } from "next/server";
 import { updateUserAssets } from "@/controllers/updateUserAssets";
 
 export async function POST(request) {
   try {
     const { userId, assets } = await request.json();
-    console.log("📥 Incoming POST /api/user-assets with:", { userId, assets });
 
-    if (!userId || !assets) {
-      return Response.json({ success: false, error: "Missing userId or assets" }, { status: 400 });
+    if (!userId || !Array.isArray(assets)) {
+      return NextResponse.json(
+        { success: false, error: "Missing or invalid userId or assets" },
+        { status: 400 }
+      );
     }
 
-    const result = await updateUserAssets(userId, assets);
-    console.log("✅ updateUserAssets result:", result);
+    const updatedUser = await updateUserAssets(userId, assets);
 
-    return Response.json({ success: true, data: result });
+    // ✅ Flat, unambiguous response — no nested { success, data: { success } }
+    return NextResponse.json({ success: true, user: updatedUser });
   } catch (error) {
-    console.error("❌ Server error:", error);
-    return Response.json(
+    console.error("❌ /api/admin/update-assets error:", error);
+    return NextResponse.json(
       { success: false, error: error.message || "Unknown server error" },
       { status: 500 }
     );

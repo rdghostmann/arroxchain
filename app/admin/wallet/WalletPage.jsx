@@ -1,4 +1,5 @@
 // WalletPage.jsx
+
 "use client"
 
 import { useState, useMemo, useEffect } from "react"
@@ -170,8 +171,6 @@ export default function WalletPage({ users: initialUsers }) {
     setEditingAssets((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Save assets: send as array of {coin, network, amount}
-  // ✅ Fix — wrap in try/catch/finally
   const handleSaveAssets = async () => {
     if (!selectedUser) return;
     setLoading(true);
@@ -184,7 +183,10 @@ export default function WalletPage({ users: initialUsers }) {
           assets: editingAssets,
         }),
       });
+
       const result = await res.json();
+      console.log("📦 Save result:", result); // ✅ Add this during debugging
+
       if (result.success) {
         toast.success("Assets updated successfully");
         setSelectedUser(null);
@@ -196,7 +198,7 @@ export default function WalletPage({ users: initialUsers }) {
     } catch (err) {
       toast.error("Network error: " + err.message);
     } finally {
-      setLoading(false); // ✅ always runs
+      setLoading(false);
     }
   };
 

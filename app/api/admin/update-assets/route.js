@@ -9,9 +9,16 @@ import mongoose from "mongoose";
 export async function POST(request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || session.user.role !== "admin" && session.user.role !== "superAdmin") {
-      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
-    }
+
+    if (
+  !session?.user ||
+  (session.user.role !== "admin" && session.user.role !== "superAdmin")
+) {
+  return NextResponse.json(
+    { success: false, error: "Unauthorized" },
+    { status: 401 }
+  );
+}
 
     await connectToDB();
 

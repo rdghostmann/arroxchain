@@ -1,4 +1,5 @@
 // controllers/updateUserAssets.js
+"use server"
 import { connectToDB } from "@/lib/connectDB";
 import User from "@/models/User";
 import UserAsset from "@/models/UserAsset";

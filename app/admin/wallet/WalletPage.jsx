@@ -1,86 +1,71 @@
-// WalletPage.jsx
+"use client";
 
-"use client"
-
-import { useState, useMemo, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Edit, Wallet, TrendingUp, Users } from "lucide-react"
-import AdminTopNav from "../_components/AdminTopNav"
-import { toast } from "sonner"
+import { useState, useMemo, useEffect, useTransition } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Edit, Wallet, TrendingUp, Users, Search } from "lucide-react";
+import AdminTopNav from "../_components/AdminTopNav";
+import { toast } from "sonner";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-// import { SearchSlash } from "lucide-react"
-import { Search } from "lucide-react"
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { getWalletUsers, updateUserAssets } from "./actions";
 
-
+// ── Static config ──────────────────────────────────────────────────────────
 const ASSETS = {
-  BTC: { name: "Bitcoin", symbol: "BTC", color: "bg-orange-500" },
-  ETH: { name: "Ethereum", symbol: "ETH", color: "bg-blue-500" },
-  USDT: { name: "Tether", symbol: "USDT", color: "bg-green-500" },
-  BNB: { name: "Binance Coin", symbol: "BNB", color: "bg-yellow-500" },
-  SOL: { name: "Solana", symbol: "SOL", color: "bg-purple-500" },
-  ADA: { name: "Cardano", symbol: "ADA", color: "bg-blue-600" },
-  XRP: { name: "Ripple", symbol: "XRP", color: "bg-gray-500" },
-  DOGE: { name: "Dogecoin", symbol: "DOGE", color: "bg-yellow-600" },
-  TRX: { name: "Tron", symbol: "TRX", color: "bg-red-500" },
-  DOT: { name: "Polkadot", symbol: "DOT", color: "bg-pink-500" },
-  SHIB: { name: "Shiba Inu", symbol: "SHIB", color: "bg-orange-600" },
-  XLM: { name: "Stellar", symbol: "XLM", color: "bg-blue-400" }
-}
-
-// Define available networks for each coin
-const COIN_NETWORKS = {
-  BTC: ["Mainnet"],
-  ETH: ["Mainnet"],
-  USDT: ["ERC20", "TRC20", "BEP20"],
-  BNB: ["BNB Smart Chain (BEP20)"],
-  SOL: ["Solana"],
-  ADA: ["Cardano"],
-  XRP: ["Ripple"],
-  DOGE: ["Dogecoin"],
-  TRX: ["Tron"],
-  DOT: ["Polkadot"],
-  SHIB: ["Ethereum"],
-  XLM: ["Stellar"]
+  BTC:  { name: "Bitcoin",       symbol: "BTC",  color: "bg-orange-500" },
+  ETH:  { name: "Ethereum",      symbol: "ETH",  color: "bg-blue-500"   },
+  USDT: { name: "Tether",        symbol: "USDT", color: "bg-green-500"  },
+  BNB:  { name: "Binance Coin",  symbol: "BNB",  color: "bg-yellow-500" },
+  SOL:  { name: "Solana",        symbol: "SOL",  color: "bg-purple-500" },
+  ADA:  { name: "Cardano",       symbol: "ADA",  color: "bg-blue-600"   },
+  XRP:  { name: "Ripple",        symbol: "XRP",  color: "bg-gray-500"   },
+  DOGE: { name: "Dogecoin",      symbol: "DOGE", color: "bg-yellow-600" },
+  TRX:  { name: "Tron",          symbol: "TRX",  color: "bg-red-500"    },
+  DOT:  { name: "Polkadot",      symbol: "DOT",  color: "bg-pink-500"   },
+  SHIB: { name: "Shiba Inu",     symbol: "SHIB", color: "bg-orange-600" },
+  XLM:  { name: "Stellar",       symbol: "XLM",  color: "bg-blue-400"   },
 };
 
-export default function WalletPage({ users: initialUsers }) {
-  const [users, setUsers] = useState(initialUsers ?? [])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedUser, setSelectedUser] = useState(null)
-  const [editingAssets, setEditingAssets] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [livePrices, setLivePrices] = useState({})
-  const [newAssetCoin, setNewAssetCoin] = useState("");
-  const [newAssetNetwork, setNewAssetNetwork] = useState("");
+const COIN_NETWORKS = {
+  BTC:  ["Mainnet"],
+  ETH:  ["Mainnet"],
+  USDT: ["ERC20", "TRC20", "BEP20"],
+  BNB:  ["BNB Smart Chain (BEP20)"],
+  SOL:  ["Solana"],
+  ADA:  ["Cardano"],
+  XRP:  ["Ripple"],
+  DOGE: ["Dogecoin"],
+  TRX:  ["Tron"],
+  DOT:  ["Polkadot"],
+  SHIB: ["Ethereum"],
+  XLM:  ["Stellar"],
+};
+// ──────────────────────────────────────────────────────────────────────────
 
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch("/api/admin/get-wallet-users"); // ✅ correct endpoint
-      const data = await res.json();
-      setUsers(data.users || []);
-    } catch (err) {
-      toast.error("Failed to refresh users");
-    }
+export default function WalletPage({ initialUsers }) {
+  const [users, setUsers]               = useState(initialUsers ?? []);
+  const [searchTerm, setSearchTerm]     = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [editingAssets, setEditingAssets] = useState([]);
+  const [newAssetCoin, setNewAssetCoin]   = useState("");
+  const [newAssetNetwork, setNewAssetNetwork] = useState("");
+  const [livePrices, setLivePrices]     = useState({});
+  const [isPending, startTransition]    = useTransition(); // ✅ replaces manual loading state
+
+  // ── Refresh users list via server action ──────────────────────────────
+  const refreshUsers = () => {
+    startTransition(async () => {
+      const fresh = await getWalletUsers();
+      setUsers(fresh);
+    });
   };
 
-  // ✅ Add this useEffect to sync prop changes
-  useEffect(() => {
-    if (initialUsers) setUsers(initialUsers);
-  }, [initialUsers]);
-
-
+  // ── Live prices from CoinGecko ─────────────────────────────────────────
   useEffect(() => {
     async function fetchPrices() {
       try {
@@ -89,47 +74,49 @@ export default function WalletPage({ users: initialUsers }) {
         );
         const data = await res.json();
         setLivePrices({
-          BTC: data.bitcoin.usd,
-          ETH: data.ethereum.usd,
-          USDT: data.tether.usd,
-          BNB: data.binancecoin.usd,
-          SOL: data.solana.usd,
-          ADA: data.cardano.usd,
-          XRP: data.ripple.usd,
-          DOGE: data.dogecoin.usd,
-          TRX: data.tron.usd,
-          DOT: data.polkadot.usd,
-          SHIB: data["shiba-inu"].usd,
-          XLM: data.stellar.usd,
+          BTC:  data.bitcoin?.usd        ?? 0,
+          ETH:  data.ethereum?.usd       ?? 0,
+          USDT: data.tether?.usd         ?? 0,
+          BNB:  data.binancecoin?.usd    ?? 0,
+          SOL:  data.solana?.usd         ?? 0,
+          ADA:  data.cardano?.usd        ?? 0,
+          XRP:  data.ripple?.usd         ?? 0,
+          DOGE: data.dogecoin?.usd       ?? 0,
+          TRX:  data.tron?.usd           ?? 0,
+          DOT:  data.polkadot?.usd       ?? 0,
+          SHIB: data["shiba-inu"]?.usd   ?? 0,
+          XLM:  data.stellar?.usd        ?? 0,
         });
-      } catch (error) {
-        console.error("Failed to fetch live prices:", error);
+      } catch (err) {
+        console.error("Failed to fetch live prices:", err);
       }
     }
     fetchPrices();
   }, []);
 
-
+  // ── Derived stats ──────────────────────────────────────────────────────
   const calculateTotalValue = (assets) => {
     if (!Array.isArray(assets)) return 0;
     return assets.reduce((total, asset) => {
-      const price = livePrices[asset.coin] || 0;
-      return total + (asset.amount || 0) * price;
+      return total + (asset.amount || 0) * (livePrices[asset.coin] || 0);
     }, 0);
-  }
+  };
 
   const filteredUsers = useMemo(() => {
-    if (!searchTerm) return users
+    if (!searchTerm) return users;
+    const q = searchTerm.toLowerCase();
     return users.filter(
-      user =>
-        (user.name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-        (user.email?.toLowerCase() || "").includes(searchTerm.toLowerCase())
-    )
-  }, [users, searchTerm])
-  const totalUsers = filteredUsers.length
-  const totalValue = filteredUsers.reduce((sum, user) => sum + calculateTotalValue(user.assets), 0)
-  const totalAssets = filteredUsers.reduce((sum, user) => sum + (Array.isArray(user.assets) ? user.assets.length : 0), 0)
+      (u) =>
+        (u.name?.toLowerCase() || "").includes(q) ||
+        (u.email?.toLowerCase() || "").includes(q)
+    );
+  }, [users, searchTerm]);
 
+  const totalUsers  = filteredUsers.length;
+  const totalValue  = filteredUsers.reduce((s, u) => s + calculateTotalValue(u.assets), 0);
+  const totalAssets = filteredUsers.reduce((s, u) => s + (u.assets?.length ?? 0), 0);
+
+  // ── Edit dialog handlers ───────────────────────────────────────────────
   const handleEditUser = (user) => {
     setSelectedUser(user);
     setEditingAssets(Array.isArray(user.assets) ? user.assets : []);
@@ -137,29 +124,28 @@ export default function WalletPage({ users: initialUsers }) {
     setNewAssetNetwork("");
   };
 
-  const updateAssetAmount = (index, value) => {
+  const updateAssetAmount = (index, value) =>
     setEditingAssets((prev) =>
-      prev.map((asset, i) =>
-        i === index ? { ...asset, amount: Math.max(0, Number.parseFloat(value) || 0) } : asset
+      prev.map((a, i) =>
+        i === index ? { ...a, amount: Math.max(0, parseFloat(value) || 0) } : a
       )
     );
-  };
 
-  const updateAssetNetwork = (index, network) => {
+  const updateAssetNetwork = (index, network) =>
     setEditingAssets((prev) =>
-      prev.map((asset, i) =>
-        i === index ? { ...asset, network } : asset
-      )
+      prev.map((a, i) => (i === index ? { ...a, network } : a))
     );
-  };
 
   const addNewAsset = () => {
     if (
       !newAssetCoin ||
       !newAssetNetwork ||
-      editingAssets.some(a => a.coin === newAssetCoin && a.network === newAssetNetwork)
-    ) return;
-    setEditingAssets(prev => [
+      editingAssets.some(
+        (a) => a.coin === newAssetCoin && a.network === newAssetNetwork
+      )
+    )
+      return;
+    setEditingAssets((prev) => [
       ...prev,
       { coin: newAssetCoin, network: newAssetNetwork, amount: 0 },
     ]);
@@ -167,140 +153,91 @@ export default function WalletPage({ users: initialUsers }) {
     setNewAssetNetwork("");
   };
 
-  const removeAsset = (index) => {
+  const removeAsset = (index) =>
     setEditingAssets((prev) => prev.filter((_, i) => i !== index));
-  };
 
-  const handleSaveAssets = async () => {
+  // ── Save — calls server action directly ───────────────────────────────
+  const handleSaveAssets = () => {
     if (!selectedUser) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/admin/update-assets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: selectedUser.id,
-          assets: editingAssets,
-        }),
-      });
 
-      const result = await res.json();
-      console.log("📦 Save result:", result); // ✅ Add this during debugging
+    startTransition(async () => {
+      const result = await updateUserAssets(selectedUser.id, editingAssets);
 
       if (result.success) {
         toast.success("Assets updated successfully");
+        // Optimistically patch local state so UI reflects change instantly
+        setUsers((prev) =>
+          prev.map((u) => (u.id === result.user.id ? result.user : u))
+        );
         setSelectedUser(null);
         setEditingAssets([]);
-        await fetchUsers();
       } else {
-        toast.error("Failed to update assets: " + (result.error || "Unknown error"));
+        toast.error("Failed to update: " + (result.error || "Unknown error"));
       }
-    } catch (err) {
-      toast.error("Network error: " + err.message);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
+  // ── UI ─────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen relative overflow-hidden bg-linear-to-br from-[#1a012b] via-black to-[#001933] text-white">
-
-      {/* Ambient Glows */}
       <div className="absolute top-32 left-10 w-80 h-80 bg-purple-600/20 rounded-full blur-3xl opacity-20 animate-pulse" />
       <div className="absolute bottom-24 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl opacity-10" />
 
-      {/* Container including TopNav */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-8 pb-16">
-
-        {/* Admin Top Navigation */}
         <div className="mb-8">
           <AdminTopNav />
         </div>
 
-        {/* Top Stats + Search */}
-        <div className="mb-10">
-
-          {/* Statistics Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 transition-all duration-300">
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {[
+            { icon: <Users className="h-8 w-8 text-primary" />,      label: "Total Users",  value: totalUsers },
+            { icon: <TrendingUp className="h-8 w-8 text-primary" />, label: "Total Value",  value: `$${totalValue.toLocaleString()}` },
+            { icon: <Wallet className="h-8 w-8 text-primary" />,     label: "Total Assets", value: totalAssets },
+          ].map(({ icon, label, value }) => (
+            <Card key={label} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 transition-all duration-300">
               <CardContent className="p-5">
                 <div className="flex items-center gap-4">
-                  <Users className="h-8 w-8 text-primary" />
+                  {icon}
                   <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-400">Total Users</p>
-                    <p className="text-2xl text-white font-bold">{totalUsers}</p>
+                    <p className="text-xs uppercase tracking-wider text-gray-400">{label}</p>
+                    <p className="text-2xl text-white font-bold">{value}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-
-            <Card className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 transition-all duration-300">
-              <CardContent className="p-5">
-                <div className="flex items-center gap-4">
-                  <TrendingUp className="h-8 w-8 text-primary" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-400">Total Value</p>
-                    <p className="text-2xl text-white font-bold">${totalValue.toLocaleString()}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 transition-all duration-300">
-              <CardContent className="p-5">
-                <div className="flex items-center gap-4">
-                  <Wallet className="h-8 w-8 text-primary" />
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-400">Total Assets</p>
-                    <p className="text-2xl text-white font-bold">{totalAssets}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Search Bar */}
-          <div className="relative max-w-md">
-            <div className="absolute inset-0 bg-white/5 rounded-sm blur-xl opacity-40"></div>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
-            <Input
-              placeholder="Search users by name or email..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full relative z-20 pl-10 bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder:text-gray-400 rounded-xl focus:border-primary focus:ring-0"
-            />
-          </div>
+          ))}
         </div>
 
-        {/* Users Grid */}
+        {/* Search */}
+        <div className="relative max-w-md mb-10">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 z-10" />
+          <Input
+            placeholder="Search users by name or email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder:text-gray-400 rounded-xl focus:border-primary focus:ring-0"
+          />
+        </div>
+
+        {/* User Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredUsers.map((user) => (
             <Card
               key={user.id}
-              className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 hover:shadow-primary/20 transition-all duration-300"
+              className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl hover:border-primary/40 transition-all duration-300"
             >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="hidden">
-                      <Avatar>
-                        <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
-                        <AvatarFallback className="bg-primary/20 text-primary">
-                          {user?.name
-                            ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase()
-                            : user?.email
-                              ? user.email[0].toUpperCase()
-                              : "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg text-white">{user.name}</CardTitle>
-                      <p className="text-sm text-gray-400">{user.email}</p>
-                    </div>
+                  <div>
+                    <CardTitle className="text-lg text-white">{user.name}</CardTitle>
+                    <p className="text-sm text-gray-400">{user.email}</p>
                   </div>
 
-                  <Dialog open={selectedUser?.id === user.id} onOpenChange={(open) => !open && setSelectedUser(null)}>
+                  <Dialog
+                    open={selectedUser?.id === user.id}
+                    onOpenChange={(open) => !open && setSelectedUser(null)}
+                  >
                     <DialogTrigger asChild>
                       <Button
                         variant="ghost"
@@ -314,23 +251,21 @@ export default function WalletPage({ users: initialUsers }) {
 
                     <DialogContent className="bg-linear-to-bl from-[#350661] via-black to-[#001F3F] border border-white/10 shadow-2xl max-w-4xl w-full rounded-xl overflow-hidden">
                       <div className="space-y-12 px-12 py-10 max-h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20">
+
                         {/* Current Assets */}
                         <div>
                           <h3 className="text-xl md:text-2xl font-semibold mb-6 text-white">Current Assets</h3>
-
                           {editingAssets.length === 0 ? (
-                            <p className="text-gray-400 text-lg">No assets added yet. Use the form below to add one.</p>
+                            <p className="text-gray-400 text-lg">No assets yet. Add one below.</p>
                           ) : (
                             <div className="space-y-6">
                               {editingAssets.map((asset, index) => (
                                 <div
                                   key={`${asset.coin}-${asset.network}`}
-                                  className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 space-y-5 hover:border-primary/40 transition"
+                                  className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-5 hover:border-primary/40 transition"
                                 >
                                   <div className="flex items-center gap-4">
-                                    <div
-                                      className={`w-14 h-14 rounded-2xl ${ASSETS[asset.coin]?.color} flex items-center justify-center text-lg font-bold text-white shadow-lg`}
-                                    >
+                                    <div className={`w-14 h-14 rounded-2xl ${ASSETS[asset.coin]?.color} flex items-center justify-center text-lg font-bold text-white shadow-lg`}>
                                       {asset.coin}
                                     </div>
                                     <div>
@@ -342,35 +277,26 @@ export default function WalletPage({ users: initialUsers }) {
                                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
                                       <Label className="text-white text-sm mb-2 block">Network</Label>
-
-                                      <Select
-                                        value={asset.network}
-                                        onValueChange={(value) => updateAssetNetwork(index, value)}
-                                      >
-                                        <SelectTrigger className="w-full bg-black/40 border border-white/10 text-white">
+                                      <Select value={asset.network} onValueChange={(v) => updateAssetNetwork(index, v)}>
+                                        <SelectTrigger className="bg-black/40 border border-white/10 text-white">
                                           <SelectValue placeholder="Select Network" />
                                         </SelectTrigger>
-
                                         <SelectContent className="bg-black/90 border border-white/10 text-white">
                                           {COIN_NETWORKS[asset.coin]?.map((net) => (
-                                            <SelectItem key={net} value={net}>
-                                              {net}
-                                            </SelectItem>
+                                            <SelectItem key={net} value={net}>{net}</SelectItem>
                                           ))}
                                         </SelectContent>
                                       </Select>
-
                                     </div>
 
                                     <div>
-                                      <Label htmlFor={`amount-${index}`} className="text-white text-sm">Amount</Label>
+                                      <Label className="text-white text-sm">Amount</Label>
                                       <Input
-                                        id={`amount-${index}`}
                                         type="number"
                                         step="any"
                                         value={asset.amount}
                                         onChange={(e) => updateAssetAmount(index, e.target.value)}
-                                        className="w-full bg-black/40 backdrop-blur-md text-white px-4 py-3 rounded-xl border border-white/10 focus:border-primary outline-none"
+                                        className="bg-black/40 text-white px-4 py-3 rounded-xl border border-white/10 focus:border-primary outline-none"
                                       />
                                     </div>
 
@@ -396,17 +322,14 @@ export default function WalletPage({ users: initialUsers }) {
                           <div className="flex flex-col md:flex-row gap-4 items-center">
                             <Select
                               value={newAssetCoin}
-                              onValueChange={(value) => {
-                                setNewAssetCoin(value);
-                                setNewAssetNetwork("");
-                              }}
+                              onValueChange={(v) => { setNewAssetCoin(v); setNewAssetNetwork(""); }}
                             >
-                              <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-40 w-full md:w-auto">
+                              <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl text-white min-w-40 w-full md:w-auto">
                                 <SelectValue placeholder="Select Coin" />
                               </SelectTrigger>
                               <SelectContent className="bg-black/80 border border-white/10 text-white">
                                 {Object.entries(ASSETS).map(([symbol, asset]) => (
-                                  <SelectItem key={symbol} value={symbol} className="text-white hover:bg-white/10">
+                                  <SelectItem key={symbol} value={symbol}>
                                     {asset.name} ({symbol})
                                   </SelectItem>
                                 ))}
@@ -414,22 +337,15 @@ export default function WalletPage({ users: initialUsers }) {
                             </Select>
 
                             {newAssetCoin && (
-                              <Select
-                                value={newAssetNetwork}
-                                onValueChange={setNewAssetNetwork}
-                              >
-                                <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-base text-white focus:border-primary outline-none min-w-40 w-full md:w-auto">
+                              <Select value={newAssetNetwork} onValueChange={setNewAssetNetwork}>
+                                <SelectTrigger className="bg-black/40 border border-white/10 rounded-xl text-white min-w-40 w-full md:w-auto">
                                   <SelectValue placeholder="Select Network" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-black/80 border border-white/10 text-white">
                                   {COIN_NETWORKS[newAssetCoin]
-                                    .filter(network =>
-                                      !editingAssets.some(a => a.coin === newAssetCoin && a.network === network)
-                                    )
-                                    .map(network => (
-                                      <SelectItem key={network} value={network} className="text-white hover:bg-white/10">
-                                        {network}
-                                      </SelectItem>
+                                    .filter((n) => !editingAssets.some((a) => a.coin === newAssetCoin && a.network === n))
+                                    .map((n) => (
+                                      <SelectItem key={n} value={n}>{n}</SelectItem>
                                     ))}
                                 </SelectContent>
                               </Select>
@@ -439,29 +355,29 @@ export default function WalletPage({ users: initialUsers }) {
                               type="button"
                               onClick={addNewAsset}
                               disabled={!newAssetCoin || !newAssetNetwork}
-                              className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-md text-sm font-medium transition disabled:opacity-50"
+                              className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-md text-sm font-medium disabled:opacity-50"
                             >
                               + Add Asset
                             </Button>
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
+                        {/* Actions */}
                         <div className="flex justify-end gap-6 pt-8">
                           <Button
                             type="button"
                             onClick={() => setSelectedUser(null)}
-                            className="bg-white/10 hover:bg-white/20 px-8 py-3 text-sm rounded-md transition"
+                            className="bg-white/10 hover:bg-white/20 px-8 py-3 text-sm rounded-md"
                           >
                             Cancel
                           </Button>
                           <Button
                             type="button"
                             onClick={handleSaveAssets}
-                            disabled={loading}
-                            className="bg-primary hover:bg-primary/80 px-8 py-3 text-sm rounded-md text-white transition disabled:opacity-50"
+                            disabled={isPending}
+                            className="bg-primary hover:bg-primary/80 px-8 py-3 text-sm rounded-md text-white disabled:opacity-50"
                           >
-                            {loading ? "Saving..." : "Save Changes"}
+                            {isPending ? "Saving..." : "Save Changes"}
                           </Button>
                         </div>
 
@@ -475,21 +391,20 @@ export default function WalletPage({ users: initialUsers }) {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-400">Total Value</span>
-                    <span className="text-lg font-bold text-primary">${calculateTotalValue(user.assets).toLocaleString()}</span>
+                    <span className="text-lg font-bold text-primary">
+                      ${calculateTotalValue(user.assets).toLocaleString()}
+                    </span>
                   </div>
-
-                  <div className="hidden justify-between items-center">
-                    <span className="text-sm text-gray-400">Last Active</span>
-                    <span className="text-sm">{user.lastActive}</span>
-                  </div>
-
                   <div>
-                    <p className="text-sm text-gray-400 mb-2">Assets ({Array.isArray(user.assets) ? user.assets.length : 0})</p>
+                    <p className="text-sm text-gray-400 mb-2">
+                      Assets ({user.assets?.length ?? 0})
+                    </p>
                     <div className="flex flex-wrap gap-1">
-                      {Array.isArray(user.assets) && user.assets.map((asset) => (
-                        <Badge key={`${asset.coin}-${asset.network}`}
+                      {user.assets?.map((asset) => (
+                        <Badge
+                          key={`${asset.coin}-${asset.network}`}
                           variant="secondary"
-                          className="bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs rounded-full px-3 py-1"
+                          className="bg-white/10 border border-white/10 text-white text-xs rounded-full px-3 py-1"
                         >
                           {asset.coin} ({asset.network}): {asset.amount?.toLocaleString()}
                         </Badge>
@@ -507,12 +422,7 @@ export default function WalletPage({ users: initialUsers }) {
             <p className="text-gray-400 text-lg">No users found matching your search.</p>
           </div>
         )}
-
       </div>
     </div>
-  )
-
-
-
-
+  );
 }

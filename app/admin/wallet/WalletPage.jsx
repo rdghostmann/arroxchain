@@ -61,7 +61,7 @@ export default function WalletPage({ initialUsers }) {
 const refreshUsers = () => {
   startTransition(async () => {
     try {
-      const res = await fetch("/api/admin/wallet/users");
+      const res = await fetch("/api/admin/get-wallet-users");
       const data = await res.json();
       if (data.success) setUsers(data.users);
       else toast.error("Failed to refresh: " + data.error);
@@ -77,7 +77,7 @@ const handleSaveAssets = () => {
 
   startTransition(async () => {
     try {
-      const res = await fetch("/api/admin/wallet/update-assets", {
+      const res = await fetch("/api/admin/update-assets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: selectedUser.id, assets: editingAssets }),
